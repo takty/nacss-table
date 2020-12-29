@@ -1,0 +1,14 @@
+/**
+ *
+ * Table Style
+ *
+ * @author Takuto Yanagida
+ * @version 2020-12-30
+ *
+ */
+
+
+// @use 'fixed-header' as *;
+@use 'neat-wrap' as *;
+
+@include stile-table;

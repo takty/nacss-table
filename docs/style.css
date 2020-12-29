@@ -1,0 +1,27 @@
+thead,
+tbody:first-child,
+caption + tbody,
+colgroup + tbody {
+	border-top: 1px solid black;
+}
+tbody,
+tfoot {
+	border-bottom: 1px solid black;
+}
+th,
+td {
+	padding: 1rem;
+	border-top: 1px solid black;
+}
+tr:first-child th,
+tr:first-child td {
+	border-top: none;
+}
+th:not(:first-child),
+td:not(:first-child) {
+	border-left: 1px solid black;
+}
+th:first-child[rowspan],
+td:first-child[rowspan] {
+	border-right: 1px solid black;
+}

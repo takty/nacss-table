@@ -1,0 +1,40 @@
+{
+	"name": "nacss-table",
+	"version": "0.20.12",
+	"description": "A Table Style Sheet",
+	"author": "Takuto Yanagida",
+	"main": "gulpfile.js",
+	"scripts": {
+		"postinstall": "gulp build",
+		"start": "gulp",
+		"docs": "gulp docs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/takty/nacss-table.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/takty/nacss-table/issues"
+	},
+	"homepage": "https://github.com/takty/nacss-table#readme",
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 11",
+		"not dead"
+	],
+	"dependencies": {
+		"@babel/core": "^7.12.10",
+		"@babel/preset-env": "^7.12.11",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^7.0.1",
+		"gulp-babel": "^8.0.0",
+		"gulp-dart-sass": "^1.0.2",
+		"gulp-load-plugins": "^2.0.6",
+		"gulp-plumber": "^1.2.1",
+		"gulp-rename": "^2.0.0",
+		"gulp-sourcemaps": "^3.0.0",
+		"gulp-terser": "^2.0.0"
+	}
+}
