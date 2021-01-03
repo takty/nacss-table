@@ -18,6 +18,7 @@ window.NACSS = window['NACSS'] || {};
 		const lt = tabs[tabs.length - 1];
 		const cm = Object.assign(opts, getCommonMetrics(lt), {
 			nnwMinWidthRate : 0.1,
+			minCharSize     : 8,
 			cellMinWidth    : 100,
 			cellMinAspect   : 2 / 3,  // width / height
 			maxRowSize      : 200,
@@ -59,7 +60,7 @@ window.NACSS = window['NACSS'] || {};
 	function getTextSize(elm) {
 		const temp = document.createElement(elm.nodeName);
 		temp.setAttribute('style', `position:fixed;margin:0;padding:0;font-family:${elm.style.fontFamily || 'inherit'};font-size:${elm.style.fontSize || 'inherit'};`);
-		temp.innerHTML = 'X';
+		temp.innerHTML = '\u3000';  // Full width space
 		elm.parentNode.appendChild(temp);
 		const w = temp.clientWidth;
 		const h = temp.clientHeight;
@@ -120,8 +121,8 @@ window.NACSS = window['NACSS'] || {};
 				if (typeof gr[x] === 'number' || gr[x] === null) continue;
 
 				const td = tds[i]
-				const col = parseInt(td.getAttribute('colSpan'), 10);
-				const row = parseInt(td.getAttribute('rowSpan'), 10);
+				const col = parseInt(td.getAttribute('colSpan') ?? 1, 10);
+				const row = parseInt(td.getAttribute('rowSpan') ?? 1, 10);
 				gr[x] = td;
 
 				if (1 < col) {
@@ -207,7 +208,9 @@ window.NACSS = window['NACSS'] || {};
 	}
 
 	function calcMinWidth(td, met) {
-		const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect } = met;
+		const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect, minCharSize } = met;
+		if (calcMaxLineLength(td) < minCharSize) return [0, false];
+
 		td.innerHTML = td.innerHTML.trim();
 		const dc = td.tagName === 'TD' ? dcTd : dcTh;
 		dc.innerHTML = td.innerHTML;
@@ -222,6 +225,14 @@ window.NACSS = window['NACSS'] || {};
 			minW = tempW;
 		}
 		return [minW, wrapped];
+	}
+
+	function calcMaxLineLength(td) {
+		const ih = td.innerHTML.trim();
+		let ls = ih.split(/<\s*br\s*\/?>/ui);
+		if (ls.length === 0) ls = [ih];
+		const ts = ls.map(e => e.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '').length);
+		return Math.max(...ts);
 	}
 
 	function widenTabWidth(newWs, wrapped, met) {
