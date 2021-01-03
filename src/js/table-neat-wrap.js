@@ -3,7 +3,7 @@
  * Table Style - Neat Wrap (JS)
  *
  * @author Takuto Yanagida
- * @version 2020-12-30
+ * @version 2021-01-04
  *
  */
 
@@ -13,169 +13,238 @@ window.NACSS = window['NACSS'] || {};
 
 (function (NS) {
 
-	const NNW_MIN_WIDTH_RATE  = 0.1;
-	const CELL_MIN_WIDTH      = 120;
-	const CELL_MIN_WIDTH_RATE = 0.15;
-	const CELL_MIN_RATIO      = 2 / 3;  // width : height
-	const MAX_ROW_COUNT       = 200;
-
-	NS.tableNeatWrapInitialize = initialize;
-
-
-	// -------------------------------------------------------------------------
-
-
-	function initialize(tabs) {
+	NS.tableNeatWrap = function (tabs, opts = {}) {
 		if (tabs.length === 0) return;
 		const lt = tabs[tabs.length - 1];
-		const d = createDummyCell(lt);
-		for (const t of tabs) apply(t, d);
-		lt.removeChild(d);
-	}
-
-	function createDummyCell(table) {
-		const dummy = document.createElement('td');
-		dummy.style.display    = 'inline-block';
-		dummy.style.position   = 'fixed';
-		dummy.style.visibility = 'hidden';
-		table.appendChild(dummy);
-		return dummy;
-	}
-
-	function apply(table, dummyCell) {
-		if (table.hasAttribute('width')) table.removeAttribute('width');
-		table.style.width    = '';
-		table.style.maxWidth = '';
-
-		const tbody = table.tBodies[0];
-		if (tbody.offsetWidth <= table.clientWidth) return addNoNeatWrap(table);
-		if (MAX_ROW_COUNT < countRows(table)) return addNoNeatWrap(table);
-
-		const grid = makeCellGrid(table);
-		if (grid.length === 0) return addNoNeatWrap(table);
-
-		const newWs = [];
-		for (let x = 0; x < grid[0].length; x += 1) newWs.push(false);
-
-		const data = collectMetrics(table, grid);
-		calcNewWidths(grid, data, newWs, dummyCell);
-		setCellWidth(grid, newWs);
-	}
-
-	function addNoNeatWrap(table) {
-		// NS.addStile(table, 'no-neat-wrap');
-		table.style.display = 'table';
-		const pw = table.parentElement.clientWidth;
-		const w = table.clientWidth;
-		if (pw - w < w * NNW_MIN_WIDTH_RATE) table.style.width = '100%';
-	}
-
-	function countRows(table) {
-		const thead = table.tHead;
-		const tbody = table.tBodies[0];
-		const tfoot = table.tFoot;
-
-		let count = 0;
-		if (thead) count += thead.rows.length;
-		if (tbody) count += tbody.rows.length;
-		if (tfoot) count += tfoot.rows.length;
-		return count;
-	}
-
-	function collectMetrics(table, grid) {
-		const td = table.getElementsByTagName('td')[0];
-		const s = getComputedStyle(td);
-
-		const padH = parseFloat(s.paddingLeft) + parseFloat(s.paddingRight);
-		const padV = parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
-		const lineHeight = parseFloat(s.lineHeight);
-		const origTableWidth = table.clientWidth;
-
-		const cellMinWidth = Math.max(CELL_MIN_WIDTH, origTableWidth * CELL_MIN_WIDTH_RATE);
-		const origCellWidths = [];
-		for (let x = 0; x < grid[0].length; x += 1) origCellWidths.push(grid[0][x].clientWidth);
-
-		return { padH, padV, lineHeight, origTableWidth, origCellWidths, cellMinWidth };
-	}
-
-	function setCellWidth(grid, ws) {
-		for (let y = 0; y < grid.length; y += 1) {
-			const gridRow = grid[y];
-			for (let x = 0; x < gridRow.length; x += 1) {
-				const td = gridRow[x], w = ws[x];
-				if (td === undefined || td === null || typeof td === 'number' || w === false) continue;
-				td.style.whiteSpace = 'normal';
-				td.style.minWidth   = w + 'px';
-				td.style.width      = '';
+		const cm = Object.assign(opts, getCommonMetrics(lt), {
+			nnwMinWidthRate : 0.1,
+			cellMinWidth    : 100,
+			cellMinAspect   : 1 / 1,  // width / height
+			maxRowSize      : 200,
+			maxBorderWidth  : 2,
+		});
+		cm.padH += cm.maxBorderWidth * 2;
+		cm.padV += cm.maxBorderWidth * 2;
+		cm.dcTd = makeDummyCell(lt, 'td');
+		cm.dcTh = makeDummyCell(lt, 'th');
+		for (const t of tabs) {
+			if (!apply(t, cm) && cm.nnwMinWidthRate) {
+				const pw = t.parentElement.clientWidth;
+				const w  = t.clientWidth;
+				if (pw - w < w * cm.nnwMinWidthRate) t.style.width = '100%';
 			}
 		}
+		lt.removeChild(cm.dcTd);
+		lt.removeChild(cm.dcTh);
+	}
+
+	function makeDummyCell(t, tagName) {
+		const d = document.createElement(tagName);
+		d.style.display    = 'inline-block';
+		d.style.position   = 'fixed';
+		d.style.visibility = 'hidden';
+		d.style.whiteSpace = 'nowrap';
+		return t.appendChild(d);
+	}
+
+	function getCommonMetrics(tab) {
+		const td = tab.getElementsByTagName('td')[0];
+		const s = getComputedStyle(td);
+		const padH  = parseFloat(s.paddingLeft) + parseFloat(s.paddingRight);
+		const padV  = parseFloat(s.paddingTop) + parseFloat(s.paddingBottom);
+		const [charW, lineH] = getTextSize(td);
+		return { padH, padV, charW, lineH };
+	}
+
+	function getTextSize(elm) {
+		const temp = document.createElement(elm.nodeName);
+		temp.setAttribute('style', `position:fixed;margin:0;padding:0;font-family:${elm.style.fontFamily || 'inherit'};font-size:${elm.style.fontSize || 'inherit'};`);
+		temp.innerHTML = 'X';
+		elm.parentNode.appendChild(temp);
+		const w = temp.clientWidth;
+		const h = temp.clientHeight;
+		temp.parentNode.removeChild(temp);
+		return [w, h];
+	}
+
+	function apply(tab, cMet) {
+		if (tab.rows.length === 0) return false;
+		if (cMet.maxRowSize < tab.rows.length) return false;
+		if (!isResizeNeeded(tab, cMet)) return false;
+
+		if (tab.hasAttribute('width')) tab.removeAttribute('width');
+		tab.style.width    = '';
+		tab.style.maxWidth = '';
+
+		const grid  = makeCellGrid(tab);
+		const met   = Object.assign(getMetrics(tab, grid), cMet);
+		const newWs = calcNewWidths(grid, met);
+		setCellWidth(grid, newWs);
+		return true;
+	}
+
+	function isResizeNeeded(tab, cMet) {
+		const { cellMinWidth, cellMinAspect } = cMet;
+		for (const tr of tab.rows) {
+			if (!tr.hasChildNodes()) continue;
+			for (const n of tr.childNodes) {
+				const tn = n.tagName;
+				if (tn !== 'TD' && tn !== 'TH') continue;
+				if (1 < parseInt(n.getAttribute('colSpan'), 10)) continue;
+				if (1 < parseInt(n.getAttribute('rowSpan'), 10)) continue;
+				const cw = n.clientWidth;
+				const ch = n.clientHeight;
+				if (cw < cellMinWidth || cw / ch < cellMinAspect) return true;
+			}
+		}
+		return false;
 	}
 
 
 	// -------------------------------------------------------------------------
 
 
-	function makeCellGrid(table) {
-		const thead = table.tHead;
-		const tbody = table.tBodies[0];
-		const tfoot = table.tFoot;
+	function makeCellGrid(t) {
+		const css = collectCells(t);
+		let maxWidth = 0;
+		for (const cs of css) maxWidth = Math.max(maxWidth, cs.length);
+		const g = [];
+		for (const cs of css) g.push(new Array(maxWidth));
 
-		const cells = [];
-		if (thead) addCells(thead.rows, cells);
-		if (tbody) addCells(tbody.rows, cells);
-		if (tfoot) addCells(tfoot.rows, cells);
-
-		let maxWidth = 0, tab = [];
-		for (let i = 0; i < cells.length; i += 1) {
-			const w = cells[i].length;
-			if (maxWidth < w) maxWidth = w;
-		}
-		for (let i = 0; i < cells.length; i += 1) {
-			const a = [];
-			a.length = maxWidth;
-			tab.push(a);
-		}
-
-		for (let y = 0; y < tab.length; y += 1) {
-			const row = tab[y];
-			const tds = cells[y];
+		for (let y = 0; y < g.length; y += 1) {
+			const gr = g[y];
+			const tds = css[y];
 			let i = 0;
 
 			for (let x = 0; x < maxWidth; x += 1) {
-				if (typeof row[x] === 'number' || row[x] === null) continue;
+				if (typeof gr[x] === 'number' || gr[x] === null) continue;
 
 				const td = tds[i]
-				const colSpan = td.getAttribute('colSpan') | 1;
-				const rowSpan = td.getAttribute('rowSpan');
-				row[x] = td;
+				const col = parseInt(td.getAttribute('colSpan'), 10);
+				const row = parseInt(td.getAttribute('rowSpan'), 10);
+				gr[x] = td;
 
-				if (1 < colSpan) {
-					for (let p = 1; p < colSpan; p += 1) row[x + p] = p;
+				if (1 < col) {
+					for (let p = 1; p < col; p += 1) gr[x + p] = p;
 				}
-				if (1 < rowSpan) {
-					for (let q = 1; q < rowSpan; q += 1) {
-						const nr = tab[y + q];
-						for (let p = 0; p < colSpan; p += 1) nr[x + p] = null;
+				if (1 < row) {
+					for (let q = 1; q < row; q += 1) {
+						const nr = g[y + q];
+						for (let p = 0; p < col; p += 1) nr[x + p] = null;
 					}
 				}
 				i += 1;
 				if (tds.length <= i) break;
 			}
 		}
-		return tab;
+		return g;
 	}
 
-	function addCells(trs, cells) {
-		for (let i = 0; i < trs.length; i += 1) {
-			const tr = trs[i], row = [];
+	function collectCells(t, css = []) {
+		for (const tr of t.rows) {
+			const cs = [];
 			if (tr.hasChildNodes()) {
-				const cns = tr.childNodes;
-				for (let j = 0; j < cns.length; j += 1) {
-					const cn = cns[j], tn = cn.tagName;
-					if (tn === 'TD' || tn === 'TH') row.push(cn);
+				for (const n of tr.childNodes) {
+					const tn = n.tagName;
+					if (tn === 'TD' || tn === 'TH') cs.push(n);
 				}
 			}
-			cells.push(row);
+			css.push(cs);
+		}
+		return css;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	function getMetrics(tab, grid) {
+		const origTabW = tab.clientWidth;
+		const origCellWs = [];
+		for (let x = 0; x < grid[0].length; x += 1) {
+			for (let y = 0; y < grid.length; y += 1) {
+				const g = grid[y][x];
+				if (g instanceof HTMLTableCellElement && !g.getAttribute('colSpan')) {
+					origCellWs.push(g.clientWidth);
+					break;
+				}
+			}
+		}
+		return { origTabW, origCellWs };
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	function calcNewWidths(grid, met) {
+		for (const gr of grid) {
+			for (const gc of gr) {
+				if (typeof gc !== 'number' && gc !== null) gc.style.whiteSpace = 'nowrap';
+			}
+		}
+		const gw = grid[0].length;
+		const newWs = new Array(gw).fill(false);
+		const wrapped = new Array(gw).fill(false);
+
+		for (let y = 0; y < grid.length; y += 1) {
+			const gridRow = grid[y];
+
+			for (let x = 0; x < gw; x += 1) {
+				const td = gridRow[x];
+				if (td === undefined || td === null || typeof td === 'number') continue;
+				if (x < gw - 1 && typeof gridRow[x + 1] === 'number') continue;
+				if (1 < parseInt(td.getAttribute('colSpan'), 10)) continue;
+				if (1 < parseInt(td.getAttribute('rowSpan'), 10)) continue;
+
+				const [minW, wp] = calcMinWidth(td, met);
+				if (minW) newWs[x] = Math.max(newWs[x], minW);
+				if (wp) wrapped[x] = wp;
+			}
+		}
+		widenTabWidth(newWs, wrapped, met);
+		return newWs;
+	}
+
+	function calcMinWidth(td, met) {
+		const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect } = met;
+		td.innerHTML = td.innerHTML.trim();
+		const dc = td.tagName === 'TD' ? dcTd : dcTh;
+		dc.innerHTML = td.innerHTML;
+		const aw = dc.clientWidth - padH;
+		const ls = Math.round((dc.clientHeight - padV) / lineH);
+		let minW = 0, wrapped = false;
+		for (let i = 1; ; i += 1) {
+			const tempW = 0 | (aw / i + charW * i + padH);
+			const tempH = ls * (i * lineH) + padV;
+			if (tempW < cellMinWidth || tempW / tempH < cellMinAspect) break;
+			if (1 < i) wrapped = true;
+			minW = tempW;
+		}
+		return [minW, wrapped];
+	}
+
+	function widenTabWidth(newWs, wrapped, met) {
+		const { origTabW, origCellWs } = met;
+		let wNew = 0, wFix = 0;
+		for (let i = 0; i < newWs.length; i += 1) {
+			if (wrapped[i]) {
+				wNew += newWs[i];
+			} else if (newWs[i]) {
+				wFix += newWs[i];
+			} else {
+				wFix += origCellWs[i];
+			}
+		}
+		if (origTabW < wNew + wFix) return;
+		let rem = origTabW - wFix;
+		for (let i = 0; i < newWs.length; i += 1) {
+			if (!wrapped[i]) continue;
+			const nw = newWs[i];
+			const w = Math.min(nw / wNew * rem, origCellWs[i]);
+			rem  -= (w - nw);
+			wNew -= (w - nw);
+			newWs[i] = 0 | w;
 		}
 	}
 
@@ -183,57 +252,14 @@ window.NACSS = window['NACSS'] || {};
 	// -------------------------------------------------------------------------
 
 
-	function calcNewWidths(grid, data, newWs, dummy) {
-		const wrapped = [];
-
-		for (let y = 0; y < grid.length; y += 1) {
-			const gridRow = grid[y];
-
-			for (let x = 0; x < gridRow.length; x += 1) {
-				wrapped[x] = false;
-				const td = gridRow[x];
-				if (td === undefined || td === null || typeof td === 'number') continue;
-				if (x < gridRow.length - 1 && typeof gridRow[x + 1] === 'number') continue;
-
-				td.innerHTML = td.innerHTML.trim();  // trim!!
-				dummy.innerHTML = td.innerHTML + 'm';  // for adding error factor
-				const aw = dummy.clientWidth - data.padH;
-				const l = Math.round((dummy.clientHeight - data.padV) / data.lineHeight);
-
-				let minW = 0;
-				for (let i = 1;; i += 1) {
-					const tempW = aw / i + data.padH;
-					const tempH = l * (i * data.lineHeight) + data.padV;
-					if (tempW < data.cellMinWidth || tempW / tempH < CELL_MIN_RATIO) break;
-					if (1 < i) wrapped[x] = true;
-					minW = tempW;
-				}
-				if (minW) newWs[x] = Math.max(newWs[x], minW);
-			}
-		}
-		widenTableWidth(newWs, wrapped, data);
-	}
-
-	function widenTableWidth(newWs, wrapped, data) {
-		let widthNew = 0, widthFix = 0;
-		for (let i = 0; i < newWs.length; i += 1) {
-			if (newWs[i] === false) return;
-			if (wrapped[i]) {
-				widthNew += newWs[i];
-			} else {
-				widthFix += newWs[i];
-			}
-		}
-		if (widthNew + widthFix < data.origTableWidth) {
-			let realloc = data.origTableWidth - widthFix;
-			for (let i = 0; i < newWs.length; i += 1) {
-				if (wrapped[i]) {
-					let w = newWs[i] / widthNew * realloc;
-					w = Math.min(w, data.origCellWidths[i]);
-					realloc  -= (w - newWs[i]);
-					widthNew -= (w - newWs[i]);
-					newWs[i] = w;
-				}
+	function setCellWidth(grid, ws) {
+		for (const gr of grid) {
+			for (let x = 0; x < gr.length; x += 1) {
+				const gc = gr[x], w = ws[x];
+				if (w === false || !(gc instanceof HTMLTableCellElement)) continue;
+				gc.style.whiteSpace = null;
+				gc.style.minWidth   = w + 'px';
+				gc.style.width      = null;
 			}
 		}
 	}
