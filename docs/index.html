@@ -8,15 +8,15 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="reset.min.css">
+	<!-- <link rel="stylesheet" href="reset.min.css"> -->
 	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="table.min.css">
-	<script src="table-fixed-header.min.js"></script>
+	<!-- <link rel="stylesheet" href="table.min.css"> -->
+	<!-- <script src="table-fixed-header.min.js"></script> -->
 	<script src="table-neat-wrap.min.js"></script>
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
-		const tabs = document.querySelectorAll('table:not([class])');
-		setTimeout(() => { NACSS.tableNeatWrapInitialize(tabs); }, 0);
+		const tabs = document.querySelectorAll('table.neat-wrap');
+		setTimeout(() => { NACSS.tableNeatWrap(tabs); }, 0);
 	});
 	</script>
 </head>
@@ -29,84 +29,40 @@
 	<main>
 		<h2>Narrow-Width Table</h2>
 
-		<h3>With Header</h3>
+		<h3>With Neat Wrap</h3>
+
+		<table class="neat-wrap">
+			<thead>
+				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+		</table>
+
+		<h3>Without Neat Wrap</h3>
 
 		<table>
 			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>CEO</th></tr>
+				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
 			</thead>
 			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+				<!-- <tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
 				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr> -->
 			</tbody>
-		</table>
-
-		<h3>With Header and Caption</h3>
-
-		<table>
-			<caption>An Example of Narrow-Width Table</caption>
-			<tbody>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>CEO</th></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-		</table>
-
-		<h3>Without Header</h3>
-
-		<table>
-			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-		</table>
-
-		<h3>With Fixed Header</h3>
-
-		<table>
-			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>CEO</th></tr>
-			</thead>
-			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tfoot>
-				<tr><td colspan="5">Total revenue: US$&nbsp;375.499 billion</td></tr>
-			</tfoot>
 		</table>
 
 		<h2>Long-Width Table</h2>
 
-		<h3>With Header and Caption</h3>
+		<h3>With Neat Wrap</h3>
 
-		<table>
-			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table.</caption>
+		<table class="neat-wrap">
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
 			</thead>
@@ -120,9 +76,12 @@
 			</tfoot>
 		</table>
 
-		<h3>Without Header</h3>
+		<h3>Without Neat Wrap</h3>
 
 		<table>
+			<thead>
+				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
+			</thead>
 			<tbody>
 				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
 				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
@@ -132,33 +91,6 @@
 				<tr><td colspan="6">Total revenue: US$&nbsp;375.499 billion</td></tr>
 			</tfoot>
 		</table>
-
-		<h3>With Fixed Header and Caption</h3>
-
-		<table>
-			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table.</caption>
-			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
-			</thead>
-			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-			</tbody>
-		</table>
-
 	</main>
 
 </body>
