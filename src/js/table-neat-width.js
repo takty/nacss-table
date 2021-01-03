@@ -13,7 +13,7 @@ window.NACSS = window['NACSS'] || {};
 
 (function (NS) {
 
-	NS.tableNeatWrap = function (tabs, opts = {}) {
+	NS.tableNeatWidth = function (tabs, opts = {}) {
 		if (tabs.length === 0) return;
 		const lt = tabs[tabs.length - 1];
 		const cm = Object.assign(opts, getCommonMetrics(lt), {
