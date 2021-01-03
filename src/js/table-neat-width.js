@@ -18,9 +18,9 @@ window.NACSS = window['NACSS'] || {};
 		const lt = tabs[tabs.length - 1];
 		const cm = Object.assign(opts, getCommonMetrics(lt), {
 			nnwMinWidthRate : 0.1,
-			minCharSize     : 8,
 			cellMinWidth    : 100,
 			cellMinAspect   : 2 / 3,  // width / height
+			cellMinLength   : 8,
 			maxRowSize      : 200,
 			maxBorderWidth  : 2,
 		});
@@ -208,8 +208,8 @@ window.NACSS = window['NACSS'] || {};
 	}
 
 	function calcMinWidth(td, met) {
-		const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect, minCharSize } = met;
-		if (calcMaxLineLength(td) < minCharSize) return [0, false];
+		const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect, cellMinLength } = met;
+		if (calcMaxLineLength(td) < cellMinLength) return [0, false];
 
 		td.innerHTML = td.innerHTML.trim();
 		const dc = td.tagName === 'TD' ? dcTd : dcTh;
