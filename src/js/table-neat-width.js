@@ -19,7 +19,7 @@ window.NACSS = window['NACSS'] || {};
 		const cm = Object.assign(opts, getCommonMetrics(lt), {
 			nnwMinWidthRate : 0.1,
 			cellMinWidth    : 100,
-			cellMinAspect   : 1 / 1,  // width / height
+			cellMinAspect   : 2 / 3,  // width / height
 			maxRowSize      : 200,
 			maxBorderWidth  : 2,
 		});
@@ -217,7 +217,7 @@ window.NACSS = window['NACSS'] || {};
 		for (let i = 1; ; i += 1) {
 			const tempW = 0 | (aw / i + charW * i + padH);
 			const tempH = ls * (i * lineH) + padV;
-			if (tempW < cellMinWidth || tempW / tempH < cellMinAspect) break;
+			if (tempW < cellMinWidth || tempW / tempH < cellMinAspect || (minW && minW < tempW)) break;
 			if (1 < i) wrapped = true;
 			minW = tempW;
 		}
