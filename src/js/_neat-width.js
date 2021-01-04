@@ -106,8 +106,11 @@ function isTarget(tab, cMet) {
 
 function apply(tab, cMet) {
 	tab.removeAttribute('width');
-	tab.style.width    = '';
-	tab.style.maxWidth = '';
+	tab.style.display  = 'block';
+	tab.style.width    = 'fit-content';
+	if (tab.style.width !== 'fit-content') tab.style.width = '-moz-fit-content';
+	tab.style.maxWidth = '100%';
+	tab.style.overflow = 'auto';
 
 	const grid  = makeCellGrid(tab);
 	const met   = Object.assign(getMetrics(tab, grid), cMet);
