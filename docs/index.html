@@ -14,10 +14,11 @@
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const tabs = document.querySelectorAll('table.neat-width');
-		setTimeout(() => { NACSS.tableNeatWidth(tabs, {
+		NACSS.tableNeatWidth(tabs, {
 			onDoing: (tab) => { tab.classList.add('doing'); return 100; },
 			onDone : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
-		}); }, 0);
+		});
+		NACSS.tableFixedHeader(tabs);
 	});
 	</script>
 </head>
@@ -36,6 +37,36 @@
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
 			</thead>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
+			<tbody>
+				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
+				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
+				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+			</tbody>
 			<tbody>
 				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
 				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
