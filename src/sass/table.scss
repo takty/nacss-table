@@ -8,6 +8,6 @@
  */
 
 
-// @use 'fixed-header' as *;
+@use 'fixed-header' as *;
 
-// @include neat-wrap;
+@include fixed-header;

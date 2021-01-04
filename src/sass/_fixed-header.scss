@@ -29,18 +29,18 @@ $stile-table-level-caption               : 1 !default;
 $stile-table-align-caption               : center !default;
 
 
-@mixin stile-table {
+@mixin fixed-header {
 	table {
 		position: relative;
-		display : inline-block;
+		// display : inline-block;
 		margin  : { left : auto; right: auto; }
 
-		max-width     : 100%;
+		// max-width     : 100%;
 		vertical-align: top;
 		text-align    : $stile-table-align-caption;  // for Caption
 
-		overflow-x: auto;
-		overflow-y: auto;
+		// overflow-x: auto;
+		// overflow-y: auto;
 
 		caption {
 			position   : relative;  // for Scrolling
@@ -48,14 +48,19 @@ $stile-table-align-caption               : center !default;
 			transition : transform 0.1s ease;
 
 			display      : inline-block;
-			padding-left : base-vr(1);
-			padding-right: base-vr(1);  // for Avoiding overlapping with enlarger
-			max-width    : #{$stile-table-size-caption-max-width + 2 * base-vr(1.5)};
+			padding-left : 1rem;
+			padding-right: 1rem;  // for Avoiding overlapping with enlarger
+			max-width    : #{$stile-table-size-caption-max-width + 2 * 1rem};
 			text-align   : left;  // for left align of long caption
-			@include font-size-level($stile-table-level-caption);
+			// @include font-size-level($stile-table-level-caption);
 		}
 		> div[data-stile ~= 'table-shade'] {
-			@include layout-fill-self;
+			// @include layout-fill-self;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
 			pointer-events: none;
 			opacity       : 0;
 			&[data-stile ~= 'visible'] {
@@ -64,10 +69,10 @@ $stile-table-align-caption               : center !default;
 			}
 		}
 	}
-	@include stile-table-design;
+	// @include stile-table-design;
 	@include stile-table-fixed-header;
 	@include stile-table-pseudo-scroll-bar;
-	@include stile-table-scroll-bar-design;
+	// @include stile-table-scroll-bar-design;
 	@include stile-table-enlarger;
 }
 
@@ -82,9 +87,9 @@ $stile-table-align-caption               : center !default;
 		border-bottom: $stile-table-size-rule-edge solid $stile-table-color-rule-edge;
 	}
 	th, td {
-		padding: base-vr(0.5) base-vr(1);  // This half vr is irregular but needed.
-		@include font-size-level(1);
-		@include font-proportional;
+		padding: 0.5rem 1rem;  // This half vr is irregular but needed.
+		// @include font-size-level(1);
+		// @include font-proportional;
 
 		border-top: 1px solid $stile-table-color-rule;
 
@@ -97,7 +102,7 @@ $stile-table-align-caption               : center !default;
 	}
 	thead td,
 	th {
-		@include font-bold;
+		// @include font-bold;
 		text-align: center;
 
 		color           : $stile-table-color-header-text;
@@ -140,9 +145,6 @@ $stile-table-align-caption               : center !default;
 
 		thead td,
 		th {
-			@include for-ie   { border-bottom-width: $stile-table-size-rule-edge; }
-			@include for-edge { border-bottom-width: $stile-table-size-rule-edge; }
-
 			color           : $stile-table-color-header-text;
 			background-color: $stile-table-color-header-background;
 		}
@@ -158,7 +160,7 @@ $stile-table-align-caption               : center !default;
 		overflow-x: auto;
 		overflow-y: hidden;  // for IE11 & Edge
 
-		height: calc(#{base-vr(1)} + 2px);  // for Safari
+		height: calc(1rem + 2px);  // for Safari
 		border: 1px solid rgba($stile-table-color-scrollbar-background, 0.1);  // for Safari
 
 		display: none;
@@ -173,15 +175,15 @@ $stile-table-align-caption               : center !default;
 @mixin stile-table-scroll-bar-design {
 	table::-webkit-scrollbar,
 	div[data-stile ~= 'fixed-table-scroll-bar']::-webkit-scrollbar {
-		height          : base-vr(1);
+		height          : 1rem;
 		background-color: $stile-table-color-scrollbar-background;
 	}
 	div[data-stile ~= 'fixed-table-scroll-bar']::-webkit-scrollbar {
-		border-radius: base-vr(1) / 2;
+		border-radius: 1rem / 2;
 	}
 	table::-webkit-scrollbar-thumb,
 	div[data-stile ~= 'fixed-table-scroll-bar']::-webkit-scrollbar-thumb {
-		border-radius   : base-vr(1) / 2;
+		border-radius   : 1rem / 2;
 		background-color: $stile-table-color-scrollbar-thumb;
 	}
 	table, div[data-stile ~= 'fixed-table-scroll-bar'] {  // for IE11
@@ -201,8 +203,8 @@ $stile-table-align-caption               : center !default;
 		div[data-stile ~= 'enlarger-button'] {
 			position  : absolute;
 			z-index   : 999;
-			width     : base-vr(1.5);
-			height    : base-vr(1.5);
+			width     : 1.5rem;
+			height    : 1.5rem;
 			top       : 0;
 			right     : 0;
 			margin    : 0;

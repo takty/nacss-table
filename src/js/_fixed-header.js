@@ -21,7 +21,7 @@ const ST_OPT_NO_ENLARGER  = 'no-enlarger';
 const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
 const ENLARGER_WINDOW_WIDTH_RATIO = 0.9;
 
-let getOffset;
+let getOffset = () => { return 0; };
 let scrollBarWidth;
 
 // NS.addInit(4, () => {
@@ -39,8 +39,21 @@ function initialize(tabs) {
 	scrollBarWidth = parseInt(_getScrollBarWidth());
 	const conts = [];
 	for (let i = 0; i < tabs.length; i += 1) conts.push(new FixedHeaderTable(tabs[i]));
-	NS.onScroll(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowScroll(); });
-	NS.onResize(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowResize(); });
+	window.addEventListener('scroll', throttle(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowScroll(); }), { passive: true });
+	window.addEventListener('resize', throttle(() => { for (let i = 0; i < conts.length; i += 1) conts[i].onWindowResize(); }), { passive: true });
+}
+
+function throttle(fn) {
+	let isRunning;
+	function run() {
+		isRunning = false;
+		fn();
+	}
+	return () => {
+		if (isRunning) return;
+		isRunning = true;
+		requestAnimationFrame(run);
+	};
 }
 
 class FixedHeaderTable {
@@ -58,7 +71,8 @@ class FixedHeaderTable {
 	_create() {
 		this._head = this._createHeaderClone();
 		this._sbar = this._createScrollBarClone();
-		this._ebtn = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlargerButton();
+		// this._ebtn = NS.containStile(this._table, ST_OPT_NO_ENLARGER) ? null : this._createEnlargerButton();
+		this._ebtn = (this._table.dataset.stile && this._table.dataset.stile.indexOf(ST_OPT_NO_ENLARGER) !== -1) ? null : this._createEnlargerButton();
 		this._shade = this._createShade();
 
 		const caps = this._table.getElementsByTagName('caption');
@@ -73,17 +87,20 @@ class FixedHeaderTable {
 			this._table.tHead = thead;
 		}
 		const cont = document.createElement('div');
-		NS.addStile(cont, ST_HEADER_CONTAINER);
+		// NS.addStile(cont, ST_HEADER_CONTAINER);
+		cont.dataset.stile += ' ' + ST_HEADER_CONTAINER;
 		this._table.parentNode.appendChild(cont);
 
 		const ptab = document.createElement('div');
-		NS.addStile(ptab, ST_HEADER_TABLE);
+		// NS.addStile(ptab, ST_HEADER_TABLE);
+		ptab.dataset.stile += ' ' + ST_HEADER_TABLE;
 		cont.appendChild(ptab);
 
 		const clone = thead.cloneNode(true);
 		ptab.appendChild(clone);
 
-		if (NS.containStile(this._table, ST_STATE_ENLARGED)) NS.addStile(cont, ST_STATE_ENLARGED);
+		// if (NS.containStile(this._table, ST_STATE_ENLARGED)) NS.addStile(cont, ST_STATE_ENLARGED);
+		if (this._table.dataset.stile && this._table.dataset.stile.indexOf(ST_STATE_ENLARGED) !== -1) cont.dataset.stile += ' ' + ST_STATE_ENLARGED;
 		return cont;
 	}
 
@@ -116,7 +133,8 @@ class FixedHeaderTable {
 
 	_createScrollBarClone() {
 		const sbar = document.createElement('div');
-		NS.addStile(sbar, ST_SCROLL_BAR);
+		// NS.addStile(sbar, ST_SCROLL_BAR);
+		sbar.dataset.stile += ' ' + ST_SCROLL_BAR;
 		this._table.parentNode.appendChild(sbar);
 		const spacer = document.createElement('div');
 		sbar.appendChild(spacer);
@@ -160,7 +178,7 @@ class FixedHeaderTable {
 	_initTableScroll() {
 		let tableScrollChanged = false;
 		let sbarScrollChanged  = false;
-		this._table.addEventListener('scroll', NS.throttle(() => {
+		this._table.addEventListener('scroll', throttle(() => {
 			if (tableScrollChanged) {
 				tableScrollChanged = false;
 			} else {
@@ -169,7 +187,7 @@ class FixedHeaderTable {
 			}
 			this._onTableScroll();
 		}));
-		this._sbar.addEventListener('scroll', NS.throttle(() => {
+		this._sbar.addEventListener('scroll', throttle(() => {
 			if (sbarScrollChanged) {
 				sbarScrollChanged = false;
 			} else {
@@ -216,11 +234,14 @@ class FixedHeaderTable {
 		tab.style.marginLeft = '';
 		tab.style.width      = '';
 		tab.scrollLeft       = 0;
-		NS.removeStile(tab, ST_STATE_ENLARGED);
-		if (this._head) NS.removeStile(this._head, ST_STATE_ENLARGED);
+		// NS.removeStile(tab, ST_STATE_ENLARGED);
+		tab.dataset.stile = ` ${tab.dataset.stile} `.replace(` ${ST_STATE_ENLARGED} `, '').trim();
+		// if (this._head) NS.removeStile(this._head, ST_STATE_ENLARGED);
+		if (this._head) this._head.dataset.stile = ` ${this._head.dataset.stile} `.replace(` ${ST_STATE_ENLARGED} `, '').trim();
 		this._isEnlarged = false;
 
-		NS.removeStile(this._shade, 'visible');
+		// NS.removeStile(this._shade, 'visible');
+		this._shade.dataset.stile = ` ${this._shade.dataset.stile} `.replace(` visible `, '').trim();
 		this._shade.style.background = null;
 		this._resize();
 	}
@@ -377,19 +398,25 @@ class FixedHeaderTable {
 			}
 		}
 		if (ebtn) {
-			NS.removeStile(ebtn, 'visible');
+			// NS.removeStile(ebtn, 'visible');
+			ebtn.dataset.stile = ` ${ebtn.dataset.stile} `.replace(` visible `, '').trim();
 			if (this._stEbtn) clearTimeout(this._stEbtn);
-			this._stEbtn = setTimeout(() => { NS.addStile(ebtn, 'visible'); }, 100);
+			this._stEbtn = setTimeout(() => {
+				// NS.addStile(ebtn, 'visible');
+				ebtn.dataset.stile = ((ebtn.dataset.stile ?? '') + ` visible`).trim();
+			}, 100);
 			this._updateEnlager();
 		}
 
 		if (this._isEnlarged) {
-			NS.removeStile(shade, 'visible');
+			// NS.removeStile(shade, 'visible');
+			shade.dataset.stile = ` ${shade.dataset.stile} `.replace(` visible `, '').trim();
 			if (this._isScrollable() && this._isEnlarged) {
 				if (this._stShade) clearTimeout(this._stShade);
 				this._stShade = setTimeout(() => {
 					shade.style.transform = `translateX(${sL}px)`;
-					NS.addStile(shade, 'visible');
+					// NS.addStile(shade, 'visible');
+					shade.dataset.stile = ((shade.dataset.stile ?? '') + ` visible`).trim();
 				}, 100);
 			}
 		}
