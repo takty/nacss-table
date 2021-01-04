@@ -10,37 +10,44 @@
 
 function initialize(tabs, opts = {}) {
 	if (tabs.length === 0) return;
+
 	const lt = tabs[tabs.length - 1];
-	const cm = Object.assign(opts, getCommonMetrics(lt), {
-		nnwMinWidthRate : 0.1,
-		cellMinWidth    : 100,
-		cellMinAspect   : 2 / 3,  // width / height
-		cellMinLength   : 8,
-		maxRowSize      : 200,
-		maxBorderWidth  : 2,
-	});
+	const cm = Object.assign({
+		nnwMinWidthRate: 0.1,
+		cellMinWidth   : 100,
+		cellMinAspect  : 2 / 3,  // width / height
+		cellMinLength  : 8,
+		maxRowSize     : 200,
+		maxBorderWidth : 2,
+		onDoing        : null,  // function (table) {...}
+		onDone         : null,  // function (table) {...}
+	}, opts, getCommonMetrics(lt));
+
 	cm.padH += cm.maxBorderWidth * 2;
 	cm.padV += cm.maxBorderWidth * 2;
 	cm.dcTd = makeDummyCell(lt, 'td');
 	cm.dcTh = makeDummyCell(lt, 'th');
+
+	cm.gcCount = 0;
 	for (const t of tabs) {
-		if (!apply(t, cm) && cm.nnwMinWidthRate) {
+		if (isTarget(t, cm)) {
+			cm.gcCount += 1;
+			const delay = (cm.onDoing) ? (cm.onDoing(t) ?? 0) : 0;
+			setTimeout(() => {
+				apply(t, cm);
+				if (cm.onDone) setTimeout(() => cm.onDone(t), 0);
+				cm.gcCount -= 1;
+				if (cm.gcCount === 0) {
+					lt.removeChild(cm.dcTd);
+					lt.removeChild(cm.dcTh);
+				}
+			}, delay);
+		} else if(cm.nnwMinWidthRate) {
 			const pw = t.parentElement.clientWidth;
 			const w  = t.clientWidth;
 			if (pw - w < w * cm.nnwMinWidthRate) t.style.width = '100%';
 		}
 	}
-	lt.removeChild(cm.dcTd);
-	lt.removeChild(cm.dcTh);
-}
-
-function makeDummyCell(t, tagName) {
-	const d = document.createElement(tagName);
-	d.style.display    = 'inline-block';
-	d.style.position   = 'fixed';
-	d.style.visibility = 'hidden';
-	d.style.whiteSpace = 'nowrap';
-	return t.appendChild(d);
 }
 
 function getCommonMetrics(tab) {
@@ -63,23 +70,19 @@ function getTextSize(elm) {
 	return [w, h];
 }
 
-function apply(tab, cMet) {
-	if (tab.rows.length === 0) return false;
-	if (cMet.maxRowSize < tab.rows.length) return false;
-	if (!isResizeNeeded(tab, cMet)) return false;
-
-	if (tab.hasAttribute('width')) tab.removeAttribute('width');
-	tab.style.width    = '';
-	tab.style.maxWidth = '';
-
-	const grid  = makeCellGrid(tab);
-	const met   = Object.assign(getMetrics(tab, grid), cMet);
-	const newWs = calcNewWidths(grid, met);
-	setCellWidth(grid, newWs);
-	return true;
+function makeDummyCell(t, tagName) {
+	const d = document.createElement(tagName);
+	d.style.display    = 'inline-block';
+	d.style.position   = 'fixed';
+	d.style.visibility = 'hidden';
+	d.style.whiteSpace = 'nowrap';
+	return t.appendChild(d);
 }
 
-function isResizeNeeded(tab, cMet) {
+function isTarget(tab, cMet) {
+	if (tab.rows.length === 0) return false;
+	if (cMet.maxRowSize < tab.rows.length) return false;
+
 	const { cellMinWidth, cellMinAspect } = cMet;
 	for (const tr of tab.rows) {
 		if (!tr.hasChildNodes()) continue;
@@ -94,6 +97,21 @@ function isResizeNeeded(tab, cMet) {
 		}
 	}
 	return false;
+}
+
+
+// -------------------------------------------------------------------------
+
+
+function apply(tab, cMet) {
+	if (tab.hasAttribute('width')) tab.removeAttribute('width');
+	tab.style.width    = '';
+	tab.style.maxWidth = '';
+
+	const grid  = makeCellGrid(tab);
+	const met   = Object.assign(getMetrics(tab, grid), cMet);
+	const newWs = calcNewWidths(grid, met);
+	setCellWidth(grid, newWs);
 }
 
 
@@ -181,7 +199,7 @@ function calcNewWidths(grid, met) {
 	}
 	const gw = grid[0].length;
 	const newWs = new Array(gw).fill(false);
-	const wrapped = new Array(gw).fill(false);
+	const wraps = new Array(gw).fill(false);
 
 	for (let y = 0; y < grid.length; y += 1) {
 		const gridRow = grid[y];
@@ -195,15 +213,15 @@ function calcNewWidths(grid, met) {
 
 			const [minW, wp] = calcMinWidth(td, met);
 			if (minW) newWs[x] = Math.max(newWs[x], minW);
-			if (wp) wrapped[x] = wp;
+			if (wp) wraps[x] = wp;
 		}
 	}
-	widenTabWidth(newWs, wrapped, met);
+	widenTabWidth(newWs, wraps, met);
 	return newWs;
 }
 
 function calcMinWidth(td, met) {
-	const { padH, padV, charW, lineH, cellMinWidth, dcTd, dcTh, cellMinAspect, cellMinLength } = met;
+	const { padH, padV, charW, lineH, dcTd, dcTh, cellMinWidth, cellMinAspect, cellMinLength } = met;
 	if (calcMaxLineLength(td) < cellMinLength) return [0, false];
 
 	td.innerHTML = td.innerHTML.trim();
@@ -211,15 +229,15 @@ function calcMinWidth(td, met) {
 	dc.innerHTML = td.innerHTML;
 	const aw = dc.clientWidth - padH;
 	const ls = Math.round((dc.clientHeight - padV) / lineH);
-	let minW = 0, wrapped = false;
+	let minW = 0, wrap = false;
 	for (let i = 1; ; i += 1) {
 		const tempW = 0 | (aw / i + charW * i + padH);
 		const tempH = ls * (i * lineH) + padV;
 		if (tempW < cellMinWidth || tempW / tempH < cellMinAspect || (minW && minW < tempW)) break;
-		if (1 < i) wrapped = true;
+		if (1 < i) wrap = true;
 		minW = tempW;
 	}
-	return [minW, wrapped];
+	return [minW, wrap];
 }
 
 function calcMaxLineLength(td) {
@@ -230,11 +248,11 @@ function calcMaxLineLength(td) {
 	return Math.max(...ts);
 }
 
-function widenTabWidth(newWs, wrapped, met) {
+function widenTabWidth(newWs, wraps, met) {
 	const { origTabW, origCellWs } = met;
 	let wNew = 0, wFix = 0;
 	for (let i = 0; i < newWs.length; i += 1) {
-		if (wrapped[i]) {
+		if (wraps[i]) {
 			wNew += newWs[i];
 		} else if (newWs[i]) {
 			wFix += newWs[i];
@@ -245,7 +263,7 @@ function widenTabWidth(newWs, wrapped, met) {
 	if (origTabW < wNew + wFix) return;
 	let rem = origTabW - wFix;
 	for (let i = 0; i < newWs.length; i += 1) {
-		if (!wrapped[i]) continue;
+		if (!wraps[i]) continue;
 		const nw = newWs[i];
 		const w = Math.min(nw / wNew * rem, origCellWs[i]);
 		rem  -= (w - nw);
