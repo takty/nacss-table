@@ -13,14 +13,14 @@ function initialize(tabs, opts = {}) {
 
 	const lt = tabs[tabs.length - 1];
 	const cm = Object.assign({
-		nnwMinWidthRate: 0.1,
-		cellMinWidth   : 100,
-		cellMinAspect  : 2 / 3,  // width / height
-		cellMinLength  : 8,
-		maxRowSize     : 200,
-		maxBorderWidth : 2,
-		onDoing        : null,  // function (table) {...}
-		onDone         : null,  // function (table) {...}
+		tableWidthRateForFull: 0.95,
+		cellMinWidth         : 100,
+		cellMinAspect        : 2 / 3,  // width / height
+		cellMinLength        : 8,
+		maxRowSize           : 200,
+		maxBorderWidth       : 2,
+		onDoing              : null,  // function (table) { ...; return delay; }
+		onDone               : null,  // function (table) { ... }
 	}, opts, getCommonMetrics(lt));
 
 	cm.padH += cm.maxBorderWidth * 2;
@@ -38,10 +38,10 @@ function initialize(tabs, opts = {}) {
 				if (cm.onDone) setTimeout(() => cm.onDone(t), 0);
 				if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 			}, delay);
-		} else if(cm.nnwMinWidthRate) {
+		} else if (cm.tableWidthRateForFull) {
 			const pw = t.parentElement.clientWidth;
 			const w  = t.clientWidth;
-			if (pw - w < w * cm.nnwMinWidthRate) t.style.width = '100%';
+			if (pw * cm.tableWidthRateForFull < t.clientWidth) t.style.width = '100%';
 		}
 	}
 }
