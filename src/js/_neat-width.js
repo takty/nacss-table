@@ -36,11 +36,7 @@ function initialize(tabs, opts = {}) {
 			setTimeout(() => {
 				apply(t, cm);
 				if (cm.onDone) setTimeout(() => cm.onDone(t), 0);
-				cm.gcCount -= 1;
-				if (cm.gcCount === 0) {
-					lt.removeChild(cm.dcTd);
-					lt.removeChild(cm.dcTh);
-				}
+				if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 			}, delay);
 		} else if(cm.nnwMinWidthRate) {
 			const pw = t.parentElement.clientWidth;
@@ -79,6 +75,11 @@ function makeDummyCell(t, tagName) {
 	return t.appendChild(d);
 }
 
+function removeDummyCell(lt, cMat) {
+	lt.removeChild(cMat.dcTd);
+	lt.removeChild(cMat.dcTh);
+}
+
 function isTarget(tab, cMet) {
 	if (tab.rows.length === 0) return false;
 	if (cMet.maxRowSize < tab.rows.length) return false;
@@ -104,7 +105,7 @@ function isTarget(tab, cMet) {
 
 
 function apply(tab, cMet) {
-	if (tab.hasAttribute('width')) tab.removeAttribute('width');
+	tab.removeAttribute('width');
 	tab.style.width    = '';
 	tab.style.maxWidth = '';
 
