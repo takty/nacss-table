@@ -205,13 +205,11 @@ function calcNewWidths(grid, met) {
 	const newWs = new Array(gw).fill(false);
 	const wraps = new Array(gw).fill(false);
 
-	for (let y = 0; y < grid.length; y += 1) {
-		const gridRow = grid[y];
-
+	for (const gr of grid) {
 		for (let x = 0; x < gw; x += 1) {
-			const td = gridRow[x];
+			const td = gr[x];
 			if (td === undefined || td === null || typeof td === 'number') continue;
-			if (x < gw - 1 && typeof gridRow[x + 1] === 'number') continue;
+			if (x < gw - 1 && typeof gr[x + 1] === 'number') continue;
 			if (1 < parseInt(td.getAttribute('colSpan'), 10)) continue;
 			if (1 < parseInt(td.getAttribute('rowSpan'), 10)) continue;
 
@@ -234,7 +232,7 @@ function calcMinWidth(td, met) {
 	const aw = dc.clientWidth - padH;
 	const ls = Math.round((dc.clientHeight - padV) / lineH);
 	let minW = 0, wrap = false;
-	for (let i = 1; ; i += 1) {
+	for (let i = 1;; i += 1) {
 		const tempW = 0 | (aw / i + charW * i + padH);
 		const tempH = ls * (i * lineH) + padV;
 		if (tempW < cellMinWidth || tempW / tempH < cellMinAspect || (minW && minW < tempW)) break;
