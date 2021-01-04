@@ -14,9 +14,10 @@ const plumberOptions = {
 };
 
 
-gulp.task('js', () => gulp.src('src/js/**/*.js')
+gulp.task('js', () => gulp.src('src/js/**/[^_]*.js')
 	.pipe($.plumber(plumberOptions))
 	.pipe($.sourcemaps.init())
+	.pipe($.include())
 	.pipe($.babel())
 	.pipe($.terser())
 	.pipe($.rename({ extname: '.min.js' }))
@@ -25,7 +26,7 @@ gulp.task('js', () => gulp.src('src/js/**/*.js')
 	.pipe(gulp.dest('./docs'))
 );
 
-gulp.task('sass', () => gulp.src(['src/sass/**/*.scss'])
+gulp.task('sass', () => gulp.src(['src/sass/**/[^_]*.scss'])
 	.pipe($.plumber(plumberOptions))
 	.pipe($.sourcemaps.init())
 	.pipe($.dartSass({ outputStyle: SASS_OUTPUT_STYLE }))
