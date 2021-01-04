@@ -8,15 +8,16 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link rel="stylesheet" href="reset.min.css"> -->
 	<link rel="stylesheet" href="style.css">
-	<!-- <link rel="stylesheet" href="table.min.css"> -->
-	<!-- <script src="table-fixed-header.min.js"></script> -->
-	<script src="table-neat-width.min.js"></script>
+	<link rel="stylesheet" href="table.min.css">
+	<script src="table.min.js"></script>
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const tabs = document.querySelectorAll('table.neat-width');
-		setTimeout(() => { NACSS.tableNeatWidth(tabs); }, 0);
+		setTimeout(() => { NACSS.tableNeatWidth(tabs, {
+			onDoing: (tab) => { tab.classList.add('doing'); return 100; },
+			onDone : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
+		}); }, 0);
 	});
 	</script>
 </head>
@@ -52,9 +53,6 @@
 				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
 				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
 				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-				<!-- <tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr> -->
 			</tbody>
 		</table>
 
