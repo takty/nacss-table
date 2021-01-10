@@ -28,21 +28,30 @@ function initialize(tabs, opts = {}) {
 	cm.dcTd = makeDummyCell(lt, 'td');
 	cm.dcTh = makeDummyCell(lt, 'th');
 
-	cm.gcCount = 0;
+	const tarTabs = [], noTarTabs = [];
 	for (const t of tabs) {
-		if (isTarget(t, cm)) {
-			cm.gcCount += 1;
-			const delay = (cm.onDoing) ? (cm.onDoing(t) ?? 0) : 0;
-			setTimeout(() => {
-				apply(t, cm);
-				if (cm.onDone) setTimeout(() => cm.onDone(t), 0);
-				if (--cm.gcCount === 0) removeDummyCell(lt, cm);
-			}, delay);
-		} else if (cm.tableWidthRateForFull) {
+		if (isTarget(t, cm)) tarTabs.push(t);
+		else noTarTabs.push(t);
+	}
+	cm.gcCount = tarTabs.length;
+
+	for (const t of tarTabs) {
+		const delay = (cm.onDoing) ? (cm.onDoing(t) ?? 0) : false;
+		st(() => {
+			apply(t, cm);
+			if (cm.onDone) cm.onDone(t);
+			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
+		}, delay);
+	}
+	if (cm.tableWidthRateForFull) {
+		for (const t of noTarTabs) {
 			const pw = t.parentElement.clientWidth;
-			const w  = t.clientWidth;
 			if (pw * cm.tableWidthRateForFull < t.clientWidth) t.style.width = '100%';
 		}
+	}
+	function st(fn, d) {
+		if (d === false) fn();
+		else setTimeout(fn, d);
 	}
 }
 
