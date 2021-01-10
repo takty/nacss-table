@@ -1,4 +1,8 @@
-*,*::before,*::after{box-sizing:border-box;}
+*,
+*::before,
+*::after {
+	box-sizing:border-box;
+}
 
 body {
 	max-width: 48rem;
@@ -19,6 +23,10 @@ table.done {
 	opacity: 1;
 }
 
+td {
+	text-align: left;
+}
+
 thead,
 tbody:first-child,
 caption + tbody,
@@ -33,9 +41,6 @@ th,
 td {
 	padding: 1rem;
 	border-top: 1px solid black;
-}
-tr:first-child th {
-	border-top: none;
 }
 th:not(:first-child),
 td:not(:first-child) {
