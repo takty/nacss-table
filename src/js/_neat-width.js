@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-04
+ * @version 2021-01-10
  *
  */
 
@@ -14,7 +14,7 @@ function initialize(tabs, opts = {}) {
 	const lt = tabs[tabs.length - 1];
 	const cm = Object.assign({
 		tableWidthRateForFull: 0.95,
-		cellMinWidth         : 100,
+		cellMinWidth         : 80,
 		cellMinAspect        : 2 / 3,  // width / height
 		cellMinLength        : 8,
 		maxRowSize           : 200,
@@ -202,8 +202,8 @@ function calcNewWidths(grid, met) {
 		}
 	}
 	const gw = grid[0].length;
-	const newWs = new Array(gw).fill(false);
-	const wraps = new Array(gw).fill(false);
+	const newWs = new Array(gw).fill(0);
+	const fixWs = new Array(gw).fill(0);
 
 	for (const gr of grid) {
 		for (let x = 0; x < gw; x += 1) {
@@ -213,33 +213,32 @@ function calcNewWidths(grid, met) {
 			if (1 < parseInt(td.getAttribute('colSpan'), 10)) continue;
 			if (1 < parseInt(td.getAttribute('rowSpan'), 10)) continue;
 
-			const [minW, wp] = calcMinWidth(td, met);
-			if (minW) newWs[x] = Math.max(newWs[x], minW);
-			if (wp) wraps[x] = wp;
+			const minW = calcMinWidth(td, met);
+			newWs[x] = Math.max(newWs[x], minW);
+			if (!minW) fixWs[x] = Math.max(fixWs[x], td.clientWidth);
 		}
 	}
-	widenTabWidth(newWs, wraps, met);
+	widenTabWidth(newWs, fixWs, met);
 	return newWs;
 }
 
 function calcMinWidth(td, met) {
 	const { padH, padV, charW, lineH, dcTd, dcTh, cellMinWidth, cellMinAspect, cellMinLength } = met;
-	if (calcMaxLineLength(td) < cellMinLength) return [0, false];
+	if (calcMaxLineLength(td) < cellMinLength) return 0;
 
 	td.innerHTML = td.innerHTML.trim();
 	const dc = td.tagName === 'TD' ? dcTd : dcTh;
 	dc.innerHTML = td.innerHTML;
 	const aw = dc.clientWidth - padH;
 	const ls = Math.round((dc.clientHeight - padV) / lineH);
-	let minW = 0, wrap = false;
-	for (let i = 1;; i += 1) {
+	let minW = 0;
+	for (let i = 2;; i += 1) {
 		const tempW = 0 | (aw / i + charW * i + padH);
 		const tempH = ls * (i * lineH) + padV;
 		if (tempW < cellMinWidth || tempW / tempH < cellMinAspect || (minW && minW < tempW)) break;
-		if (1 < i) wrap = true;
 		minW = tempW;
 	}
-	return [minW, wrap];
+	return (minW + charW < dc.clientWidth) ? minW : 0;
 }
 
 function calcMaxLineLength(td) {
@@ -250,22 +249,20 @@ function calcMaxLineLength(td) {
 	return Math.max(...ts);
 }
 
-function widenTabWidth(newWs, wraps, met) {
+function widenTabWidth(newWs, fixWs, met) {
 	const { origTabW, origCellWs } = met;
 	let wNew = 0, wFix = 0;
 	for (let i = 0; i < newWs.length; i += 1) {
-		if (wraps[i]) {
+		if (newWs[i]) {
 			wNew += newWs[i];
-		} else if (newWs[i]) {
-			wFix += newWs[i];
 		} else {
-			wFix += origCellWs[i];
+			wFix += fixWs[i];
 		}
 	}
 	if (origTabW < wNew + wFix) return;
 	let rem = origTabW - wFix;
 	for (let i = 0; i < newWs.length; i += 1) {
-		if (!wraps[i]) continue;
+		if (!newWs[i]) continue;
 		const nw = newWs[i];
 		const w = Math.min(nw / wNew * rem, origCellWs[i]);
 		rem  -= (w - nw);
@@ -282,7 +279,7 @@ function setCellWidth(grid, ws) {
 	for (const gr of grid) {
 		for (let x = 0; x < gr.length; x += 1) {
 			const gc = gr[x], w = ws[x];
-			if (w === false || !(gc instanceof HTMLTableCellElement)) continue;
+			if (!w || !(gc instanceof HTMLTableCellElement)) continue;
 			gc.style.whiteSpace = null;
 			gc.style.minWidth   = w + 'px';
 			gc.style.width      = null;
