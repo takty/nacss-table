@@ -6,6 +6,7 @@
 
 body {
 	max-width: 48rem;
+	overflow-x: hidden;
 }
 
 table {
