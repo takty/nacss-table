@@ -18,7 +18,8 @@
 			// onDoing: (tab) => { tab.classList.add('doing'); return 100; },
 			onDone : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
 		});
-		NACSS.tableFixedHeader(tabs);
+		NACSS.tableScroll(tabs);
+		// NACSS.tableFixedHeader(tabs);
 	});
 	</script>
 </head>
@@ -34,6 +35,7 @@
 		<h3>With Neat Wrap</h3>
 
 		<table class="neat-width">
+			<caption>An Example of Narrow-Width Table</caption>
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
 			</thead>
@@ -92,6 +94,7 @@
 		<h3>With Neat Wrap</h3>
 
 		<table class="neat-width">
+			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table.</caption>
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
 			</thead>

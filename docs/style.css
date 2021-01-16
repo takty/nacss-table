@@ -1,7 +1,7 @@
 *,
 *::before,
 *::after {
-	box-sizing:border-box;
+	box-sizing: border-box;
 }
 
 body {
@@ -19,7 +19,7 @@ table.doing {
 }
 
 table.done {
-	transition: all 0.2s;
+	transition: opacity 0.2s;
 	opacity: 1;
 }
 
