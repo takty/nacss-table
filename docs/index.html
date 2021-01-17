@@ -15,8 +15,8 @@
 	document.addEventListener('DOMContentLoaded', () => {
 		const tabs = document.querySelectorAll('table.neat-width');
 		NACSS.tableNeatWidth(tabs, {
-			// onDoing: (tab) => { tab.classList.add('doing'); return 100; },
-			onDone : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
+			// before: (tab) => { tab.classList.add('doing'); return 100; },
+			// after : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
 		});
 		NACSS.tableScroll(tabs);
 		// NACSS.tableFixedHeader(tabs);
