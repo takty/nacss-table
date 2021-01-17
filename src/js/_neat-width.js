@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-10
+ * @version 2021-01-17
  *
  */
 
@@ -13,14 +13,16 @@ function initialize(tabs, opts = {}) {
 
 	const lt = tabs[tabs.length - 1];
 	const cm = Object.assign({
-		tableWidthRateForFull: 0.95,
-		cellMinWidth         : 80,
-		cellMinAspect        : 2 / 3,  // width / height
-		cellMinLength        : 8,
-		maxRowSize           : 200,
-		maxBorderWidth       : 2,
-		onDoing              : null,  // function (table) { ...; return delay; }
-		onDone               : null,  // function (table) { ... }
+		fullWidthRate : 0.95,
+		cellMinWidth  : 80,
+		cellMinAspect : 2 / 3,  // width / height
+		cellMinLength : 8,
+		maxRowSize    : 200,
+		maxBorderWidth: 2,
+		before        : null,  // function (table) { ...; return delay; }
+		after         : null,  // function (table) { ... }
+		styleIsNeat   : 'nacss:table-is-neat',
+		styleIsFull   : 'nacss:table-is-full',
 	}, opts, getCommonMetrics(lt));
 
 	cm.padH += cm.maxBorderWidth * 2;
@@ -36,17 +38,18 @@ function initialize(tabs, opts = {}) {
 	cm.gcCount = tarTabs.length;
 
 	for (const t of tarTabs) {
-		const delay = (cm.onDoing) ? (cm.onDoing(t) ?? 0) : false;
+		const delay = (cm.before) ? (cm.before(t) ?? 0) : false;
 		st(() => {
 			apply(t, cm);
-			if (cm.onDone) cm.onDone(t);
+			addClass(t, cm.styleIsNeat);
+			if (cm.after) cm.after(t);
 			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 		}, delay);
 	}
-	if (cm.tableWidthRateForFull) {
+	if (cm.fullWidthRate) {
 		for (const t of noTarTabs) {
 			const pw = t.parentElement.clientWidth;
-			if (pw * cm.tableWidthRateForFull < t.clientWidth) t.style.width = '100%';
+			if (pw * cm.fullWidthRate < t.clientWidth) addClass(t, cm.styleIsFull);
 		}
 	}
 	function st(fn, d) {
@@ -65,22 +68,19 @@ function getCommonMetrics(tab) {
 }
 
 function getTextSize(elm) {
-	const temp = document.createElement(elm.nodeName);
-	temp.setAttribute('style', `position:fixed;margin:0;padding:0;font-family:${elm.style.fontFamily || 'inherit'};font-size:${elm.style.fontSize || 'inherit'};`);
-	temp.innerHTML = '\u3000';  // Full width space
-	elm.parentNode.appendChild(temp);
-	const w = temp.clientWidth;
-	const h = temp.clientHeight;
-	temp.parentNode.removeChild(temp);
+	const d = document.createElement(elm.nodeName);
+	d.setAttribute('style', `position:fixed;margin:0;padding:0;font-family:${elm.style.fontFamily || 'inherit'};font-size:${elm.style.fontSize || 'inherit'};`);
+	d.innerHTML = '\u3000';  // Full width space
+	elm.parentNode.appendChild(d);
+	const w = d.clientWidth;
+	const h = d.clientHeight;
+	d.parentNode.removeChild(d);
 	return [w, h];
 }
 
 function makeDummyCell(t, tagName) {
 	const d = document.createElement(tagName);
-	d.style.display    = 'inline-block';
-	d.style.position   = 'fixed';
-	d.style.visibility = 'hidden';
-	d.style.whiteSpace = 'nowrap';
+	d.setAttribute('style', `position:fixed;display:inline-block;visibility:hidden;white-space:nowrap;`);
 	return t.appendChild(d);
 }
 
@@ -109,17 +109,20 @@ function isTarget(tab, cMet) {
 	return false;
 }
 
+function addClass(tar, cls) {
+	const [k, v] = cls.split(':');
+	if (v) tar.dataset[k] = ((tar.dataset[k] ?? '') + ` ${v}`).trim();
+	else tar.classList.add(cls);
+}
+
 
 // -------------------------------------------------------------------------
 
 
 function apply(tab, cMet) {
 	tab.removeAttribute('width');
-	tab.style.display  = 'block';
-	tab.style.width    = 'fit-content';
-	if (tab.style.width !== 'fit-content') tab.style.width = '-moz-fit-content';
-	tab.style.maxWidth = '100%';
-	tab.style.overflow = 'auto';
+	tab.style.width = null;
+	tab.style.height = null;
 
 	const grid  = makeCellGrid(tab);
 	const met   = Object.assign(getMetrics(tab, grid), cMet);
@@ -252,8 +255,7 @@ function calcMinWidth(td, met) {
 
 function calcMaxLineLength(td) {
 	const ih = td.innerHTML.trim();
-	let ls = ih.split(/<\s*br\s*\/?>/ui);
-	if (ls.length === 0) ls = [ih];
+	const ls = ih.split(/<\s*br\s*\/?>/ui);
 	const ts = ls.map(e => e.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, '').length);
 	return Math.max(...ts);
 }

@@ -3,11 +3,21 @@
  * Table Style
  *
  * @author Takuto Yanagida
- * @version 2021-01-04
+ * @version 2021-01-17
  *
  */
 
 
+@use 'neat-width';
+@use 'scroll' as *;
 @use 'fixed-header' as *;
 
-@include fixed-header;
+table[data-nacss~='table-is-neat'] {
+	@include neat-width.styleIsNeat;
+}
+table[data-nacss~='table-is-full'] {
+	@include neat-width.styleIsFull;
+}
+
+@include scroll;
+// @include fixed-header;
