@@ -8,13 +8,49 @@
  */
 
 
-@mixin styleIsNeat {
+@mixin styleNeat {
 	display  : block;
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
 }
 
-@mixin styleIsFull {
+@mixin styleFull {
 	width: 100%;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin styleScroll {
+	--background-color: #fff;
+	position: relative;
+
+	caption {
+		display: block;
+		position: sticky;
+		left: 0;
+		right: 0;
+		background-color: var(--background-color);
+
+		> span {
+			display: inline-block;
+			text-align: left;
+		}
+	}
+	td, th {
+		position: relative;
+		z-index: -1;
+	}
+	box-shadow: inset  2rem 0 1rem -1rem rgba(#000, 0.1),
+				inset -2rem 0 1rem -1rem rgba(#000, 0.1);
+}
+
+@mixin styleScrollRight {
+	box-shadow: inset -2rem 0 1rem -1rem rgba(#000, 0.1);
+}
+
+@mixin styleScrollLeft {
+	box-shadow: inset 2rem 0 1rem -1rem rgba(#000, 0.1);
 }

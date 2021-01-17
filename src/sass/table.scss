@@ -12,12 +12,25 @@
 @use 'scroll' as *;
 @use 'fixed-header' as *;
 
-table[data-nacss~='table-is-neat'] {
-	@include neat-width.styleIsNeat;
+table[data-nc-table-neat] {
+	@include neat-width.styleNeat;
 }
-table[data-nacss~='table-is-full'] {
-	@include neat-width.styleIsFull;
+table[data-nc-table-full] {
+	@include neat-width.styleFull;
 }
+table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+	@include neat-width.styleScroll;
+}
+table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
+	@include neat-width.styleScrollRight;
+}
+table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
+	@include neat-width.styleScrollLeft;
+}
+
+
+// -----------------------------------------------------------------------------
+
 
 @include scroll;
 // @include fixed-header;

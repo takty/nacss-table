@@ -13,16 +13,18 @@ function initialize(tabs, opts = {}) {
 
 	const lt = tabs[tabs.length - 1];
 	const cm = Object.assign({
-		fullWidthRate : 0.95,
-		cellMinWidth  : 80,
-		cellMinAspect : 2 / 3,  // width / height
-		cellMinLength : 8,
-		maxRowSize    : 200,
-		maxBorderWidth: 2,
-		before        : null,  // function (table) { ...; return delay; }
-		after         : null,  // function (table) { ... }
-		styleIsNeat   : 'nacss:table-is-neat',
-		styleIsFull   : 'nacss:table-is-full',
+		fullWidthRate   : 0.95,
+		cellMinWidth    : 80,
+		cellMinAspect   : 2 / 3,  // width / height
+		cellMinLength   : 8,
+		maxRowSize      : 200,
+		maxBorderWidth  : 2,
+		before          : null,  // function (table) { ...; return delay; }
+		after           : null,  // function (table) { ... }
+		styleNeat       : ':ncTableNeat',
+		styleFull       : ':ncTableFull',
+		styleScrollRight: ':ncScrollRight',
+		styleScrollLeft : ':ncScrollLeft',
 	}, opts, getCommonMetrics(lt));
 
 	cm.padH += cm.maxBorderWidth * 2;
@@ -41,7 +43,7 @@ function initialize(tabs, opts = {}) {
 		const delay = (cm.before) ? (cm.before(t) ?? 0) : false;
 		st(() => {
 			apply(t, cm);
-			addClass(t, cm.styleIsNeat);
+			addClass(t, cm.styleNeat);
 			if (cm.after) cm.after(t);
 			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 		}, delay);
@@ -49,13 +51,11 @@ function initialize(tabs, opts = {}) {
 	if (cm.fullWidthRate) {
 		for (const t of noTarTabs) {
 			const pw = t.parentElement.clientWidth;
-			if (pw * cm.fullWidthRate < t.clientWidth) addClass(t, cm.styleIsFull);
+			if (pw * cm.fullWidthRate < t.clientWidth) addClass(t, cm.styleFull);
 		}
 	}
-	function st(fn, d) {
-		if (d === false) fn();
-		else setTimeout(fn, d);
-	}
+	function st(fn, d) { (d === false) ? fn() : setTimeout(fn, d); }
+	initScroll(tarTabs, cm);
 }
 
 function getCommonMetrics(tab) {
@@ -109,10 +109,54 @@ function isTarget(tab, cMet) {
 	return false;
 }
 
+
+// -------------------------------------------------------------------------
+
+
 function addClass(tar, cls) {
-	const [k, v] = cls.split(':');
-	if (v) tar.dataset[k] = ((tar.dataset[k] ?? '') + ` ${v}`).trim();
-	else tar.classList.add(cls);
+	if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
+	else tar.classList.add(cls.substr(1));
+}
+
+function removeClass(tar, cls) {
+	if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
+	else tar.classList.remove(cls.substr(1));
+}
+
+
+// -------------------------------------------------------------------------
+
+
+function initScroll(tabs, cMet) {
+	const rob = new ResizeObserver(oes => {
+		for (const oe of oes) onScroll(oe.target, cMet);
+	});
+	for (const t of tabs) {
+		rob.observe(t);
+		t.addEventListener('scroll', throttle(() => { onScroll(t, cMet); }));
+	}
+	function throttle(fn) {
+		let isRunning;
+		return () => {
+			if (isRunning) return;
+			isRunning = true;
+			requestAnimationFrame(() => {
+				isRunning = false;
+				fn();
+			});
+		};
+	}
+}
+
+function onScroll(tab, cMet) {
+	if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
+		const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
+		(0.95 < r ? removeClass : addClass)(tab, cMet.styleScrollRight);
+		(r < 0.05 ? removeClass : addClass)(tab, cMet.styleScrollLeft);
+	} else {
+		removeClass(tab, cMet.styleScrollRight);
+		removeClass(tab, cMet.styleScrollLeft);
+	}
 }
 
 
@@ -128,6 +172,9 @@ function apply(tab, cMet) {
 	const met   = Object.assign(getMetrics(tab, grid), cMet);
 	const newWs = calcNewWidths(grid, met);
 	setCellWidth(grid, newWs);
+
+	const cs = tab.getElementsByTagName('caption');
+	if (cs.length) cs[0].innerHTML = `<span>${cs[0].innerHTML}</span>`;
 }
 
 
