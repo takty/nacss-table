@@ -13,13 +13,9 @@
 	<script src="table.min.js"></script>
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
-		const tabs = document.querySelectorAll('table.neat-width');
-		NACSS.tableNeatWidth(tabs, {
-			// before: (tab) => { tab.classList.add('doing'); return 100; },
-			// after : (tab) => { tab.classList.remove('doing'); tab.classList.add('done'); }
-		});
-		NACSS.tableScroll(tabs);
-		// NACSS.tableFixedHeader(tabs);
+		const tabs = document.querySelectorAll('table.target');
+		NACSS.tableNeatWidth(tabs, {});
+		NACSS.tableUsableView(tabs, {});
 	});
 	</script>
 </head>
@@ -32,9 +28,9 @@
 	<main>
 		<h2>Narrow-Width Table</h2>
 
-		<h3>With Neat Wrap</h3>
+		<h3>With Neat Width &amp; Usable View</h3>
 
-		<table class="neat-width">
+		<table class="target">
 			<caption>An Example of Narrow-Width Table</caption>
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
@@ -91,9 +87,9 @@
 
 		<h2>Long-Width Table</h2>
 
-		<h3>With Neat Wrap</h3>
+		<h3>With Neat Width &amp; Usable View</h3>
 
-		<table class="neat-width">
+		<table class="target">
 			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table.</caption>
 			<thead>
 				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
