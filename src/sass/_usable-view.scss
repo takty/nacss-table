@@ -1,0 +1,73 @@
+/**
+ *
+ * Usable View
+ *
+ * @author Takuto Yanagida
+ * @version 2021-01-18
+ *
+ */
+
+
+$stile-table-color-header-text           : rgba(#000, 0.95) !default;
+$stile-table-color-header-background     : rgba(#eee, 0.75) !default;  // Must have transparency for scroll shadow.
+$stile-table-color-header-background-base: rgba(#fff, 0.75) !default;  // Must have transparency for scroll shadow.
+$stile-table-color-scrollbar-background  : $stile-table-color-header-background !default;
+
+
+@mixin usable-view {
+	@include stile-table-fixed-header;
+	@include stile-table-pseudo-scroll-bar;
+}
+
+@mixin stile-table-fixed-header {
+	div[data-stile ~= 'fixed-table-header-container'] {
+		position        : fixed;
+		top             : 0;
+		z-index         : 99;
+		margin          : 0 !important;  // for cancel 'stile-margin-inside'
+		overflow-x      : hidden;
+		background-color: $stile-table-color-header-background-base;
+		box-shadow      : 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+
+		display: none;
+		@media print { display: none !important; }
+	}
+	div[data-stile ~= 'fixed-table-header-table'] {
+		display: table;
+		margin : 0;
+
+		overflow-x     : hidden;
+		pointer-events : none;
+		backdrop-filter: blur(0.1rem);  // for iOS
+
+		border-collapse: collapse;
+		border-spacing : 0;
+
+		thead td,
+		th {
+			color           : $stile-table-color-header-text;
+			background-color: $stile-table-color-header-background;
+		}
+	}
+}
+
+@mixin stile-table-pseudo-scroll-bar {
+	div[data-stile ~= 'fixed-table-scroll-bar'] {
+		position  : fixed;
+		bottom    : 0;
+		z-index   : 99;
+		margin    : 0;
+		overflow-x: auto;
+		overflow-y: hidden;  // for IE11 & Edge
+
+		height: calc(1rem + 2px);  // for Safari
+		border: 1px solid rgba($stile-table-color-scrollbar-background, 0.1);  // for Safari
+
+		display: none;
+		@media print { display: none !important; }
+
+		> div {  // Spacer
+			height: 1px;
+		}
+	}
+}

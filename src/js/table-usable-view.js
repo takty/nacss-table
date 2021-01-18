@@ -1,9 +1,9 @@
 /**
  *
- * Table Style - Fixed Header (JS)
+ * Table Style - Usable View (JS)
  *
  * @author Takuto Yanagida
- * @version 2021-01-04
+ * @version 2021-01-18
  *
  */
 
@@ -13,7 +13,7 @@ window.NACSS = window['NACSS'] || {};
 
 (function (NS) {
 
-	//=include _fixed-header.js
-	NS.tableFixedHeader = initialize;
+	//=include _usable-view.js
+	NS.tableUsableView = initialize;
 
 })(window.NACSS);
