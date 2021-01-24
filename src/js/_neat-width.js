@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-17
+ * @version 2021-01-24
  *
  */
 
@@ -165,8 +165,8 @@ function onScroll(tab, cMet) {
 
 function apply(tab, cMet) {
 	tab.removeAttribute('width');
-	tab.style.width = null;
-	tab.style.height = null;
+	if (tab.style.width) tab.style.width = null;
+	if (tab.style.height) tab.style.height = null;
 
 	const grid  = makeCellGrid(tab);
 	const met   = Object.assign(getMetrics(tab, grid), cMet);
