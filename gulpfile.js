@@ -8,7 +8,7 @@ const $ = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
 
 const plumberOptions = {
 	errorHandler: function (err) {
-		console.log(err.messageFormatted);
+		console.log(err.messageFormatted ?? err);
 		this.emit('end');
 	}
 };
