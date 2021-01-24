@@ -113,20 +113,6 @@ function isTarget(tab, cMet) {
 // -------------------------------------------------------------------------
 
 
-function addClass(tar, cls) {
-	if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
-	else tar.classList.add(cls.substr(1));
-}
-
-function removeClass(tar, cls) {
-	if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
-	else tar.classList.remove(cls.substr(1));
-}
-
-
-// -------------------------------------------------------------------------
-
-
 function initScroll(tabs, cMet) {
 	const rob = new ResizeObserver(oes => {
 		for (const oe of oes) onScroll(oe.target, cMet);
@@ -134,17 +120,6 @@ function initScroll(tabs, cMet) {
 	for (const t of tabs) {
 		rob.observe(t);
 		t.addEventListener('scroll', throttle(() => { onScroll(t, cMet); }));
-	}
-	function throttle(fn) {
-		let isRunning;
-		return () => {
-			if (isRunning) return;
-			isRunning = true;
-			requestAnimationFrame(() => {
-				isRunning = false;
-				fn();
-			});
-		};
 	}
 }
 
@@ -343,4 +318,30 @@ function setCellWidth(grid, ws) {
 			gc.style.width      = null;
 		}
 	}
+}
+
+
+// Utilities ---------------------------------------------------------------
+
+
+function addClass(tar, cls) {
+	if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
+	else tar.classList.add(cls.substr(1));
+}
+
+function removeClass(tar, cls) {
+	if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
+	else tar.classList.remove(cls.substr(1));
+}
+
+function throttle(fn) {
+	let isRunning;
+	return (...args) => {
+		if (isRunning) return;
+		isRunning = true;
+		requestAnimationFrame(() => {
+			isRunning = false;
+			fn(...args);
+		});
+	};
 }
