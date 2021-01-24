@@ -1,66 +1,93 @@
 /**
  *
- * Usable View (JS)
+ * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-01-20
+ * @version 2021-01-25
  *
  */
 
 
-const ST_HEADER_CONTAINER = 'fixed-table-header-container';
-const ST_HEADER_TABLE     = 'fixed-table-header-table';
-const ST_SCROLL_BAR       = 'fixed-table-scroll-bar';
+function initialize(tabs, opts = {}) {
+	if (tabs.length === 0) return;
+	const cm = Object.assign({
+		capableWindowHeightRate: 0.9,
+		styleHeaderContainer   : ':ncTableFixedHeaderContainer',
+		styleHeaderTable       : ':ncTableFixedHeaderTable',
+		styleScrollBar         : ':ncTableFixedScrollBar',
 
-const CAPABLE_WINDOW_HEIGHT_RATIO = 0.9;
+		styleFixedHeader       : ':ncFixedHeader',
+		styleScrollRight       : ':ncScrollRight',
+		styleScrollLeft        : ':ncScrollLeft',
+		offset                 : 0,
+	}, opts);
 
-let getOffset = () => { return 0; };
+	const cs = [], ts = [...tabs];
+	for (const tab of ts) {
+		const head = _createHeaderClone(tab, cm);
+		const bar  = _createBarClone(tab, cm);
+		cs.push({ tab, head, bar });
 
-
-// -------------------------------------------------------------------------
-
-
-function initialize(tabs) {
-	const cs = [];
-	for (const t of tabs) {
-		const c = _create(t);
-		setTimeout(() => { _initialize(c.tab, c.head, c.bar); }, 10);
-		cs.push(c);
+		let forced = false;
+		const el = (tar, op) => throttle(() => {
+			if (forced) {
+				forced = false;
+			} else {
+				forced = true;
+				op.scrollLeft = tar.scrollLeft;
+				if (head) onTableScroll(tab, head, cm);
+			}
+		});
+		tab.addEventListener('scroll', el(tab, bar));
+		bar.addEventListener('scroll', el(bar, tab));
 	}
-	window.addEventListener('scroll', throttle(() => { for (const c of cs) {
-		onWindowScroll(c.tab, c.head, c.bar);
-	}}), { passive: true });
+	const ro = new ResizeObserver((es) => {
+		for (const e of es) {
+			const idx = ts.indexOf(e.target);
+			const c = cs[idx];
+			onResize(e.contentRect, c.tab, c.head, c.bar, cm);
+		}
+	});
+	for (const t of ts) ro.observe(t);
+
+	window.addEventListener('scroll', throttle(() => {
+		for (const c of cs) onWindowScroll(c.tab, c.head, c.bar, cm);
+	}), { passive: true });
+
+	const sel = getSelector(cm.styleFixedHeader);
+	if (sel) {
+		const elm = document.querySelector(sel);
+		if (elm) {
+			const rob = new ResizeObserver(es => {
+				cm.offset = es[0].contentRect.bottom;
+				for (const c of cs) onResize(null, c.tab, c.head, c.bar, cm);
+			});
+			rob.observe(elm);
+		}
+	}
 }
 
-function _create(tab) {
-	const head = createHeaderClone(tab);
-	const bar = createScrollBarClone(tab);
-	return {tab, head, bar};
-}
-
-function createHeaderClone(tab) {
+function _createHeaderClone(tab, cm) {
 	let thead = tab.tHead;
 	if (!thead) {
-		thead = createPseudoHeader(tab);
+		thead = _createPseudoHeader(tab);
 		if (!thead) return null;
 		tab.tHead = thead;
 	}
-	const cont = document.createElement('div');
-	cont.dataset.stile += ' ' + ST_HEADER_CONTAINER;
-	tab.parentNode.appendChild(cont);
+	const hc = document.createElement('div');
+	enableClass(true, hc, cm.styleHeaderContainer);
+	tab.parentNode.appendChild(hc);
 
-	const ptab = document.createElement('div');
-	ptab.dataset.stile += ' ' + ST_HEADER_TABLE;
-	cont.appendChild(ptab);
+	const ht = document.createElement('div');
+	enableClass(true, ht, cm.styleHeaderTable);
+	hc.appendChild(ht);
 
-	const clone = thead.cloneNode(true);
-	ptab.appendChild(clone);
-	return cont;
+	ht.appendChild(thead.cloneNode(true));
+	return hc;
 }
 
-function createPseudoHeader(tab) {
-	const tbody = tab.tBodies[0];
-	const trs = tbody.rows;
+function _createPseudoHeader(tab) {
+	const trs = tab.tBodies[0].rows;
 	if (trs.length === 0) return null;
 
 	function containsOnlyTh(tr) {
@@ -69,85 +96,53 @@ function createPseudoHeader(tab) {
 		if (tds.length === 0 && ths.length > 0) return true;
 		return false;
 	}
-
 	const trsH = [];
-	for (let i = 0, I = trs.length; i < I; i += 1) {
-		const tr = trs[i];
+	for (const tr of trs) {
 		if (!containsOnlyTh(tr)) break;
 		trsH.push(tr);
 	}
 	if (trsH.length === 0) return null;
 
 	const thead = tab.createTHead();
-	for (let i = 0; i < trsH.length; i += 1) {
-		thead.appendChild(trsH[i]);
-	}
+	for (const tr of trsH) thead.appendChild(tr);
 	return thead;
 }
 
-function createScrollBarClone(tab) {
-	const e = document.createElement('div');
-	e.dataset.stile += ' ' + ST_SCROLL_BAR;
+function _createBarClone(tab, cm) {
+	const bar = document.createElement('div');
+	enableClass(true, bar, cm.styleScrollBar);
 	const spacer = document.createElement('div');
-	e.appendChild(spacer);
-	tab.parentNode.appendChild(e);
-	return e;
+	bar.appendChild(spacer);
+	tab.parentNode.appendChild(bar);
+	return bar;
 }
 
 
 // ---------------------------------------------------------------------
 
 
-function _initialize(tab, head, bar) {
-	initTableScroll(tab, head, bar);
-	new ResizeObserver((e) => {
-		onResize(e[0].contentRect, tab, head, bar);
-	}).observe(tab);
+function onResize(r, tab, head, bar, cm) {
+	tab.style.overflowX = (tab.scrollWidth < tab.clientWidth + 2) ? 'hidden' : null;
+
+	if (head) _updateHeaderSize(r, tab, head, cm);
+	if (bar) _updateScrollBarSize(tab, bar);
+	if (head || bar) onWindowScroll(tab, head, bar, cm);
+	if (head) onTableScroll(tab, head, cm);
 }
 
-function initTableScroll(tab, head, bar) {
-	let forced = false;
-	const el = (tar, op) => throttle(() => {
-		if (forced) {
-			forced = false;
-		} else {
-			forced = true;
-			op.scrollLeft = tar.scrollLeft;
-			onTableScroll(tab, head);
-		}
-	});
-	tab.addEventListener('scroll', el(tab, bar));
-	bar.addEventListener('scroll', el(bar, tab));
-}
-
-
-// ---------------------------------------------------------------------
-
-
-function onResize(r, tab, head, bar) {
-	tab.style.overflowX = (tab.scrollWidth < tab.clientWidth + 2) ? 'hidden' : '';
-
-	if (head) _updateHeaderSize(r, tab, head);
-	if (bar) updateScrollBarSize(tab, bar);
-	if (head || bar) onWindowScroll(tab, head, bar);
-	onTableScroll(tab, head);
-}
-
-function _updateHeaderSize(r, tab, head) {
+function _updateHeaderSize(r, tab, head, cm) {
 	const tw = r ? r.width : tab.getBoundingClientRect().width;
 	head.style.maxWidth = tw + 'px';
-	head.style.display = 'none';
-	head.style.top = getOffset() + 'px';
+	head.style.display  = 'none';
+	head.style.top      = cm.offset + 'px';
 
 	const thead = tab.tHead;
 	const hw = thead.getBoundingClientRect().width;
-	const ptab = head.firstChild;
-	ptab.style.width = hw + 'px';
-
-	const clone = ptab.firstChild;
+	const ht = head.firstChild;
+	ht.style.width = hw + 'px';
 
 	const oTrs = thead.rows;
-	const cTrs = clone.rows;
+	const cTrs = ht.firstChild.rows;
 	for (let i = 0; i < oTrs.length; i += 1) {
 		copyWidth(oTrs[i], cTrs[i], 'td');
 		copyWidth(oTrs[i], cTrs[i], 'th');
@@ -161,10 +156,14 @@ function _updateHeaderSize(r, tab, head) {
 	}
 }
 
-function updateScrollBarSize(tab, bar) {
+function _updateScrollBarSize(tab, bar) {
+	const disabled = (tab.scrollWidth < tab.clientWidth + 2);
+	bar.style.overflowX     = disabled ? 'hidden' : null;
+	bar.style.pointerEvents = disabled ? 'none'   : null;
+
 	bar.style.maxWidth = `${tab.clientWidth}px`;
 	bar.style.display = 'none';
-	const h = parseInt(getScrollBarWidth());
+	const h = parseInt(getScrollBarWidth(document.documentElement));
 	if (0 < h) bar.style.height = (h + 2) + 'px';
 	bar.firstChild.style.width = `${tab.scrollWidth}px`;
 }
@@ -173,79 +172,72 @@ function updateScrollBarSize(tab, bar) {
 // ---------------------------------------------------------------------
 
 
-function onWindowScroll(tab, head, bar) {
+function onWindowScroll(tab, head, bar, cm) {
 	const r = tab.getBoundingClientRect();
-	const tabBottom = r.bottom;
+	const tBottom = r.bottom;
 	const rh = tab.tHead.getBoundingClientRect();
-	const headTop = rh.top, headBottom = rh.bottom;
+	const hTop = rh.top, hBottom = rh.bottom;
+	const wY0 = cm.offset, wY1 = window.innerHeight;
 
-	const offset = getOffset();
-	const headH = tab.tHead.offsetHeight;
-	const inView = tabBottom - headTop < CAPABLE_WINDOW_HEIGHT_RATIO * (window.innerHeight - offset);
-
-	let headVisible = false;
-	if (inView) {  // do nothing
-	} else if (tabBottom - headH < offset) {  // do nothing
-	} else if (headTop < offset) {
-		headVisible = true;
+	const inView = tBottom - hTop < cm.capableWindowHeightRate * (wY1 - wY0);
+	const tLeft = r.left, tScrollLeft = tab.scrollLeft;
+	if (head) {
+		const hCy = tab.tHead.offsetHeight;
+		const f = (!inView && hTop < wY0 && wY0 < tBottom - hCy);
+		_updateHeaderVisibility(head, f, tLeft, tScrollLeft);
 	}
-	let barVisible = false;
-	if (inView) {  // do nothing
-	} else if (window.innerHeight < headBottom) {  // do nothing
-	} else if (tabBottom < window.innerHeight) {  // do nothing
-	} else if (tab.scrollWidth - tab.clientWidth > 2) {
-		barVisible = true;
+	if (bar) {
+		const f = (!inView && hBottom < wY1 && wY1 < tBottom);
+		_updateBarVisibility(bar, f, tLeft, tScrollLeft);
 	}
-	if (head) updateHeaderVisibility(tab, head, headVisible, r.left);
-	if (bar) updateScrollBarVisibility(tab, bar, barVisible, r.left);
 }
 
-function updateHeaderVisibility(tab, head, visible, tabLeft) {
-	if (visible) {
-		head.style.top     = getOffset() + 'px';
-		head.style.display = 'block';
-	} else {
-		head.style.display = 'none';
-	}
-	head.style.left = tabLeft + 'px';
-	head.scrollLeft = tab.scrollLeft;
+function _updateHeaderVisibility(head, visible, tabLeft, tabScrollLeft) {
+	head.style.display = visible ? 'block' : 'none';
+	head.style.left    = tabLeft + 'px';
+	head.scrollLeft    = tabScrollLeft;
 }
 
-function updateScrollBarVisibility(tab, bar, visible, tabLeft) {
+function _updateBarVisibility(bar, visible, tabLeft, tabScrollLeft) {
 	bar.style.display = visible ? 'block' : 'none';
-	bar.style.left = tabLeft + 'px';
-	bar.scrollLeft = tab.scrollLeft;
+	bar.style.left    = tabLeft + 'px';
+	bar.scrollLeft    = tabScrollLeft;
 }
 
 
 // ---------------------------------------------------------------------
 
 
-function onTableScroll(tab, head) {
+function onTableScroll(tab, head, cm) {
 	const sL = Math.max(0, Math.min(tab.scrollLeft, tab.scrollWidth - tab.offsetWidth));  // for iOS
-	if (head) head.scrollLeft = sL;
+	head.scrollLeft = sL;
+
+	if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
+		const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
+		enableClass(r < 0.95, head, cm.styleScrollRight);
+		enableClass(0.05 < r, head, cm.styleScrollLeft);
+	} else {
+		enableClass(false, head, cm.styleScrollRight);
+		enableClass(false, head, cm.styleScrollLeft);
+	}
 }
 
 
 // Utilities ---------------------------------------------------------------
 
 
-function throttle(fn) {
-	let isRunning;
-	return (...args) => {
-		if (isRunning) return;
-		isRunning = true;
-		requestAnimationFrame(() => {
-			isRunning = false;
-			fn(...args);
-		});
-	};
+function getSelector(cls) {
+	if (cls.startsWith(':')) {
+		return `*[data-${cls.substr(1).replace(/([A-Z])/g, c => '-' + c.charAt(0).toLowerCase())}]`;
+	} else {
+		return `*${cls}`;
+	}
 }
 
-function getScrollBarWidth() {
+function getScrollBarWidth(parent) {
 	const d = document.createElement('div');
-	d.setAttribute('style', `position:absolute;bottom:100%;width:calc(100vw - 100%);height:1px;`);
-	document.body.appendChild(d);
+	d.setAttribute('style', 'position:absolute;bottom:100%;width:calc(100vw - 100%);height:1px;');
+	parent.appendChild(d);
 	let width = 0 | window.getComputedStyle(d).getPropertyValue('width');
 
 	if (width === 0) {  // Window does not have any scroll bar
@@ -257,6 +249,6 @@ function getScrollBarWidth() {
 		const cw = 0 | window.getComputedStyle(c).getPropertyValue('width');
 		width = d.offsetWidth - cw;
 	}
-	document.body.removeChild(d);
+	parent.removeChild(d);
 	return width;
 }
