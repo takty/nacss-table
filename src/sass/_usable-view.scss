@@ -3,58 +3,62 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-01-20
+ * @version 2021-01-25
  *
  */
 
 
-@mixin usable-view {
-	@include stile-table-fixed-header;
-	@include stile-table-pseudo-scroll-bar;
+@mixin style-fixed-header-container {
+	display   : none;
+	position  : fixed;
+	top       : 0;
+	z-index   : 99;
+	margin    : 0 !important;  // for cancel 'stile-margin-inside'
+	overflow-x: hidden;
+
+	box-shadow: 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+	&[data-nc-scroll-right], &[data-nc-scroll-left]  {
+		box-shadow: inset  2rem 0 1rem -1rem rgba(#000, 0.25),
+					inset -2rem 0 1rem -1rem rgba(#000, 0.25),
+					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+	}
+	&[data-nc-scroll-right]:not([data-nc-scroll-left]) {
+		box-shadow: inset -2rem 0 1rem -1rem rgba(#000, 0.25),
+					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+	}
+	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
+		box-shadow: inset 2rem 0 1rem -1rem rgba(#000, 0.25),
+					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+	}
+
+	@media print { display: none !important; }
 }
 
-@mixin stile-table-fixed-header {
-	div[data-stile ~= 'fixed-table-header-container'] {
-		position        : fixed;
-		top             : 0;
-		z-index         : 99;
-		margin          : 0 !important;  // for cancel 'stile-margin-inside'
-		overflow-x      : hidden;
-		box-shadow      : 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+@mixin style-fixed-header-table {
+	display: table;
+	margin : 0;
 
-		display: none;
-		@media print { display: none !important; }
-	}
-	div[data-stile ~= 'fixed-table-header-table'] {
-		display: table;
-		margin : 0;
+	overflow-x     : hidden;
+	pointer-events : none;
+	backdrop-filter: blur(0.1rem);
 
-		overflow-x     : hidden;
-		pointer-events : none;
-		backdrop-filter: blur(0.1rem);
-
-		border-collapse: collapse;
-		border-spacing : 0;
-	}
+	border-collapse: collapse;
+	border-spacing : 0;
 }
 
-@mixin stile-table-pseudo-scroll-bar {
-	div[data-stile ~= 'fixed-table-scroll-bar'] {
-		position  : fixed;
-		bottom    : 0;
-		z-index   : 99;
-		margin    : 0;
-		overflow-x: auto;
-		overflow-y: hidden;  // for IE11 & Edge
+@mixin style-fixed-scroll-bar {
+	position  : fixed;
+	bottom    : 0;
+	z-index   : 99;
+	margin    : 0;
+	overflow-x: auto;
+	overflow-y: hidden;  // for IE11 & Edge
 
-		height: calc(1rem + 2px);  // for Safari
-		border: 1px solid transparent;
+	height: calc(1rem + 2px);  // for Safari
+	border: 1px solid transparent;
 
-		display: none;
-		@media print { display: none !important; }
+	display: none;
+	@media print { display: none !important; }
 
-		> div {  // Spacer
-			height: 1px;
-		}
-	}
+	> div { height: 1px; }  // Spacer
 }

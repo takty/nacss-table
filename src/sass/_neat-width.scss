@@ -3,19 +3,19 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-24
+ * @version 2021-01-25
  *
  */
 
 
-@mixin styleNeat {
+@mixin style-neat {
 	display  : block;
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
 }
 
-@mixin styleFull {
+@mixin style-full {
 	width: 100%;
 }
 
@@ -23,7 +23,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin styleScroll {
+@mixin style-scroll {
 	--background-color: #fff;
 
 	caption {
@@ -46,10 +46,10 @@
 				inset -2rem 0 1rem -1rem rgba(#000, 0.1);
 }
 
-@mixin styleScrollRight {
+@mixin style-scroll-right {
 	box-shadow: inset -2rem 0 1rem -1rem rgba(#000, 0.1);
 }
 
-@mixin styleScrollLeft {
+@mixin style-scroll-left {
 	box-shadow: inset 2rem 0 1rem -1rem rgba(#000, 0.1);
 }

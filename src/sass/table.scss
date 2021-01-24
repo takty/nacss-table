@@ -3,33 +3,41 @@
  * Table Style
  *
  * @author Takuto Yanagida
- * @version 2021-01-18
+ * @version 2021-01-25
  *
  */
 
 
 @use 'neat-width';
-@use 'usable-view' as *;
+@use 'usable-view';
 
 
 table[data-nc-table-neat] {
-	@include neat-width.styleNeat;
+	@include neat-width.style-neat;
 }
 table[data-nc-table-full] {
-	@include neat-width.styleFull;
+	@include neat-width.style-full;
 }
 table[data-nc-scroll-right], table[data-nc-scroll-left]  {
-	@include neat-width.styleScroll;
+	@include neat-width.style-scroll;
 }
 table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-	@include neat-width.styleScrollRight;
+	@include neat-width.style-scroll-right;
 }
 table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-	@include neat-width.styleScrollLeft;
+	@include neat-width.style-scroll-left;
 }
 
 
 // -----------------------------------------------------------------------------
 
 
-@include usable-view;
+div[data-nc-table-fixed-header-container] {
+	@include usable-view.style-fixed-header-container;
+}
+div[data-nc-table-fixed-header-table] {
+	@include usable-view.style-fixed-header-table;
+}
+div[data-nc-table-fixed-scroll-bar] {
+	@include usable-view.style-fixed-scroll-bar;
+}
