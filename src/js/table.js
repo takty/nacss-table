@@ -3,7 +3,7 @@
  * Table Style (JS)
  *
  * @author Takuto Yanagida
- * @version 2021-01-18
+ * @version 2021-01-25
  *
  */
 
@@ -22,5 +22,7 @@ window.NACSS = window['NACSS'] || {};
 		//=include _usable-view.js
 		NS.tableUsableView = initialize;
 	})();
+
+	//=include _utilities.js
 
 })(window.NACSS);
