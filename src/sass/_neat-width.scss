@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-17
+ * @version 2021-01-24
  *
  */
 
@@ -25,7 +25,6 @@
 
 @mixin styleScroll {
 	--background-color: #fff;
-	position: relative;
 
 	caption {
 		display: block;
