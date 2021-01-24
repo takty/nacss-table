@@ -43,7 +43,7 @@ function initialize(tabs, opts = {}) {
 		const delay = (cm.before) ? (cm.before(t) ?? 0) : false;
 		st(() => {
 			apply(t, cm);
-			addClass(t, cm.styleNeat);
+			enableClass(true, t, cm.styleNeat);
 			if (cm.after) cm.after(t);
 			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 		}, delay);
@@ -51,7 +51,7 @@ function initialize(tabs, opts = {}) {
 	if (cm.fullWidthRate) {
 		for (const t of noTarTabs) {
 			const pw = t.parentElement.clientWidth;
-			if (pw * cm.fullWidthRate < t.clientWidth) addClass(t, cm.styleFull);
+			if (pw * cm.fullWidthRate < t.clientWidth) enableClass(true, t, cm.styleFull);
 		}
 	}
 	function st(fn, d) { (d === false) ? fn() : setTimeout(fn, d); }
@@ -126,11 +126,11 @@ function initScroll(tabs, cMet) {
 function onScroll(tab, cMet) {
 	if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
 		const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
-		(0.95 < r ? removeClass : addClass)(tab, cMet.styleScrollRight);
-		(r < 0.05 ? removeClass : addClass)(tab, cMet.styleScrollLeft);
+		enableClass(r < 0.95, tab, cMet.styleScrollRight);
+		enableClass(0.05 < r, tab, cMet.styleScrollLeft);
 	} else {
-		removeClass(tab, cMet.styleScrollRight);
-		removeClass(tab, cMet.styleScrollLeft);
+		enableClass(false, tab, cMet.styleScrollRight);
+		enableClass(false, tab, cMet.styleScrollLeft);
 	}
 }
 
@@ -324,14 +324,14 @@ function setCellWidth(grid, ws) {
 // Utilities ---------------------------------------------------------------
 
 
-function addClass(tar, cls) {
-	if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
-	else tar.classList.add(cls.substr(1));
-}
-
-function removeClass(tar, cls) {
-	if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
-	else tar.classList.remove(cls.substr(1));
+function enableClass(enabled, tar, cls) {
+	if (enabled) {
+		if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
+		else tar.classList.add(cls.substr(1));
+	} else {
+		if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
+		else tar.classList.remove(cls.substr(1));
+	}
 }
 
 function throttle(fn) {
