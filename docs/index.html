@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta charset="utf-8">
-	<title>nacss-table</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="style.css">
-	<link rel="stylesheet" href="table.min.css">
-	<script src="table.min.js"></script>
-	<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const tabs = document.querySelectorAll('table.target');
-		NACSS.tableNeatWidth(tabs, {});
-		NACSS.tableUsableView(tabs, {});
-	});
-	</script>
+<meta charset="utf-8">
+<title>nacss-table</title>
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./css/style.min.css">
+<link rel="stylesheet" href="./css/table.min.css">
+<script src="./js/table.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+	const tabs = document.querySelectorAll('table.target');
+	NACSS.tableNeatWidth(tabs, {});
+	NACSS.tableUsableView(tabs, {});
+});
+</script>
 </head>
 
 <body>
@@ -72,19 +70,6 @@
 			</tbody>
 		</table>
 
-		<h3>Without Neat Wrap</h3>
-
-		<table>
-			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
-			</thead>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td>Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-		</table>
-
 		<h2>Long-Width Table</h2>
 
 		<h3>With Neat Width &amp; Usable View</h3>
@@ -104,21 +89,6 @@
 			</tfoot>
 		</table>
 
-		<h3>Without Neat Wrap</h3>
-
-		<table>
-			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
-			</thead>
-			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
-			</tbody>
-			<tfoot>
-				<tr><td colspan="6">Total revenue: US$&nbsp;375.499 billion</td></tr>
-			</tfoot>
-		</table>
 	</main>
 
 </body>

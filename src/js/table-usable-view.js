@@ -13,9 +13,9 @@ window.NACSS = window['NACSS'] || {};
 
 (function (NS) {
 
-	//=include _usable-view.js
+	// @include _usable-view.js
 	NS.tableUsableView = initialize;
 
-	//=include _usable-view.js
+	// @include _usable-view.js
 
 })(window.NACSS);

@@ -13,9 +13,9 @@ window.NACSS = window['NACSS'] || {};
 
 (function (NS) {
 
-	//=include _neat-width.js
+	// @include _neat-width.js
 	NS.tableNeatWidth = initialize;
 
-	//=include _usable-view.js
+	// @include _usable-view.js
 
 })(window.NACSS);
