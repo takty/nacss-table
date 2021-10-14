@@ -20,13 +20,6 @@ const { makeTimestampTask } = require('./task-timestamp');
 // -----------------------------------------------------------------------------
 
 
-const plumberOptions = {
-	errorHandler: function (err) {
-		console.log(err.messageFormatted ?? err);
-		this.emit('end');
-	}
-};
-
 const js = makeJsTask('src/js/[^_]*.js', './dist/js', './src/js');
 
 const sass = makeSassTask('./src/sass/[^_]*.scss', './dist/css', './src/sass');
