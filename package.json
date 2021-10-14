@@ -1,6 +1,6 @@
 {
 	"name": "nacss-table",
-	"version": "0.20.12",
+	"version": "1.0.0",
 	"description": "A Table Style Sheet",
 	"author": "Takuto Yanagida",
 	"main": "gulpfile.js",
