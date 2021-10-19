@@ -3,12 +3,12 @@
  * Table Style - Neat Width (JS)
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-19
  *
  */
 
 
-window.NACSS = window['NACSS'] || {};
+window['NACSS'] = window['NACSS'] || {};
 
 
 (function (NS) {
@@ -16,6 +16,6 @@ window.NACSS = window['NACSS'] || {};
 	// @include _neat-width.js
 	NS.tableNeatWidth = initialize;
 
-	// @include _usable-view.js
+	// @include _utilities.js
 
-})(window.NACSS);
+})(window['NACSS']);
