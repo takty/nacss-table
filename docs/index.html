@@ -3,24 +3,22 @@
 <head>
 <meta charset="utf-8">
 <title>nacss-table</title>
-<meta name="description" content="">
-<meta name="author" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/style.min.css">
-<link rel="stylesheet" href="./css/table.min.css">
-<script src="./js/table.min.js"></script>
+<link rel="stylesheet" href="./css/style.min.css?v220733t">
+<link rel="stylesheet" href="./css/table.min.css?v220733t">
+<script src="./js/table.min.js?v220733t"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 	const tabs = document.querySelectorAll('table.target');
-	NACSS.tableNeatWidth(tabs, {});
-	NACSS.tableUsableView(tabs, {});
+	NACSS.tableNeatWidth(tabs);
+	NACSS.tableUsableView(tabs);
 });
 </script>
 </head>
 
 <body>
-	<header role="banner" data-nc-fixed-header style="position: sticky; top: 0; border: 1px solid red;">
-		<h1>nacss-table</h1>
+	<header role="banner">
+		<h1>Table</h1>
 	</header>
 
 	<main>
