@@ -3,7 +3,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-25
  *
  */
 
@@ -45,7 +45,7 @@ function initialize(tabs, opts = {}) {
 		for (const e of es) {
 			const idx = ts.indexOf(e.target);
 			const c = cs[idx];
-			onResize(e.contentRect, c.tab, c.head, c.bar, cm);
+			doResize(e.contentRect, c.tab, c.head, c.bar, cm);
 		}
 	});
 	for (const t of ts) ro.observe(t);
@@ -54,17 +54,14 @@ function initialize(tabs, opts = {}) {
 		for (const c of cs) onWindowScroll(c.tab, c.head, c.bar, cm);
 	}), { passive: true });
 
-	const sel = getSelector(cm.styleFixedHeader);
-	if (sel) {
-		const elm = document.querySelector(sel);
-		if (elm) {
-			const rob = new ResizeObserver(es => {
-				cm.offset = es[0].contentRect.bottom;
-				for (const c of cs) onResize(null, c.tab, c.head, c.bar, cm);
-			});
-			rob.observe(elm);
-		}
-	}
+	let st = null;
+	onResize(() => {
+		cm.offset = getScrollOffset();
+		if (st) clearTimeout(st);
+		st = setTimeout(() => {
+			for (const c of cs) doResize(null, c.tab, c.head, c.bar, cm);
+		}, 100);
+	}, true);
 }
 
 function _createHeaderClone(tab, cm) {
@@ -121,7 +118,7 @@ function _createBarClone(tab, cm) {
 // ---------------------------------------------------------------------
 
 
-function onResize(r, tab, head, bar, cm) {
+function doResize(r, tab, head, bar, cm) {
 	tab.style.overflowX = (tab.scrollWidth < tab.clientWidth + 2) ? 'hidden' : null;
 
 	if (head) _updateHeaderSize(r, tab, head, cm);
@@ -225,14 +222,6 @@ function onTableScroll(tab, head, cm) {
 
 // Utilities ---------------------------------------------------------------
 
-
-function getSelector(cls) {
-	if (cls.startsWith(':')) {
-		return `*[data-${cls.substr(1).replace(/([A-Z])/g, c => '-' + c.charAt(0).toLowerCase())}]`;
-	} else {
-		return `*${cls}`;
-	}
-}
 
 function getScrollBarWidth(parent) {
 	const d = document.createElement('div');

@@ -3,20 +3,45 @@
  * Utilities
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-25
  *
  */
 
 
 function enableClass(enabled, tar, cls) {
-	if (enabled) {
-		if (cls.startsWith(':')) tar.dataset[cls.substr(1)] = '';
-		else tar.classList.add(cls.substr(1));
+	const key = cls.substr(1);
+	if (cls.startsWith(':')) {
+		if (enabled) {
+			tar.dataset[key] = '';
+		} else {
+			delete tar.dataset[key];
+		}
 	} else {
-		if (cls.startsWith(':')) delete tar.dataset[cls.substr(1)];
-		else tar.classList.remove(cls.substr(1));
+		if (enabled) {
+			tar.classList.add(key);
+		} else {
+			tar.classList.remove(key);
+		}
+
 	}
 }
+
+function getSelector(cls) {
+	if (cls.startsWith(':')) {
+		return `*[data-${cls.substr(1).replace(/([A-Z])/g, c => '-' + c.charAt(0).toLowerCase())}]`;
+	} else {
+		return `*${cls}`;
+	}
+}
+
+function getScrollOffset() {
+	const s = getComputedStyle(document.getElementsByTagName('html')[0]);
+	return parseInt(s.scrollPaddingTop);
+}
+
+
+// -----------------------------------------------------------------------------
+
 
 function throttle(fn) {
 	let isRunning;
@@ -29,3 +54,16 @@ function throttle(fn) {
 		});
 	};
 }
+
+const resizeListeners = [];
+
+function onResize(fn, doFirst = false) {
+	if (doFirst) fn();
+	resizeListeners.push(throttle(fn));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+	window.addEventListener('resize', () => {
+		for (const l of resizeListeners) l();
+	}, { passive: true });
+});
