@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <title>nacss-table</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/style.min.css?v220733t">
-<link rel="stylesheet" href="./css/table.min.css?v220733t">
-<script src="./js/table.min.js?v220733t"></script>
+<link rel="stylesheet" href="./css/style.min.css?v131043t">
+<link rel="stylesheet" href="./css/table.min.css?v131043t">
+<script src="./js/table.min.js?v131043t"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-	const tabs = document.querySelectorAll('table.target');
+	const tabs = document.querySelectorAll('table');
 	NACSS.tableNeatWidth(tabs);
 	NACSS.tableUsableView(tabs);
 });
@@ -26,67 +26,275 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		<h3>With Neat Width &amp; Usable View</h3>
 
-		<table class="target">
+		<table>
 			<caption>An Example of Narrow-Width Table</caption>
 			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Test</th><th>Number of Employees</th><th>CEO</th></tr>
+				<tr><th>Team Name</th><th>Budget</th><th>Misc.</th><th>Number of Members</th><th>Main Members</th></tr>
 			</thead>
 			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+				<tr>
+					<td rowspan="3">Wales Toads</td>
+					<td>$&nbsp;274.057 billion</td>
+					<td></td>
+					<td>112,268</td>
+					<td>Michael Fraser, Luke Chapman, Ryan Reid, Jessica Quinn</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>15,484</td>
+					<td>Joseph Manning</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>44,117</td>
+					<td>Sarah Hamilton</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Blonde Snakes</td>
+					<td>$&nbsp;38.350 billion</td>
+					<td></td>
+					<td>168,753</td>
+					<td>Gordon Brown, Carl Hart, Neil Grant, Wanda Arnold</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>12,677</td>
+					<td>Felicity North</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>40,533</td>
+					<td>Rose Hudson</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Popular Hippos</td>
+					<td>$&nbsp;152.053 billion</td>
+					<td></td>
+					<td>121,176</td>
+					<td>Kevin Graham, Thomas Hughes, Stephen James, Peter Greene</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>49,741</td>
+					<td>William Parsons</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>37,917</td>
+					<td>David Duncan</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Charming Raiders</td>
+					<td>$&nbsp;15.695 billion</td>
+					<td></td>
+					<td>107,787</td>
+					<td>Joseph Scott, Owen Carr, Melanie Burgess, Owen Gray</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>39,923</td>
+					<td>Rose Wilson</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>16,012</td>
+					<td>Maria Reid</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Scrawny Blue Bottles</td>
+					<td>$&nbsp;388.359 billion</td>
+					<td></td>
+					<td>115,515</td>
+					<td>David Morgan, Virginia Randall, Deirdre Skinner, Carolyn Mathis</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>35,744</td>
+					<td>Robert Watson</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>29,734</td>
+					<td>Thomas McDonald</td>
+				</tr>
 			</tbody>
 			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
-			</tbody>
-			<tbody>
-				<tr><td>Apple</td><td colspan="2" rowspan="2">US$&nbsp;215.639 billion</td><td>115,000</td><td id="test">Tim Cook, Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>114,000</td><td>Satya Nadella</td></tr>
-				<tr><td>Google</td><td colspan="2">US$&nbsp;74.54 billion</td><td>57,100</td><td>Sundar Pichai</td></tr>
+				<tr>
+					<td rowspan="3">Spiteful Buccaneers</td>
+					<td>$&nbsp;10.993 billion</td>
+					<td></td>
+					<td>198,575</td>
+					<td>Katherine McLean, Jacob Oliver, Rebecca Simpson, Owen Poole</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>36,751</td>
+					<td>James Taylor</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>37,055</td>
+					<td>Charles Ogden</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Gentle Giraffes</td>
+					<td>$&nbsp;397.153 billion</td>
+					<td></td>
+					<td>114,683</td>
+					<td>Anthony Randall, Ryan Mathis, Andrea Gray, Sebastian Pullman</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>40,848</td>
+					<td>Paul Coleman</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>26,406</td>
+					<td>Penelope Ball</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Tight-fisted Rangers</td>
+					<td>$&nbsp;17.622 billion</td>
+					<td></td>
+					<td>124,600</td>
+					<td>Lily Watson, Austin Springer, Nathan Gill, Melanie Lyman</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>30,873</td>
+					<td>Dominic Fisher</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>32,680</td>
+					<td>Harry Slater</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Blue Gerbils</td>
+					<td>$&nbsp;305.200 billion</td>
+					<td></td>
+					<td>221,635</td>
+					<td>Keith Parr, Owen Slater, Joseph Howard, Victoria Glover</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>36,632</td>
+					<td>Matt Arnold</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>11,186</td>
+					<td>Gavin Manning</td>
+				</tr>
+
+				<tr>
+					<td rowspan="3">Controlling Horses</td>
+					<td>$&nbsp;27.831 billion</td>
+					<td></td>
+					<td>106,299</td>
+					<td>Irene Hart, Brian MacLeod, Audrey Peters, Joe Murray</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team A</td>
+					<td>30,498</td>
+					<td>Jake James</td>
+				</tr>
+				<tr>
+					<td colspan="2">Sub team B</td>
+					<td>14,734</td>
+					<td>Alexandra Piper</td>
+				</tr>
 			</tbody>
 		</table>
+
+		<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible
+			vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly
+			domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide
+			off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as
+			he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little
+			too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the
+			table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an
+			illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who
+			sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned
+			to look out the window at the dull weather.</p>
 
 		<h2>Long-Width Table</h2>
 
 		<h3>With Neat Width &amp; Usable View</h3>
-
-		<table class="target">
-			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table.</caption>
+		<table>
+			<caption>An Example of Narrow-Width Table. An Example of Narrow-Width Table. An Example of Narrow-Width Table. An
+				Example of Narrow-Width Table.</caption>
 			<thead>
-				<tr><th>Title</th><th>Revenue</th><th>Number of Employees</th><th>Operating System</th><th>CEO</th><th>Founders</th></tr>
+				<tr>
+					<th>Team Name</th>
+					<th>Budget</th>
+					<th>Number of Members</th>
+					<th>First Members</th>
+					<th>Second Members</th>
+					<th>Third Members</th>
+				</tr>
 			</thead>
 			<tbody>
-				<tr><td>Apple</td><td>US$&nbsp;215.639 billion</td><td>115,000</td><td>macOS, iOS</td><td>Tim Cook</td><td>Steve Jobs, Steve Wozniak, Ronald Wayne</td></tr>
-				<tr><td>Microsoft</td><td>US$&nbsp;85.32 billion</td><td>114,000</td><td>Windows</td><td>Satya Nadella</td><td>Bill Gates, Paul Allen</td></tr>
-				<tr><td>Google</td><td>US$&nbsp;74.54 billion</td><td>57,100</td><td>Android</td><td>Sundar Pichai</td><td>Larry Page, Sergey Brin</td></tr>
+				<tr>
+					<td>Grateful Pigeons</td>
+					<td>$&nbsp;171.523 billion</td>
+					<td>197,564</td>
+					<td>Brandon Parr, Thomas Payne, Joan Poole, Megan Smith</td>
+					<td>Rachel Taylor, Olivia Slater, Justin Nolan, Colin Lee</td>
+					<td>Andrea Lee, Chloe Wilson, Dan Sharp, Penelope Stewart</td>
+				</tr>
+				<tr>
+					<td>Helpful Spiders</td>
+					<td>$&nbsp;89.673 billion</td>
+					<td>125,436</td>
+					<td>Michael Ellison, Jason Short, Samantha Vance, Warren Brown</td>
+					<td>Rebecca Murray, Charles Marshall, Abigail Tucker, Kimberly Morrison</td>
+					<td>Zoe Ogden, Liam Young, Bella Smith, Carol Payne</td>
+				</tr>
+				<tr>
+					<td>Skinny Pirates</td>
+					<td>$&nbsp;29.106 billion</td>
+					<td>124,395</td>
+					<td>Andrew Bond, John Oliver, Sue Vaughan, Deirdre Kelly</td>
+					<td>Carl Harris, Penelope Underwood, Katherine Bailey, Ruth Ellison</td>
+					<td>Owen Lawrence, Stephanie Dickens, Alexandra Duncan, Joe Parsons</td>
+				</tr>
 			</tbody>
 			<tfoot>
-				<tr><td colspan="6">Total revenue: US$&nbsp;375.499 billion</td></tr>
+				<tr>
+					<td colspan="6">Total Budget: $&nbsp;375.499 billion</td>
+				</tr>
 			</tfoot>
 		</table>
 
+		<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible
+			vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly
+			domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide
+			off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as
+			he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little
+			too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the
+			table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an
+			illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who
+			sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned
+			to look out the window at the dull weather.</p>
+		<p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible
+			vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly
+			domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide
+			off any moment. His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as
+			he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little
+			too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the
+			table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an
+			illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who
+			sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned
+			to look out the window at the dull weather.</p>
 	</main>
 
 </body>

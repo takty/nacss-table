@@ -21,3 +21,9 @@ header {
 	background-color: rgba(#fff, 0.5);
 	backdrop-filter : blur(4px);
 }
+
+table {
+	td, th {
+		border: 1px solid #eee;
+	}
+}
