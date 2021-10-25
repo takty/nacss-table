@@ -28,7 +28,10 @@
 
 
 @mixin style-scroll {
-	--background-color: #fff;
+	--shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+	--shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+
+	--caption-background-color: #fff;
 
 	caption {
 		display : block;
@@ -36,25 +39,19 @@
 		left    : 0;
 		right   : 0;
 
-		background-color: var(--background-color);
-
-		> span {
-			display   : inline-block;
-			text-align: left;
-		}
+		background-color: var(--caption-background-color);
 	}
 	td, th {
 		position: relative;
 		z-index : -1;
 	}
-	box-shadow: inset  2rem 0 1rem -1rem rgba(#000, 0.1),
-				inset -2rem 0 1rem -1rem rgba(#000, 0.1);
+	box-shadow: var(--shadow-right), var(--shadow-left);
 }
 
 @mixin style-scroll-right {
-	box-shadow: inset -2rem 0 1rem -1rem rgba(#000, 0.1);
+	box-shadow: var(--shadow-right);
 }
 
 @mixin style-scroll-left {
-	box-shadow: inset 2rem 0 1rem -1rem rgba(#000, 0.1);
+	box-shadow: var(--shadow-left);
 }

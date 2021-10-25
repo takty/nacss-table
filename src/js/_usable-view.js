@@ -12,14 +12,13 @@ function initialize(tabs, opts = {}) {
 	if (tabs.length === 0) return;
 	const cm = Object.assign({
 		capableWindowHeightRate: 0.9,
-		styleHeaderContainer   : ':ncTableFixedHeaderContainer',
-		styleHeaderTable       : ':ncTableFixedHeaderTable',
-		styleScrollBar         : ':ncTableFixedScrollBar',
+		styleHeaderContainer   : ':ncTableStickyHeaderContainer',
+		styleHeaderTable       : ':ncTableStickyHeaderTable',
+		styleScrollBar         : ':ncTableStickyScrollBar',
 
-		styleFixedHeader       : ':ncFixedHeader',
-		styleScrollRight       : ':ncScrollRight',
-		styleScrollLeft        : ':ncScrollLeft',
-		offset                 : 0,
+		styleScrollRight: ':ncScrollRight',
+		styleScrollLeft : ':ncScrollLeft',
+		offset          : 0,
 	}, opts);
 
 	const cs = [], ts = [...tabs];

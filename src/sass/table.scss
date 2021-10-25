@@ -3,7 +3,7 @@
  * Table Style
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-25
  *
  */
 
@@ -32,12 +32,12 @@ table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 // -----------------------------------------------------------------------------
 
 
-div[data-nc-table-fixed-header-container] {
-	@include usable-view.style-fixed-header-container;
+div[data-nc-table-sticky-header-container] {
+	@include usable-view.style-sticky-header-container;
 }
-div[data-nc-table-fixed-header-table] {
-	@include usable-view.style-fixed-header-table;
+div[data-nc-table-sticky-header-table] {
+	@include usable-view.style-sticky-header-table;
 }
-div[data-nc-table-fixed-scroll-bar] {
-	@include usable-view.style-fixed-scroll-bar;
+div[data-nc-table-sticky-scroll-bar] {
+	@include usable-view.style-sticky-scroll-bar;
 }

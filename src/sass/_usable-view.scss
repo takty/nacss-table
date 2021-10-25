@@ -3,58 +3,55 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-25
  *
  */
 
 
-@mixin style-fixed-header-container {
+@mixin style-sticky-header-container {
+	--shadow      : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
+	--shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+	--shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+	--background  : #fff;
+
 	display   : none;
 	position  : fixed;
 	top       : 0;
 	z-index   : 99;
-	margin    : 0 !important;  // for cancel 'stile-margin-inside'
+	margin    : 0 !important;  // For canceling base margins
 	overflow-x: hidden;
 
-	box-shadow: 0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+	background: var(--background);
+
+	box-shadow: var(--shadow);
 	&[data-nc-scroll-right], &[data-nc-scroll-left]  {
-		box-shadow: inset  2rem 0 1rem -1rem rgba(#000, 0.25),
-					inset -2rem 0 1rem -1rem rgba(#000, 0.25),
-					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+		box-shadow: var(--shadow), var(--shadow-right), var(--shadow-left);
 	}
 	&[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-		box-shadow: inset -2rem 0 1rem -1rem rgba(#000, 0.25),
-					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+		box-shadow: var(--shadow), var(--shadow-right);
 	}
 	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-		box-shadow: inset 2rem 0 1rem -1rem rgba(#000, 0.25),
-					0 0.5rem 0.5rem -0.5rem rgba(0, 0, 0, 0.5);
+		box-shadow: var(--shadow), var(--shadow-left);
 	}
 
 	@media print { display: none !important; }
 }
 
-@mixin style-fixed-header-table {
+@mixin style-sticky-header-table {
 	display: table;
 	margin : 0;
 
 	overflow-x     : hidden;
 	pointer-events : none;
-
-	background-color: rgba(#fff, 0.5);
-	backdrop-filter : blur(4px);
-
 	border-collapse: collapse;
-	border-spacing : 0;
 }
 
-@mixin style-fixed-scroll-bar {
+@mixin style-sticky-scroll-bar {
 	position  : fixed;
 	bottom    : 0;
 	z-index   : 99;
 	margin    : 0;
 	overflow-x: auto;
-	overflow-y: hidden;  // for IE11 & Edge
 
 	height: calc(1rem + 2px);  // for Safari
 	border: 1px solid transparent;
