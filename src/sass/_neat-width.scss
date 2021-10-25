@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-10-25
  *
  */
 
@@ -13,10 +13,14 @@
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
+
+	border-collapse: collapse;
 }
 
 @mixin style-full {
 	width: 100%;
+
+	border-collapse: collapse;
 }
 
 
@@ -27,20 +31,21 @@
 	--background-color: #fff;
 
 	caption {
-		display: block;
+		display : block;
 		position: sticky;
-		left: 0;
-		right: 0;
+		left    : 0;
+		right   : 0;
+
 		background-color: var(--background-color);
 
 		> span {
-			display: inline-block;
+			display   : inline-block;
 			text-align: left;
 		}
 	}
 	td, th {
 		position: relative;
-		z-index: -1;
+		z-index : -1;
 	}
 	box-shadow: inset  2rem 0 1rem -1rem rgba(#000, 0.1),
 				inset -2rem 0 1rem -1rem rgba(#000, 0.1);

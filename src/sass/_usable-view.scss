@@ -40,7 +40,9 @@
 
 	overflow-x     : hidden;
 	pointer-events : none;
-	backdrop-filter: blur(0.1rem);
+
+	background-color: rgba(#fff, 0.5);
+	backdrop-filter : blur(4px);
 
 	border-collapse: collapse;
 	border-spacing : 0;
