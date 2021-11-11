@@ -3,39 +3,13 @@
  * Utilities
  *
  * @author Takuto Yanagida
- * @version 2021-10-25
+ * @version 2021-11-11
  *
  */
 
 
-function enableClass(enabled, tar, cls) {
-	const key = cls.substr(1);
-	if (cls.startsWith(':')) {
-		if (enabled) {
-			tar.dataset[key] = '';
-		} else {
-			delete tar.dataset[key];
-		}
-	} else {
-		if (enabled) {
-			tar.classList.add(key);
-		} else {
-			tar.classList.remove(key);
-		}
-
-	}
-}
-
-function getSelector(cls) {
-	if (cls.startsWith(':')) {
-		return `*[data-${cls.substr(1).replace(/([A-Z])/g, c => '-' + c.charAt(0).toLowerCase())}]`;
-	} else {
-		return `*${cls}`;
-	}
-}
-
 function getScrollOffset() {
-	const s = getComputedStyle(document.getElementsByTagName('html')[0]);
+	const s = getComputedStyle(document.documentElement);
 	return parseInt(s.scrollPaddingTop);
 }
 

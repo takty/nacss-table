@@ -3,7 +3,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-10-25
+ * @version 2021-11-11
  *
  */
 
@@ -71,11 +71,11 @@ function _createHeaderClone(tab, cm) {
 		tab.tHead = thead;
 	}
 	const hc = document.createElement('div');
-	enableClass(true, hc, cm.styleHeaderContainer);
+	setClass(hc, cm.styleHeaderContainer);
 	tab.parentNode.appendChild(hc);
 
 	const ht = document.createElement('div');
-	enableClass(true, ht, cm.styleHeaderTable);
+	setClass(ht, cm.styleHeaderTable);
 	hc.appendChild(ht);
 
 	ht.appendChild(thead.cloneNode(true));
@@ -106,7 +106,7 @@ function _createPseudoHeader(tab) {
 
 function _createBarClone(tab, cm) {
 	const bar = document.createElement('div');
-	enableClass(true, bar, cm.styleScrollBar);
+	setClass(bar, cm.styleScrollBar);
 	const spacer = document.createElement('div');
 	bar.appendChild(spacer);
 	tab.parentNode.appendChild(bar);
@@ -210,11 +210,11 @@ function onTableScroll(tab, head, cm) {
 
 	if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
 		const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
-		enableClass(r < 0.95, head, cm.styleScrollRight);
-		enableClass(0.05 < r, head, cm.styleScrollLeft);
+		setClass(head, cm.styleScrollRight, r < 0.95);
+		setClass(head, cm.styleScrollLeft, 0.05 < r);
 	} else {
-		enableClass(false, head, cm.styleScrollRight);
-		enableClass(false, head, cm.styleScrollLeft);
+		setClass(head, cm.styleScrollRight, false);
+		setClass(head, cm.styleScrollLeft, false);
 	}
 }
 

@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-01-25
+ * @version 2021-11-11
  *
  */
 
@@ -43,7 +43,7 @@ function initialize(tabs, opts = {}) {
 		const delay = (cm.before) ? (cm.before(t) ?? 0) : false;
 		st(() => {
 			apply(t, cm);
-			enableClass(true, t, cm.styleNeat);
+			setClass(t, cm.styleNeat);
 			if (cm.after) cm.after(t);
 			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
 		}, delay);
@@ -51,7 +51,7 @@ function initialize(tabs, opts = {}) {
 	if (cm.fullWidthRate) {
 		for (const t of noTarTabs) {
 			const pw = t.parentElement.clientWidth;
-			if (pw * cm.fullWidthRate < t.clientWidth) enableClass(true, t, cm.styleFull);
+			if (pw * cm.fullWidthRate < t.clientWidth) setClass(t, cm.styleFull);
 		}
 	}
 	function st(fn, d) { (d === false) ? fn() : setTimeout(fn, d); }
@@ -126,11 +126,11 @@ function initScroll(tabs, cMet) {
 function onScroll(tab, cMet) {
 	if (tab.scrollWidth - tab.clientWidth > 2) {  // for avoiding needless scrolling
 		const r = tab.scrollLeft / (tab.scrollWidth - tab.clientWidth);
-		enableClass(r < 0.95, tab, cMet.styleScrollRight);
-		enableClass(0.05 < r, tab, cMet.styleScrollLeft);
+		setClass(tab, cMet.styleScrollRight, r < 0.95);
+		setClass(tab, cMet.styleScrollLeft, 0.05 < r);
 	} else {
-		enableClass(false, tab, cMet.styleScrollRight);
-		enableClass(false, tab, cMet.styleScrollLeft);
+		setClass(tab, cMet.styleScrollRight, false);
+		setClass(tab, cMet.styleScrollLeft, false);
 	}
 }
 
