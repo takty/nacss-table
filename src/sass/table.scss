@@ -3,7 +3,7 @@
  * Table Style
  *
  * @author Takuto Yanagida
- * @version 2021-10-25
+ * @version 2021-11-11
  *
  */
 
@@ -14,12 +14,18 @@
 
 table[data-nc-table-neat] {
 	@include neat-width.style-neat;
+	@media print {
+		@include neat-width.style-neat-print;
+	}
 }
 table[data-nc-table-full] {
 	@include neat-width.style-full;
 }
 table[data-nc-scroll-right], table[data-nc-scroll-left]  {
 	@include neat-width.style-scroll;
+	@media print {
+		@include neat-width.style-scroll-print;
+	}
 }
 table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
 	@include neat-width.style-scroll-right;

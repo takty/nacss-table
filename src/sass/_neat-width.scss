@@ -3,7 +3,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-10-25
+ * @version 2021-11-11
  *
  */
 
@@ -54,4 +54,25 @@
 
 @mixin style-scroll-left {
 	box-shadow: var(--shadow-left);
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin style-neat-print {
+	display: table;
+
+	td, th {
+		min-width  : initial !important;
+		white-space: normal  !important;
+	}
+}
+
+@mixin style-scroll-print {
+	box-shadow: none !important;
+
+	caption {
+		display: table-caption;
+	}
 }
