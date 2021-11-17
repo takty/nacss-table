@@ -1,6 +1,6 @@
 /**
  *
- * Table Style - Neat Width (JS)
+ * Table - Neat Width
  *
  * @author Takuto Yanagida
  * @version 2021-11-11

@@ -1,0 +1,74 @@
+/**
+ *
+ * Inner
+ *
+ * @author Takuto Yanagida
+ * @version 2021-11-16
+ *
+ */
+
+
+@mixin style-table-common {
+	--table-rule-color: #ddd;
+	--table-rule-width: 2px;
+
+	--table-cell-padding   : 0.25rem 0.5rem;
+	--table-cell-rule-color: #ddd;
+	--table-cell-rule-width: 1px;
+
+	--table-header-background: #ddd;
+
+	font-feature-settings: 'pkna' 1;
+
+	> caption {
+		// Margin
+		padding-bottom: 0.75rem;  // Must use 'padding-bottom'
+	}
+
+	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
+		border-top: var(--table-rule-width) solid var(--table-rule-color);
+		> tr:first-child :is(th, td) {
+			border-top: none;
+		}
+	}
+
+	:is(tbody, tfoot) {
+		border-bottom: var(--table-rule-width) solid var(--table-rule-color);
+	}
+
+	:is(th, td) {
+		padding: var(--table-cell-padding);
+
+		border-top: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+
+		&:where(:not(:first-child)) {
+			border-left: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+		}
+		&:where(:first-child[rowspan]) {
+			border-right: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+		}
+	}
+	:is(thead td, th) {
+		font-weight: bold;
+		text-align : center;
+
+		background: var(--table-header-background);
+	}
+	td p:not([class]) {
+		text-align: initial;
+	}
+	td {
+		vertical-align: top;
+	}
+}
+
+@mixin style-table-stripe {
+	--table-background-second: #eee;
+
+	tr:nth-child(odd) > td {
+		background: var(--table-background-second);
+	}
+	td, th {
+		border-color: transparent;
+	}
+}

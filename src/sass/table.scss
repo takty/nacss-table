@@ -1,15 +1,28 @@
 /**
  *
- * Table Style
+ * Table
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-11-16
  *
  */
 
 
+@use 'inner';
 @use 'neat-width';
 @use 'usable-view';
+
+
+table:where(:not([class]), .is-style-stripes) {
+	@include inner.style-table-common;
+}
+
+table.is-style-stripes {
+	@include inner.style-table-stripe;
+}
+
+
+// -----------------------------------------------------------------------------
 
 
 table[data-nc-table-neat] {
@@ -18,18 +31,22 @@ table[data-nc-table-neat] {
 		@include neat-width.style-neat-print;
 	}
 }
+
 table[data-nc-table-full] {
 	@include neat-width.style-full;
 }
+
 table[data-nc-scroll-right], table[data-nc-scroll-left]  {
 	@include neat-width.style-scroll;
 	@media print {
 		@include neat-width.style-scroll-print;
 	}
 }
+
 table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
 	@include neat-width.style-scroll-right;
 }
+
 table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 	@include neat-width.style-scroll-left;
 }
@@ -41,9 +58,11 @@ table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 div[data-nc-table-sticky-header-container] {
 	@include usable-view.style-sticky-header-container;
 }
+
 div[data-nc-table-sticky-header-table] {
 	@include usable-view.style-sticky-header-table;
 }
+
 div[data-nc-table-sticky-scroll-bar] {
 	@include usable-view.style-sticky-scroll-bar;
 }
