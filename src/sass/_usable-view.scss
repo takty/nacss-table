@@ -3,41 +3,50 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-10-25
+ * @version 2021-11-17
  *
  */
 
 
-@mixin style-sticky-header-container {
-	--shadow      : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
-	--shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-	--shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-	--background  : #fff;
+@mixin custom-property {
+	--nc-table-shadow    : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
+	--nc-table-background: #fff;
+}
 
+@mixin custom-property-side-shadow {
+	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin sticky-header-container {
 	display   : none;
 	position  : fixed;
 	top       : 0;
-	z-index   : 99;
 	margin    : 0 !important;  // For canceling base margins
 	overflow-x: hidden;
 
-	background: var(--background);
+	background: var(--nc-table-background);
 
-	box-shadow: var(--shadow);
+	box-shadow: var(--nc-table-shadow);
 	&[data-nc-scroll-right], &[data-nc-scroll-left]  {
-		box-shadow: var(--shadow), var(--shadow-right), var(--shadow-left);
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right), var(--nc-table-shadow-left);
 	}
 	&[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-		box-shadow: var(--shadow), var(--shadow-right);
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right);
 	}
 	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-		box-shadow: var(--shadow), var(--shadow-left);
+		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-left);
 	}
+	* { box-sizing: border-box; }
 
 	@media print { display: none !important; }
 }
 
-@mixin style-sticky-header-table {
+@mixin sticky-header-table {
 	display: table;
 	margin : 0;
 
@@ -46,7 +55,7 @@
 	border-collapse: collapse;
 }
 
-@mixin style-sticky-scroll-bar {
+@mixin sticky-scroll-bar {
 	position  : fixed;
 	bottom    : 0;
 	z-index   : 99;

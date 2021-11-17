@@ -3,7 +3,7 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2021-11-16
+ * @version 2021-11-17
  *
  */
 
@@ -13,12 +13,26 @@
 @use 'usable-view';
 
 
+:root {
+	@include inner.custom-property-appearance;
+	@include inner.custom-property-appearance-stripe;
+
+	@include neat-width.custom-property;
+	@include usable-view.custom-property;
+
+	@include neat-width.custom-property-side-shadow;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
 table:where(:not([class]), .is-style-stripes) {
-	@include inner.style-table-common;
+	@include inner.appearance;
 }
 
 table.is-style-stripes {
-	@include inner.style-table-stripe;
+	@include inner.appearance-stripe;
 }
 
 
@@ -26,29 +40,29 @@ table.is-style-stripes {
 
 
 table[data-nc-table-neat] {
-	@include neat-width.style-neat;
+	@include neat-width.neat;
 	@media print {
-		@include neat-width.style-neat-print;
+		@include neat-width.neat-print;
 	}
 }
 
 table[data-nc-table-full] {
-	@include neat-width.style-full;
+	@include neat-width.full;
 }
 
 table[data-nc-scroll-right], table[data-nc-scroll-left]  {
-	@include neat-width.style-scroll;
+	@include neat-width.scroll;
 	@media print {
-		@include neat-width.style-scroll-print;
+		@include neat-width.scroll-print;
 	}
 }
 
 table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-	@include neat-width.style-scroll-right;
+	@include neat-width.scroll-right;
 }
 
 table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-	@include neat-width.style-scroll-left;
+	@include neat-width.scroll-left;
 }
 
 
@@ -56,13 +70,14 @@ table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 
 
 div[data-nc-table-sticky-header-container] {
-	@include usable-view.style-sticky-header-container;
+	@include usable-view.sticky-header-container;
 }
 
 div[data-nc-table-sticky-header-table] {
-	@include usable-view.style-sticky-header-table;
+	@include inner.appearance-header;
+	@include usable-view.sticky-header-table;
 }
 
 div[data-nc-table-sticky-scroll-bar] {
-	@include usable-view.style-sticky-scroll-bar;
+	@include usable-view.sticky-scroll-bar;
 }

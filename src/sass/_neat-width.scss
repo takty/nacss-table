@@ -3,21 +3,36 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-11-17
  *
  */
 
 
-@mixin style-neat {
+@mixin custom-property {
+	--nc-table-caption-background: #fff;
+}
+
+@mixin custom-property-side-shadow {
+	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin neat {
 	display  : block;
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
 
 	border-collapse: collapse;
+
+	* { box-sizing: border-box; }
 }
 
-@mixin style-full {
+@mixin full {
 	width: 100%;
 
 	border-collapse: collapse;
@@ -27,40 +42,35 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin style-scroll {
-	--shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-	--shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-
-	--caption-background-color: #fff;
-
+@mixin scroll {
 	caption {
 		display : block;
 		position: sticky;
 		left    : 0;
 		right   : 0;
 
-		background-color: var(--caption-background-color);
+		background: var(--nc-table-caption-background);
 	}
 	td, th {
 		position: relative;
 		z-index : -1;
 	}
-	box-shadow: var(--shadow-right), var(--shadow-left);
+	box-shadow: var(--nc-table-shadow-right), var(--nc-table-shadow-left);
 }
 
-@mixin style-scroll-right {
-	box-shadow: var(--shadow-right);
+@mixin scroll-right {
+	box-shadow: var(--nc-table-shadow-right);
 }
 
-@mixin style-scroll-left {
-	box-shadow: var(--shadow-left);
+@mixin scroll-left {
+	box-shadow: var(--nc-table-shadow-left);
 }
 
 
 // -----------------------------------------------------------------------------
 
 
-@mixin style-neat-print {
+@mixin neat-print {
 	display: table;
 
 	td, th {
@@ -69,7 +79,7 @@
 	}
 }
 
-@mixin style-scroll-print {
+@mixin scroll-print {
 	box-shadow: none !important;
 
 	caption {

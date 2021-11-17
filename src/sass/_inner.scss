@@ -3,56 +3,68 @@
  * Inner
  *
  * @author Takuto Yanagida
- * @version 2021-11-16
+ * @version 2021-11-17
  *
  */
 
 
-@mixin style-table-common {
-	--table-rule-color: #ddd;
-	--table-rule-width: 2px;
+@mixin custom-property-appearance {
+	--nc-table-rule-color: #ddd;
+	--nc-table-rule-width: 2px;
 
-	--table-cell-padding   : 0.25rem 0.5rem;
-	--table-cell-rule-color: #ddd;
-	--table-cell-rule-width: 1px;
+	--nc-table-cell-padding   : 0.25rem 0.5rem;
+	--nc-table-cell-rule-color: #ddd;
+	--nc-table-cell-rule-width: 1px;
 
-	--table-header-background: #ddd;
+	--nc-table-header-background: #ddd;
+	--nc-table-caption-max-width: 90%;
+}
 
+@mixin appearance {
 	font-feature-settings: 'pkna' 1;
 
-	> caption {
+	caption {
+		font-size: 87.25%;
+		text-align: center;
+
+		> span {
+			display   : inline-block;
+			max-width : var(--nc-table-caption-max-width);
+			text-align: left;
+		}
+
 		// Margin
 		padding-bottom: 0.75rem;  // Must use 'padding-bottom'
 	}
 
 	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
-		border-top: var(--table-rule-width) solid var(--table-rule-color);
+		border-top: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
 		> tr:first-child :is(th, td) {
 			border-top: none;
 		}
 	}
 
 	:is(tbody, tfoot) {
-		border-bottom: var(--table-rule-width) solid var(--table-rule-color);
+		border-bottom: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
 	}
 
 	:is(th, td) {
-		padding: var(--table-cell-padding);
+		padding: var(--nc-table-cell-padding);
 
-		border-top: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+		border-top: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 
 		&:where(:not(:first-child)) {
-			border-left: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+			border-left: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 		&:where(:first-child[rowspan]) {
-			border-right: var(--table-cell-rule-width) solid var(--table-cell-rule-color);
+			border-right: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 	}
 	:is(thead td, th) {
 		font-weight: bold;
 		text-align : center;
 
-		background: var(--table-header-background);
+		background: var(--nc-table-header-background);
 	}
 	td p:not([class]) {
 		text-align: initial;
@@ -62,11 +74,47 @@
 	}
 }
 
-@mixin style-table-stripe {
-	--table-background-second: #eee;
+@mixin appearance-header {
+	font-feature-settings: 'pkna' 1;
 
+	:is(thead) {
+		border-top: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		> tr:first-child :is(th, td) {
+			border-top: none;
+		}
+	}
+
+	:is(th, td) {
+		padding: var(--nc-table-cell-padding);
+
+		border-top: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+
+		&:where(:not(:first-child)) {
+			border-left: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+		}
+		&:where(:first-child[rowspan]) {
+			border-right: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+		}
+	}
+	:is(thead td, th) {
+		font-weight: bold;
+		text-align : center;
+
+		background: var(--nc-table-header-background);
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin custom-property-appearance-stripe {
+	--nc-table-background-second: #eee;
+}
+
+@mixin appearance-stripe {
 	tr:nth-child(odd) > td {
-		background: var(--table-background-second);
+		background: var(--nc-table-background-second);
 	}
 	td, th {
 		border-color: transparent;
