@@ -3,6 +3,7 @@ html {
 	scroll-padding-top: 8rem;
 
 	font-family: sans-serif;
+	line-height: 1.75;
 }
 
 header,
@@ -12,18 +13,22 @@ main {
 }
 
 header {
-	position: sticky;
-	top     : 0;
-	z-index : 1;
-	height  : 6rem;
+	position  : sticky;
+	top       : 0;
+	z-index   : 1;
+	min-height: 6rem;
 
 	border          : 1px solid #ddd;
 	background-color: rgba(#fff, 0.5);
 	backdrop-filter : blur(4px);
 }
 
-table {
-	td, th {
-		border: 1px solid #eee;
-	}
+main {
+	margin-top: 2rem;
+}
+
+div.blank {
+	margin-block    : 2rem;
+	height          : 20vh;
+	background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, #defa 6px, #defa 12px);
 }
