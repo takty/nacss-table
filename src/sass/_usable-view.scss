@@ -3,7 +3,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-11-17
+ * @version 2021-11-29
  *
  */
 
@@ -56,11 +56,11 @@
 }
 
 @mixin sticky-scroll-bar {
-	position  : fixed;
-	bottom    : 0;
-	z-index   : 99;
-	margin    : 0;
-	overflow-x: auto;
+	position       : fixed;
+	inset-block-end: 0;
+	z-index        : 99;
+	margin         : 0;
+	overflow-x     : auto;
 
 	height: calc(1rem + 2px);  // for Safari
 	border: 1px solid transparent;

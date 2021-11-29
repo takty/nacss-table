@@ -3,13 +3,13 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-11-17
+ * @version 2021-11-29
  *
  */
 
 
 @mixin custom-property {
-	--nc-table-caption-background: #fff;
+	--nc-table-caption-background: Canvas;
 }
 
 @mixin custom-property-side-shadow {
@@ -44,10 +44,9 @@
 
 @mixin scroll {
 	caption {
-		display : block;
-		position: sticky;
-		left    : 0;
-		right   : 0;
+		display     : block;
+		position    : sticky;
+		inset-inline: 0;
 
 		background: var(--nc-table-caption-background);
 	}

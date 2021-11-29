@@ -34,30 +34,30 @@
 		}
 
 		// Margin
-		padding-bottom: 0.75rem;  // Must use 'padding-bottom'
+		padding-block-end: 0.75rem;  // Must use 'padding-block-end'
 	}
 
 	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
-		border-top: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-start: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
 		> tr:first-child :is(th, td) {
-			border-top: none;
+			border-block-start: none;
 		}
 	}
 
 	:is(tbody, tfoot) {
-		border-bottom: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-end: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
 	}
 
 	:is(th, td) {
 		padding: var(--nc-table-cell-padding);
 
-		border-top: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+		border-block-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 
 		&:where(:not(:first-child)) {
-			border-left: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 		&:where(:first-child[rowspan]) {
-			border-right: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-end: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 	}
 	:is(thead td, th) {
@@ -78,22 +78,22 @@
 	font-feature-settings: 'pkna' 1;
 
 	:is(thead) {
-		border-top: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-start: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
 		> tr:first-child :is(th, td) {
-			border-top: none;
+			border-block-start: none;
 		}
 	}
 
 	:is(th, td) {
 		padding: var(--nc-table-cell-padding);
 
-		border-top: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+		border-block-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 
 		&:where(:not(:first-child)) {
-			border-left: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 		&:where(:first-child[rowspan]) {
-			border-right: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-end: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
 		}
 	}
 	:is(thead td, th) {
