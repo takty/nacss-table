@@ -3,27 +3,29 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-12-06
  *
  */
 
+
+'use strict';
 
 window['NACSS'] = window['NACSS'] || {};
 
 
 (function (NS) {
 
-	(function () {
+	{
 		// @include _neat-width.js
 		NS.tableNeatWidth = initialize;
-	})();
+	}
 
-	(function () {
+	{
 		// @include _usable-view.js
 		NS.tableUsableView = initialize;
-	})();
+	}
 
 	// @include _style-class.js
-	// @include _utilities.js
+	// @include _utility.js
 
 })(window['NACSS']);

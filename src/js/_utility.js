@@ -3,14 +3,15 @@
  * Utilities
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-12-06
  *
  */
 
 
 function getScrollOffset() {
-	const s = getComputedStyle(document.documentElement);
-	return parseInt(s.scrollPaddingTop);
+	const s   = getComputedStyle(document.documentElement);
+	const val = parseInt(s.scrollPaddingTop);
+	return Number.isNaN(val) ? 0 : val;
 }
 
 
