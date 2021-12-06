@@ -3,7 +3,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-12-07
  *
  */
 
@@ -171,7 +171,7 @@ function _updateScrollBarSize(tab, bar) {
 function onWindowScroll(tab, head, bar, cm) {
 	const r = tab.getBoundingClientRect();
 	const tBottom = r.bottom;
-	const rh = tab.tHead.getBoundingClientRect();
+	const rh = (tab.tHead ?? tab.tBodies[0]).getBoundingClientRect();
 	const hTop = rh.top, hBottom = rh.bottom;
 	const wY0 = cm.offset, wY1 = window.innerHeight;
 
