@@ -51,16 +51,6 @@ table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 	@include table.scroll-left;
 }
 
-@media print {
-	table[data-nc-table-neat] {
-		@include table.neat-print;
-	}
-
-	table[data-nc-scroll-right], table[data-nc-scroll-left]  {
-		@include table.scroll-print;
-	}
-}
-
 
 // -----------------------------------------------------------------------------
 
@@ -76,4 +66,26 @@ div[data-nc-table-sticky-header-table] {
 
 div[data-nc-table-sticky-scroll-bar] {
 	@include table.sticky-scroll-bar;
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@media print {
+	table[data-nc-table-neat] {
+		@include table.neat-print;
+	}
+
+	table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+		@include table.scroll-print;
+	}
+
+	div[data-nc-table-sticky-header-container] {
+		@include table.sticky-header-container-print;
+	}
+
+	div[data-nc-table-sticky-scroll-bar] {
+		@include table.sticky-scroll-bar-print;
+	}
 }

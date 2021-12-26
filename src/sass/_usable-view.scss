@@ -36,8 +36,6 @@
 	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-left);
 	}
-
-	@media print { display: none !important; }
 }
 
 @mixin sticky-header-table {
@@ -60,7 +58,18 @@
 	border: 1px solid transparent;
 
 	display: none;
-	@media print { display: none !important; }
 
 	> div { height: 1px; }  // Spacer
+}
+
+
+// -----------------------------------------------------------------------------
+
+
+@mixin sticky-header-container-print {
+	display: none !important;
+}
+
+@mixin sticky-scroll-bar-print {
+	display: none !important;
 }

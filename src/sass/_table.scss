@@ -19,9 +19,9 @@
 @use 'usable-view';
 
 
-@mixin property($use-stripe: true) {
+@mixin property($do-use-stripe: true) {
 	@include main.property-appearance;
-	@if $use-stripe == true {
+	@if $do-use-stripe == true {
 		@include main.property-appearance-stripe;
 	}
 
