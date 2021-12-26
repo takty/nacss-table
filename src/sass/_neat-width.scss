@@ -22,9 +22,9 @@
 	max-width: 100%;
 	overflow : auto;
 
-	border-collapse: collapse;
+	border-collapse: collapse;  // For reset
 
-	* { box-sizing: border-box; }
+	* { box-sizing: border-box; }  // For reset
 }
 
 @mixin full {
