@@ -16,15 +16,15 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin neat {
+@mixin neat($do-reset: true) {
 	display  : block;
 	width    : fit-content;
 	max-width: 100%;
 	overflow : auto;
 
-	border-collapse: collapse;  // For reset
-
-	* { box-sizing: border-box; }  // For reset
+	@if $do-reset {
+		border-collapse: collapse;  // For reset
+	}
 }
 
 @mixin full {

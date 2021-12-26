@@ -36,7 +36,6 @@
 	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-left);
 	}
-	* { box-sizing: border-box; }
 
 	@media print { display: none !important; }
 }
