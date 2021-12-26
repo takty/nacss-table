@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <title>Neat Width - nacss-table</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="./css/style.min.css?v080409t">
-<link rel="stylesheet" href="./css/table.min.css?v080409t">
-<script src="./js/table.min.js?v080409t"></script>
+<link rel="stylesheet" href="./css/table.min.css?v221825t">
+<link rel="stylesheet" href="./css/style.min.css?v221825t">
+<script src="./js/table.min.js?v221825t"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 	const tabs = document.querySelectorAll('table');
-	NACSS.tableNeatWidth(tabs);
-	NACSS.tableUsableView(tabs);
+	NACSS.table.applyNeatWidth(tabs);
+	NACSS.table.applyUsableView(tabs);
 });
 </script>
 </head>
@@ -171,6 +171,5 @@ document.addEventListener('DOMContentLoaded', () => {
 			</tfoot>
 		</table>
 	</main>
-
 </body>
 </html>

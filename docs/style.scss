@@ -1,9 +1,25 @@
+/**
+ *
+ * Style for Document
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+*,
+::before,
+::after {
+	box-sizing: border-box;
+}
+
 html {
 	scroll-behavior   : smooth;
 	scroll-padding-top: 8rem;
 
 	font-family: sans-serif;
-	line-height: 1.75;
+	line-height: 1.8;
 }
 
 header,
@@ -26,6 +42,10 @@ header {
 main {
 	margin-top: 2rem;
 }
+
+
+// -----------------------------------------------------------------------------
+
 
 div.blank {
 	margin-block    : 2rem;
