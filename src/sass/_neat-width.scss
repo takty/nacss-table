@@ -3,18 +3,13 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-11-29
+ * @version 2021-12-26
  *
  */
 
 
-@mixin custom-property {
+@mixin property-neat-width {
 	--nc-table-caption-background: Canvas;
-}
-
-@mixin custom-property-side-shadow {
-	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
 }
 
 

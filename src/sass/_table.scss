@@ -1,0 +1,32 @@
+/**
+ *
+ * Table
+ *
+ * @author Takuto Yanagida
+ * @version 2021-12-26
+ *
+ */
+
+
+@forward 'main';
+@forward 'common';
+@forward 'neat-width';
+@forward 'usable-view';
+
+@use 'main';
+@use 'common';
+@use 'neat-width';
+@use 'usable-view';
+
+
+@mixin property($use-stripe: true) {
+	@include main.property-appearance;
+	@if $use-stripe == true {
+		@include main.property-appearance-stripe;
+	}
+
+	@include neat-width.property-neat-width;
+	@include usable-view.property-usable-view;
+
+	@include common.property-side-shadow;
+}

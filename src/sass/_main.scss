@@ -1,14 +1,14 @@
 /**
  *
- * Inner
+ * Main
  *
  * @author Takuto Yanagida
- * @version 2021-11-29
+ * @version 2021-12-26
  *
  */
 
 
-@mixin custom-property-appearance {
+@mixin property-appearance {
 	--nc-table-rule-color: #ddd;
 	--nc-table-rule-width: 2px;
 
@@ -108,7 +108,7 @@
 // -----------------------------------------------------------------------------
 
 
-@mixin custom-property-appearance-stripe {
+@mixin property-appearance-stripe {
 	--nc-table-background-second: #eee;
 }
 

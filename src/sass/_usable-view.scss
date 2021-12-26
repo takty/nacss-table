@@ -3,19 +3,14 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-11-29
+ * @version 2021-12-26
  *
  */
 
 
-@mixin custom-property {
+@mixin property-usable-view {
 	--nc-table-shadow    : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
 	--nc-table-background: #fff;
-}
-
-@mixin custom-property-side-shadow {
-	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #{rgba(#000, 0.1)};
-	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #{rgba(#000, 0.1)};
 }
 
 

@@ -3,24 +3,16 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2021-11-17
+ * @version 2021-12-26
  *
  */
 
 
-@use 'inner';
-@use 'neat-width';
-@use 'usable-view';
+@use '_table';
 
 
 :root {
-	@include inner.custom-property-appearance;
-	@include inner.custom-property-appearance-stripe;
-
-	@include neat-width.custom-property;
-	@include usable-view.custom-property;
-
-	@include neat-width.custom-property-side-shadow;
+	@include table.property(true);
 }
 
 
@@ -28,11 +20,11 @@
 
 
 table:where(:not([class]), .is-style-stripes) {
-	@include inner.appearance;
+	@include table.appearance;
 }
 
 table.is-style-stripes {
-	@include inner.appearance-stripe;
+	@include table.appearance-stripe;
 }
 
 
@@ -40,29 +32,33 @@ table.is-style-stripes {
 
 
 table[data-nc-table-neat] {
-	@include neat-width.neat;
-	@media print {
-		@include neat-width.neat-print;
-	}
+	@include table.neat;
 }
 
 table[data-nc-table-full] {
-	@include neat-width.full;
+	@include table.full;
 }
 
 table[data-nc-scroll-right], table[data-nc-scroll-left]  {
-	@include neat-width.scroll;
-	@media print {
-		@include neat-width.scroll-print;
-	}
+	@include table.scroll;
 }
 
 table[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-	@include neat-width.scroll-right;
+	@include table.scroll-right;
 }
 
 table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-	@include neat-width.scroll-left;
+	@include table.scroll-left;
+}
+
+@media print {
+	table[data-nc-table-neat] {
+		@include table.neat-print;
+	}
+
+	table[data-nc-scroll-right], table[data-nc-scroll-left]  {
+		@include table.scroll-print;
+	}
 }
 
 
@@ -70,14 +66,14 @@ table[data-nc-scroll-left]:not([data-nc-scroll-right]) {
 
 
 div[data-nc-table-sticky-header-container] {
-	@include usable-view.sticky-header-container;
+	@include table.sticky-header-container;
 }
 
 div[data-nc-table-sticky-header-table] {
-	@include inner.appearance-header;
-	@include usable-view.sticky-header-table;
+	@include table.appearance-header;
+	@include table.sticky-header-table;
 }
 
 div[data-nc-table-sticky-scroll-bar] {
-	@include usable-view.sticky-scroll-bar;
+	@include table.sticky-scroll-bar;
 }

@@ -3,12 +3,12 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-11-11
+ * @version 2021-12-26
  *
  */
 
 
-function initialize(tabs, opts = {}) {
+function apply(tabs, opts = {}) {
 	if (tabs.length === 0) return;
 
 	const lt = tabs[tabs.length - 1];
@@ -42,7 +42,7 @@ function initialize(tabs, opts = {}) {
 	for (const t of tarTabs) {
 		const delay = (cm.before) ? (cm.before(t) ?? 0) : false;
 		st(() => {
-			apply(t, cm);
+			adjustWidth(t, cm);
 			setClass(t, cm.styleNeat);
 			if (cm.after) cm.after(t);
 			if (--cm.gcCount === 0) removeDummyCell(lt, cm);
@@ -138,7 +138,7 @@ function onScroll(tab, cMet) {
 // -------------------------------------------------------------------------
 
 
-function apply(tab, cMet) {
+function adjustWidth(tab, cMet) {
 	tab.removeAttribute('width');
 	if (tab.style.width) tab.style.width = null;
 	if (tab.style.height) tab.style.height = null;

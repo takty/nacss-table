@@ -3,12 +3,12 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2021-12-07
+ * @version 2021-12-26
  *
  */
 
 
-function initialize(tabs, opts = {}) {
+function apply(tabs, opts = {}) {
 	if (tabs.length === 0) return;
 	const cm = Object.assign({
 		capableWindowHeightRate: 0.9,

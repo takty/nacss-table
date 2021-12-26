@@ -3,29 +3,28 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2021-12-06
+ * @version 2021-12-26
  *
  */
 
 
 'use strict';
 
-window['NACSS'] = window['NACSS'] || {};
+window['NACSS']          = window['NACSS']          || {};
+window['NACSS']['table'] = window['NACSS']['table'] || {};
 
 
-(function (NS) {
+((NS) => {
 
+	// @include __style-class.js
+	// @include __utility.js
 	{
 		// @include _neat-width.js
-		NS.tableNeatWidth = initialize;
+		NS.applyNeatWidth = apply;
 	}
-
 	{
 		// @include _usable-view.js
-		NS.tableUsableView = initialize;
+		NS.applyUsableView = apply;
 	}
 
-	// @include _style-class.js
-	// @include _utility.js
-
-})(window['NACSS']);
+})(window['NACSS']['table']);
