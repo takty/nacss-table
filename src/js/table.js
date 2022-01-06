@@ -3,7 +3,7 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2022-01-06
  *
  */
 
@@ -16,6 +16,7 @@ window['NACSS']['table'] = window['NACSS']['table'] || {};
 
 ((NS) => {
 
+	// @include __scroll-padding-top.js
 	// @include __style-class.js
 	// @include __utility.js
 	{
