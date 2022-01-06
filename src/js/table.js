@@ -16,7 +16,6 @@ window['NACSS']['table'] = window['NACSS']['table'] || {};
 
 ((NS) => {
 
-	// @include __scroll-padding-top.js
 	// @include __style-class.js
 	// @include __utility.js
 	{
@@ -27,5 +26,6 @@ window['NACSS']['table'] = window['NACSS']['table'] || {};
 		// @include _usable-view.js
 		NS.applyUsableView = apply;
 	}
+	// @include __scroll-padding-top.js
 
 })(window['NACSS']['table']);
