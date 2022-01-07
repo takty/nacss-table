@@ -29,7 +29,7 @@ function setScrollPaddingTop(key, val) {
 	} else {
 		vs.delete(key);
 	}
-	html.setAttribute('data-scroll-padding-top', Array.from(vs).map(e => e.join(':')).join(','));
+	html.setAttribute('data-scroll-padding-top', [...vs].map(e => e.join(':')).join(','));
 	updateScrollPaddingTop();
 }
 
