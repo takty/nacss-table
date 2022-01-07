@@ -3,7 +3,7 @@
  * Scroll Padding Top
  *
  * @author Takuto Yanagida
- * @version 2022-01-06
+ * @version 2022-01-07
  *
  */
 
@@ -15,6 +15,9 @@ function initializeScrollPaddingTop() {
 
 	const mo = new MutationObserver(updateScrollPaddingTop);
 	mo.observe(html, { attributes: true });
+
+	const v = parseInt(getComputedStyle(html).scrollPaddingTop);
+	setScrollPaddingTop('default', Number.isNaN(v) ? 0 : v);
 }
 
 function setScrollPaddingTop(key, val) {
@@ -30,17 +33,20 @@ function setScrollPaddingTop(key, val) {
 	updateScrollPaddingTop();
 }
 
+function getScrollPaddingTop(without = null) {
+	const html = document.documentElement;
+	const a    = html.getAttribute('data-scroll-padding-top');
+	if (!a) return 0;
+
+	const vs = a.split(',').map(e => e.split(':')).filter(([key,]) => key !== without).map(([k, v]) => parseInt(v));
+	return vs.reduce((a, b) => a + b, 0);
+}
+
 
 // -----------------------------------------------------------------------------
 
 
 function updateScrollPaddingTop() {
 	const html = document.documentElement;
-	const a    = html.getAttribute('data-scroll-padding-top');
-	if (a === '') {
-		html.style.scrollPaddingTop = null;
-	} else {
-		const vs = a.split(',').map(e => e.split(':')[1]);
-		html.style.scrollPaddingTop = `calc(${vs.join(' + ')})`;
-	}
+	html.style.scrollPaddingTop = getScrollPaddingTop() + 'px';
 }
