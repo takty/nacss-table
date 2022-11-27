@@ -3,7 +3,7 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2022-11-27
  *
  */
 
@@ -20,7 +20,7 @@
 // -----------------------------------------------------------------------------
 
 
-table:where(:not([class]), .is-style-stripes) {
+table:where(:not([class]), .is-style-stripes, .has-fixed-layout) {
 	@include table.appearance;
 }
 
