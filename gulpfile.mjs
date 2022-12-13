@@ -13,7 +13,7 @@ import { makeJsTask } from './gulp/task-js.mjs';
 import { makeSassTask } from './gulp/task-sass.mjs';
 
 const js   = makeJsTask('src/js/[^_]*.js', './dist/js', './src/js');
-const sass = makeSassTask('./src/sass/[^_]*.scss', './dist/css', './src/sass');
+const sass = makeSassTask('src/sass/[^_]*.scss', './dist/css', './src/sass');
 
 export const build = gulp.parallel(js, sass);
 export default () => {
