@@ -8,14 +8,20 @@
 /*
 --nc-table-rule-color: #ddd;
 --nc-table-rule-width: 2px;
+--nc-table-rule-style: solid;
 
---nc-table-cell-padding   : 0.25rem 0.5rem;
+--nc-table-cell-padding: 0.25rem 0.5rem;
+--nc-table-cell-rule   : transparent 0 solid;
+
 --nc-table-cell-rule-color: #ddd;
 	--nc-table-cell-rule-color-block
 	--nc-table-cell-rule-color-inline
 --nc-table-cell-rule-width: 1px;
 	--nc-table-cell-rule-width-block
 	--nc-table-cell-rule-width-inline
+--nc-table-cell-rule-style: solid;
+	--nc-table-cell-rule-style-block
+	--nc-table-cell-rule-style-inline
 
 --nc-table-cell-color      : unset;
 --nc-table-cell-background : unset;
@@ -46,17 +52,24 @@
 	}
 
 	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
-		border-block-start: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
+		border-block-start:
+			var(--nc-table-rule-color, #ddd)
+			var(--nc-table-rule-width, 2px)
+			var(--nc-table-rule-style, solid);
+
 		> tr:first-child :is(th, td) {
 			border-block-start: none;
 		}
 	}
 
-	:is(tbody, tfoot) {
-		border-block-end: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
-	}
+	@include _appearance-cell-common;
 
-	@include _appearance-common;
+	:is(tbody, tfoot) {
+		border-block-end:
+			var(--nc-table-rule-color, #ddd)
+			var(--nc-table-rule-width, 2px)
+			var(--nc-table-rule-style, solid);
+	}
 
 	td {
 		color      : var(--nc-table-cell-color, unset);
@@ -74,34 +87,42 @@
 
 @mixin appearance-header {
 	:is(thead) {
-		border-block-start: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
+		border-block-start:
+			var(--nc-table-rule-color, #ddd)
+			var(--nc-table-rule-width, 2px)
+			var(--nc-table-rule-style, solid);
+
 		> tr:first-child :is(th, td) {
 			border-block-start: none;
 		}
 	}
 
-	@include _appearance-common;
+	@include _appearance-cell-common;
 }
 
-@mixin _appearance-common {
+@mixin _appearance-cell-common {
 	font-feature-settings: 'pkna' 1;
 
 	:is(th, td) {
 		padding: var(--nc-table-cell-padding, 0.25rem 0.5rem);
+		border : var(--nc-table-cell-rule, transparent 0 solid);
 
-		border-block-start-color: var(--nc-table-cell-rule-color-block, var(--nc-table-cell-rule-color, #ddd));
-		border-block-start-width: var(--nc-table-cell-rule-width-block, var(--nc-table-cell-rule-width, 1px));
-		border-block-start-style: solid;
+		border-block-start:
+			var(--nc-table-cell-rule-color-block, var(--nc-table-cell-rule-color, #ddd))
+			var(--nc-table-cell-rule-width-block, var(--nc-table-cell-rule-width, 1px))
+			var(--nc-table-cell-rule-style-block, var(--nc-table-cell-rule-style, solid));
 
 		&:where(:not(:first-child)) {
-			border-inline-start-color: var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd));
-			border-inline-start-width: var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px));
-			border-inline-start-style: solid;
+			border-inline-start:
+				var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd))
+				var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px))
+				var(--nc-table-cell-rule-style-inline, var(--nc-table-cell-rule-style, solid));
 		}
 		&:where(:first-child[rowspan]) {
-			border-inline-end-color: var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd));
-			border-inline-end-width: var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px));
-			border-inline-end-style: solid;
+			border-inline-end:
+				var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd))
+				var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px))
+				var(--nc-table-cell-rule-style-inline, var(--nc-table-cell-rule-style, solid));
 		}
 	}
 
