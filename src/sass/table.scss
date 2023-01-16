@@ -11,15 +11,6 @@
 @use '_table';
 
 
-:root {
-	@include table.property;
-	@include table.property-appearance-stripe;
-}
-
-
-// -----------------------------------------------------------------------------
-
-
 table:where(:not([class]), .is-style-stripes, .has-fixed-layout) {
 	@include table.appearance;
 }
@@ -64,6 +55,10 @@ div[data-nc-table-sticky-header-table] {
 	@include table.appearance-header;
 	@include table.sticky-header-table;
 }
+
+// div[data-nc-table-sticky-header-shadow] {
+// 	@include table.sticky-header-shadow;
+// }
 
 div[data-nc-table-sticky-scroll-bar] {
 	@include table.sticky-scroll-bar;

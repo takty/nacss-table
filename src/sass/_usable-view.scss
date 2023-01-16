@@ -9,8 +9,13 @@
 
 
 @mixin property-usable-view {
-	--nc-table-shadow    : 0 0.5rem 0.5rem -0.5rem #{rgba(0, 0, 0, 0.5)};
-	--nc-table-background: #fff;
+	@warn "Do not @include this mixin.";
+	/*
+	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #0000001a;
+	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #0000001a;
+	--nc-table-shadow      : 0 0.5rem 0.5rem -0.5rem #00000080;
+	--nc-table-background  : #fff;
+	*/
 }
 
 
@@ -24,17 +29,24 @@
 	margin    : 0 !important;  // For canceling base margins
 	overflow-x: hidden;
 
-	background: var(--nc-table-background);
+	background: var(--nc-table-background, #fff);
 
-	box-shadow: var(--nc-table-shadow);
+	box-shadow: var(--nc-table-shadow, 0 0.5rem 0.5rem -0.5rem #00000080);
 	&[data-nc-scroll-right], &[data-nc-scroll-left]  {
-		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right), var(--nc-table-shadow-left);
+		box-shadow:
+			var(--nc-table-shadow, 0 0.5rem 0.5rem -0.5rem #00000080),
+			var(--nc-table-shadow-right, inset -2rem 0 1rem -1rem #0000001a),
+			var(--nc-table-shadow-left, inset  2rem 0 1rem -1rem #0000001a);
 	}
 	&[data-nc-scroll-right]:not([data-nc-scroll-left]) {
-		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-right);
+		box-shadow:
+			var(--nc-table-shadow, 0 0.5rem 0.5rem -0.5rem #00000080),
+			var(--nc-table-shadow-right, inset -2rem 0 1rem -1rem #0000001a);
 	}
 	&[data-nc-scroll-left]:not([data-nc-scroll-right]) {
-		box-shadow: var(--nc-table-shadow), var(--nc-table-shadow-left);
+		box-shadow:
+			var(--nc-table-shadow, 0 0.5rem 0.5rem -0.5rem #00000080),
+			var(--nc-table-shadow-left, inset  2rem 0 1rem -1rem #0000001a);
 	}
 }
 

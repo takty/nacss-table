@@ -9,21 +9,14 @@
 
 
 @forward 'main';
-@forward 'common';
 @forward 'neat-width';
 @forward 'usable-view';
 
 @use 'main';
-@use 'common';
 @use 'neat-width';
 @use 'usable-view';
 
 
 @mixin property {
-	@include main.property-appearance;
-
-	@include neat-width.property-neat-width;
-	@include usable-view.property-usable-view;
-
-	@include common.property-side-shadow;
+	@warn "Do not @include this mixin.";
 }

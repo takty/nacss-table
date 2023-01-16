@@ -9,27 +9,41 @@
 
 
 @mixin property-appearance {
+	@warn "Do not @include this mixin.";
+	/*
 	--nc-table-rule-color: #ddd;
 	--nc-table-rule-width: 2px;
 
 	--nc-table-cell-padding   : 0.25rem 0.5rem;
 	--nc-table-cell-rule-color: #ddd;
+		--nc-table-cell-rule-color-block
+		--nc-table-cell-rule-color-inline
 	--nc-table-cell-rule-width: 1px;
+		--nc-table-cell-rule-width-block
+		--nc-table-cell-rule-width-inline
 
-	--nc-table-header-background: #ddd;
+	--nc-table-cell-color      : unset;
+	--nc-table-cell-background : unset;
+	--nc-table-cell-font-weight: unset;
+	--nc-table-cell-text-align : unset;
+
+	--nc-table-header-color      : unset;
+	--nc-table-header-background : #ddd;
+	--nc-table-header-font-weight: bold;
+	--nc-table-header-text-align : center;
+
 	--nc-table-caption-max-width: 90%;
+	 */
 }
 
 @mixin appearance {
-	font-feature-settings: 'pkna' 1;
-
 	caption {
-		font-size: 87.25%;
+		font-size : 87.25%;
 		text-align: center;
 
 		> span {
 			display   : inline-block;
-			max-width : var(--nc-table-caption-max-width);
+			max-width : var(--nc-table-caption-max-width, 90%);
 			text-align: start;
 		}
 
@@ -38,69 +52,70 @@
 	}
 
 	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
-		border-block-start: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-start: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
 		> tr:first-child :is(th, td) {
 			border-block-start: none;
 		}
 	}
 
 	:is(tbody, tfoot) {
-		border-block-end: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-end: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
 	}
 
-	:is(th, td) {
-		padding: var(--nc-table-cell-padding);
+	@include _appearance-common;
 
-		border-block-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
-
-		&:where(:not(:first-child)) {
-			border-inline-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
-		}
-		&:where(:first-child[rowspan]) {
-			border-inline-end: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
-		}
-	}
-	:is(thead td, th) {
-		font-weight: bold;
-		text-align : center;
-
-		background: var(--nc-table-header-background);
-	}
-	td p:not([class]) {
-		text-align: initial;
-	}
 	td {
+		color      : var(--nc-table-cell-color, unset);
+		background : var(--nc-table-cell-background, unset);
+		font-weight: var(--nc-table-cell-font-weight, unset);
+		text-align : var(--nc-table-cell-text-align, unset);
+
 		vertical-align: top;
+
+		p:not([class]) {
+			text-align: unset;
+		}
 	}
 }
 
 @mixin appearance-header {
-	font-feature-settings: 'pkna' 1;
-
 	:is(thead) {
-		border-block-start: var(--nc-table-rule-width) solid var(--nc-table-rule-color);
+		border-block-start: var(--nc-table-rule-width, 2px) solid var(--nc-table-rule-color, #ddd);
 		> tr:first-child :is(th, td) {
 			border-block-start: none;
 		}
 	}
 
-	:is(th, td) {
-		padding: var(--nc-table-cell-padding);
+	@include _appearance-common;
+}
 
-		border-block-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+@mixin _appearance-common {
+	font-feature-settings: 'pkna' 1;
+
+	:is(th, td) {
+		padding: var(--nc-table-cell-padding, 0.25rem 0.5rem);
+
+		border-block-start-color: var(--nc-table-cell-rule-color-block, var(--nc-table-cell-rule-color, #ddd));
+		border-block-start-width: var(--nc-table-cell-rule-width-block, var(--nc-table-cell-rule-width, 1px));
+		border-block-start-style: solid;
 
 		&:where(:not(:first-child)) {
-			border-inline-start: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-start-color: var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd));
+			border-inline-start-width: var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px));
+			border-inline-start-style: solid;
 		}
 		&:where(:first-child[rowspan]) {
-			border-inline-end: var(--nc-table-cell-rule-width) solid var(--nc-table-cell-rule-color);
+			border-inline-end-color: var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd));
+			border-inline-end-width: var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px));
+			border-inline-end-style: solid;
 		}
 	}
-	:is(thead td, th) {
-		font-weight: bold;
-		text-align : center;
 
-		background: var(--nc-table-header-background);
+	:is(thead td, th) {
+		color      : var(--nc-table-header-color, unset);
+		background : var(--nc-table-header-background, #ddd);
+		font-weight: var(--nc-table-header-font-weight, bold);
+		text-align : var(--nc-table-header-text-align, center);
 	}
 }
 
@@ -109,14 +124,14 @@
 
 
 @mixin property-appearance-stripe {
+	@warn "Do not @include this mixin.";
+	/*
 	--nc-table-background-second: #eee;
+	*/
 }
 
 @mixin appearance-stripe {
 	tr:nth-child(odd) > td {
-		background: var(--nc-table-background-second);
-	}
-	td, th {
-		border-color: transparent;
+		background: var(--nc-table-background-second, #eee);
 	}
 }

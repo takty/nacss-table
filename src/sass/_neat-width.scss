@@ -9,7 +9,12 @@
 
 
 @mixin property-neat-width {
+	@warn "Do not @include this mixin.";
+	/*
+	--nc-table-shadow-right      : inset -2rem 0 1rem -1rem #0000001a;
+	--nc-table-shadow-left       : inset  2rem 0 1rem -1rem #0000001a;
 	--nc-table-caption-background: Canvas;
+	*/
 }
 
 
@@ -43,21 +48,23 @@
 		position    : sticky;
 		inset-inline: 0;
 
-		background: var(--nc-table-caption-background);
+		background: var(--nc-table-caption-background, Canvas);
 	}
 	td, th {
 		position: relative;
 		z-index : -1;
 	}
-	box-shadow: var(--nc-table-shadow-right), var(--nc-table-shadow-left);
+	box-shadow:
+		var(--nc-table-shadow-right, inset -2rem 0 1rem -1rem #0000001a),
+		var(--nc-table-shadow-left, inset  2rem 0 1rem -1rem #0000001a);
 }
 
 @mixin scroll-right {
-	box-shadow: var(--nc-table-shadow-right);
+	box-shadow: var(--nc-table-shadow-right, inset -2rem 0 1rem -1rem #0000001a);
 }
 
 @mixin scroll-left {
-	box-shadow: var(--nc-table-shadow-left);
+	box-shadow: var(--nc-table-shadow-left, inset  2rem 0 1rem -1rem #0000001a);
 }
 
 
