@@ -33,22 +33,18 @@
 --nc-table-header-font-weight: bold;
 --nc-table-header-text-align : center;
 
---nc-table-caption-max-width: 90%;
+--nc-table-caption-font-size : 87.25%;
+--nc-table-caption-text-align: center;
+--nc-table-caption-max-width : 90%;
+--nc-table-caption-margin    : 0.75rem;
 */
 
 @mixin appearance {
-	caption {
-		font-size : 87.25%;
-		text-align: center;
-
-		> span {
-			display   : inline-block;
-			max-width : var(--nc-table-caption-max-width, 90%);
-			text-align: start;
-		}
-
-		// Margin
-		padding-block-end: 0.75rem;  // Must use 'padding-block-end'
+	:is(tbody, tfoot) {
+		border-block-end:
+			var(--nc-table-rule-color, #ddd)
+			var(--nc-table-rule-width, 2px)
+			var(--nc-table-rule-style, solid);
 	}
 
 	:is(thead, tbody:first-child, caption + tbody, colgroup + tbody) {
@@ -64,13 +60,6 @@
 
 	@include _appearance-cell-common;
 
-	:is(tbody, tfoot) {
-		border-block-end:
-			var(--nc-table-rule-color, #ddd)
-			var(--nc-table-rule-width, 2px)
-			var(--nc-table-rule-style, solid);
-	}
-
 	td {
 		color      : var(--nc-table-cell-color, unset);
 		background : var(--nc-table-cell-background, unset);
@@ -82,6 +71,20 @@
 		p:not([class]) {
 			text-align: unset;
 		}
+	}
+
+	caption {
+		font-size : var(--nc-table-caption-font-size, 87.25%);
+		text-align: var(--nc-table-caption-text-align, center);
+
+		> span {
+			display   : inline-block;
+			max-width : var(--nc-table-caption-max-width, 90%);
+			text-align: start;
+		}
+
+		// Margin
+		padding-block-end: var(--nc-table-caption-margin, 0.75rem);  // Must use 'padding-block-end'
 	}
 }
 
