@@ -1,15 +1,11 @@
 /**
- *
  * Table
  *
  * @author Takuto Yanagida
- * @version 2022-11-27
- *
+ * @version 2023-01-16
  */
 
-
 @use '_table';
-
 
 table:where(:not([class]), .is-style-stripes, .has-fixed-layout) {
 	@include table.appearance;
@@ -55,10 +51,6 @@ div[data-nc-table-sticky-header-table] {
 	@include table.appearance-header;
 	@include table.sticky-header-table;
 }
-
-// div[data-nc-table-sticky-header-shadow] {
-// 	@include table.sticky-header-shadow;
-// }
 
 div[data-nc-table-sticky-scroll-bar] {
 	@include table.sticky-scroll-bar;

@@ -1,12 +1,9 @@
 /**
- *
  * Usable View
  *
  * @author Takuto Yanagida
  * @version 2022-01-07
- *
  */
-
 
 function apply(tabs, opts = {}) {
 	if (tabs.length === 0) return;

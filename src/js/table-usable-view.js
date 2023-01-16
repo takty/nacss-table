@@ -1,18 +1,14 @@
 /**
- *
  * Table - Usable View
  *
  * @author Takuto Yanagida
  * @version 2022-01-06
- *
  */
-
 
 'use strict';
 
 window['NACSS']          = window['NACSS']          || {};
 window['NACSS']['table'] = window['NACSS']['table'] || {};
-
 
 ((NS) => {
 

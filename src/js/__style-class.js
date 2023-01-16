@@ -1,12 +1,9 @@
 /**
- *
  * Style Class Utilities
  *
  * @author Takuto Yanagida
  * @version 2021-11-11
- *
  */
-
 
 function hasClass(tar, cls) {
 	const key = cls.substr(1);

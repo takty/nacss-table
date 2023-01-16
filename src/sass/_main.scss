@@ -1,40 +1,34 @@
 /**
- *
  * Main
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-01-16
  */
 
+/*
+--nc-table-rule-color: #ddd;
+--nc-table-rule-width: 2px;
 
-@mixin property-appearance {
-	@warn "Do not @include this mixin.";
-	/*
-	--nc-table-rule-color: #ddd;
-	--nc-table-rule-width: 2px;
+--nc-table-cell-padding   : 0.25rem 0.5rem;
+--nc-table-cell-rule-color: #ddd;
+	--nc-table-cell-rule-color-block
+	--nc-table-cell-rule-color-inline
+--nc-table-cell-rule-width: 1px;
+	--nc-table-cell-rule-width-block
+	--nc-table-cell-rule-width-inline
 
-	--nc-table-cell-padding   : 0.25rem 0.5rem;
-	--nc-table-cell-rule-color: #ddd;
-		--nc-table-cell-rule-color-block
-		--nc-table-cell-rule-color-inline
-	--nc-table-cell-rule-width: 1px;
-		--nc-table-cell-rule-width-block
-		--nc-table-cell-rule-width-inline
+--nc-table-cell-color      : unset;
+--nc-table-cell-background : unset;
+--nc-table-cell-font-weight: unset;
+--nc-table-cell-text-align : unset;
 
-	--nc-table-cell-color      : unset;
-	--nc-table-cell-background : unset;
-	--nc-table-cell-font-weight: unset;
-	--nc-table-cell-text-align : unset;
+--nc-table-header-color      : unset;
+--nc-table-header-background : #ddd;
+--nc-table-header-font-weight: bold;
+--nc-table-header-text-align : center;
 
-	--nc-table-header-color      : unset;
-	--nc-table-header-background : #ddd;
-	--nc-table-header-font-weight: bold;
-	--nc-table-header-text-align : center;
-
-	--nc-table-caption-max-width: 90%;
-	 */
-}
+--nc-table-caption-max-width: 90%;
+*/
 
 @mixin appearance {
 	caption {
@@ -122,13 +116,6 @@
 
 // -----------------------------------------------------------------------------
 
-
-@mixin property-appearance-stripe {
-	@warn "Do not @include this mixin.";
-	/*
-	--nc-table-background-second: #eee;
-	*/
-}
 
 @mixin appearance-stripe {
 	tr:nth-child(odd) > td {

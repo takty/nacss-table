@@ -1,12 +1,9 @@
 /**
- *
  * Table
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
- *
+ * @version 2023-01-16
  */
-
 
 @forward 'main';
 @forward 'neat-width';
@@ -16,7 +13,6 @@
 @use 'neat-width';
 @use 'usable-view';
 
-
 @mixin property {
-	@warn "Do not @include this mixin.";
+	@warn "This mixin is deprecated.";
 }

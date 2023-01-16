@@ -1,12 +1,9 @@
 /**
- *
  * Neat Width
  *
  * @author Takuto Yanagida
  * @version 2021-12-26
- *
  */
-
 
 function apply(tabs, opts = {}) {
 	if (tabs.length === 0) return;

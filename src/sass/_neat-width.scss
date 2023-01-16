@@ -1,25 +1,15 @@
 /**
- *
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
- *
+ * @version 2023-01-16
  */
 
-
-@mixin property-neat-width {
-	@warn "Do not @include this mixin.";
-	/*
-	--nc-table-shadow-right      : inset -2rem 0 1rem -1rem #0000001a;
-	--nc-table-shadow-left       : inset  2rem 0 1rem -1rem #0000001a;
-	--nc-table-caption-background: Canvas;
-	*/
-}
-
-
-// -----------------------------------------------------------------------------
-
+/*
+--nc-table-shadow-right      : inset -2rem 0 1rem -1rem #0000001a;
+--nc-table-shadow-left       : inset  2rem 0 1rem -1rem #0000001a;
+--nc-table-caption-background: Canvas;
+*/
 
 @mixin neat($do-reset: true) {
 	display  : block;

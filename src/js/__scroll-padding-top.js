@@ -1,12 +1,9 @@
 /**
- *
  * Scroll Padding Top
  *
  * @author Takuto Yanagida
  * @version 2022-01-07
- *
  */
-
 
 function initializeScrollPaddingTop() {
 	const html = document.documentElement;

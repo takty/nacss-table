@@ -1,12 +1,9 @@
 /**
- *
  * Utilities
  *
  * @author Takuto Yanagida
  * @version 2021-12-06
- *
  */
-
 
 function getScrollOffset() {
 	const s   = getComputedStyle(document.documentElement);

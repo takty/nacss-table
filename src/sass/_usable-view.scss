@@ -1,26 +1,16 @@
 /**
- *
  * Usable View
  *
  * @author Takuto Yanagida
  * @version 2021-12-26
- *
  */
 
-
-@mixin property-usable-view {
-	@warn "Do not @include this mixin.";
-	/*
-	--nc-table-shadow-right: inset -2rem 0 1rem -1rem #0000001a;
-	--nc-table-shadow-left : inset  2rem 0 1rem -1rem #0000001a;
-	--nc-table-shadow      : 0 0.5rem 0.5rem -0.5rem #00000080;
-	--nc-table-background  : #fff;
-	*/
-}
-
-
-// -----------------------------------------------------------------------------
-
+/*
+--nc-table-shadow-right: inset -2rem 0 1rem -1rem #0000001a;
+--nc-table-shadow-left : inset  2rem 0 1rem -1rem #0000001a;
+--nc-table-shadow      : 0 0.5rem 0.5rem -0.5rem #00000080;
+--nc-table-background  : #fff;
+*/
 
 @mixin sticky-header-container {
 	display   : none;
