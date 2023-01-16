@@ -17,6 +17,8 @@
 	max-width: 100%;
 	overflow : auto;
 
+	overscroll-behavior-x: contain;
+
 	@if $do-reset {
 		border-collapse: collapse;  // For reset
 	}
