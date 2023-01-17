@@ -2,7 +2,7 @@
  * Neat Width
  *
  * @author Takuto Yanagida
- * @version 2021-12-26
+ * @version 2023-01-17
  */
 
 function apply(tabs, opts = {}) {
@@ -112,12 +112,21 @@ function isTarget(tab, cMet) {
 
 function initScroll(tabs, cMet) {
 	const rob = new ResizeObserver(oes => {
-		for (const oe of oes) onScroll(oe.target, cMet);
+		for (const oe of oes) {
+			onResize(oe.target);
+			onScroll(oe.target, cMet);
+		}
 	});
 	for (const t of tabs) {
 		rob.observe(t);
 		t.addEventListener('scroll', throttle(() => { onScroll(t, cMet); }));
 	}
+}
+
+function onResize(tab) {
+	const th = tab.clientHeight;
+	const ch = tab.caption?.clientHeight ?? 0;
+	tab.style.setProperty('--nc-height', `${th - ch}px`)
 }
 
 function onScroll(tab, cMet) {
