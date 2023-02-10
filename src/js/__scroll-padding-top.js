@@ -2,48 +2,49 @@
  * Scroll Padding Top
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2023-02-10
  */
 
 function initializeScrollPaddingTop() {
-	const html = document.documentElement;
-	if (html.getAttribute('data-scroll-padding-top') !== null) return;
-	html.setAttribute('data-scroll-padding-top', '');
+	const de = document.documentElement;
+	if (de.getAttribute('data-scroll-padding-top') !== null) return;
+	de.setAttribute('data-scroll-padding-top', '');
 
-	const mo = new MutationObserver(updateScrollPaddingTop);
-	mo.observe(html, { attributes: true });
+	const mo = new MutationObserver((ms, mo) => update(mo));
+	mo.observe(de, { attributes: true });
+	update(mo);
 
-	const v = parseInt(getComputedStyle(html).scrollPaddingTop);
-	setScrollPaddingTop('default', Number.isNaN(v) ? 0 : v);
+	function update(mo) {
+		const de = document.documentElement;
+
+		mo.disconnect();
+		de.style.scrollPaddingTop = null;
+
+		const v = parseInt(getComputedStyle(de).scrollPaddingTop);
+		setScrollPaddingTop('default', Number.isNaN(v) ? 0 : v);
+
+		de.style.scrollPaddingTop = getScrollPaddingTop() + 'px';
+		mo.observe(de, { attributes: true });
+	}
 }
 
 function setScrollPaddingTop(key, val) {
-	const html = document.documentElement;
-	const a    = html.getAttribute('data-scroll-padding-top');
-	const vs   = a ? new Map(a.split(',').map(e => e.split(':'))) : new Map();
+	const de = document.documentElement;
+	const at = de.getAttribute('data-scroll-padding-top');
+	const vs = at ? new Map(at.split(',').map(e => e.split(':'))) : new Map();
 	if (val) {
 		vs.set(key, val);
 	} else {
 		vs.delete(key);
 	}
-	html.setAttribute('data-scroll-padding-top', [...vs].map(e => e.join(':')).join(','));
-	updateScrollPaddingTop();
+	de.setAttribute('data-scroll-padding-top', [...vs].map(e => e.join(':')).join(','));
 }
 
 function getScrollPaddingTop(without = null) {
-	const html = document.documentElement;
-	const a    = html.getAttribute('data-scroll-padding-top');
-	if (!a) return 0;
+	const de = document.documentElement;
+	const at = de.getAttribute('data-scroll-padding-top');
+	if (!at) return 0;
 
-	const vs = a.split(',').map(e => e.split(':')).filter(([key,]) => key !== without).map(([k, v]) => parseInt(v));
+	const vs = at.split(',').map(e => e.split(':')).filter(([key,]) => key !== without).map(([k, v]) => parseInt(v));
 	return vs.reduce((a, b) => a + b, 0);
-}
-
-
-// -----------------------------------------------------------------------------
-
-
-function updateScrollPaddingTop() {
-	const html = document.documentElement;
-	html.style.scrollPaddingTop = getScrollPaddingTop() + 'px';
 }
