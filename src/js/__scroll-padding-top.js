@@ -2,7 +2,7 @@
  * Scroll Padding Top
  *
  * @author Takuto Yanagida
- * @version 2023-02-10
+ * @version 2023-02-23
  */
 
 function initializeScrollPaddingTop() {
@@ -37,7 +37,10 @@ function setScrollPaddingTop(key, val) {
 	} else {
 		vs.delete(key);
 	}
-	de.setAttribute('data-scroll-padding-top', [...vs].map(e => e.join(':')).join(','));
+	const newAt = [...vs].map(e => e.join(':')).join(',');
+	if (newAt !== at) {
+		de.setAttribute('data-scroll-padding-top', newAt);
+	}
 }
 
 function getScrollPaddingTop(without = null) {

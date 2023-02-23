@@ -2,7 +2,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2023-02-10
+ * @version 2023-02-23
  */
 
 function apply(tabs, opts = {}) {
@@ -53,13 +53,16 @@ function apply(tabs, opts = {}) {
 	initializeScrollPaddingTop();
 
 	let st = null;
-	onResize(() => {
+	const fn = () => {
 		cm.offset = getScrollPaddingTop('nacss-table');
 		if (st) clearTimeout(st);
 		st = setTimeout(() => {
 			for (const c of cs) doResize(null, c.tab, c.head, c.bar, cm);
 		}, 100);
-	}, true);
+	};
+	onResize(fn, true);
+	const mo = new MutationObserver(fn);
+	mo.observe(document.documentElement, { attributes: true });
 }
 
 function _createHeaderClone(tab, cm) {
