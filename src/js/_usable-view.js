@@ -164,11 +164,13 @@ function _updateScrollBarSize(tab, bar) {
 	const disabled = (tab.scrollWidth < tab.clientWidth + 2);
 	bar.style.overflowX     = disabled ? 'hidden' : null;
 	bar.style.pointerEvents = disabled ? 'none'   : null;
+	bar.style.maxWidth      = `${tab.clientWidth}px`;
+	bar.style.display       = 'none';
 
-	bar.style.maxWidth = `${tab.clientWidth}px`;
-	bar.style.display = 'none';
 	const h = parseInt(getScrollBarWidth(document.documentElement));
-	if (0 < h) bar.style.height = (h + 2) + 'px';
+	if (0 < h) {
+		bar.style.height = (h + 2 + 1) + 'px';
+	}
 	bar.firstChild.style.width = `${tab.scrollWidth}px`;
 }
 
