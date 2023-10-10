@@ -2,7 +2,7 @@
  * Main
  *
  * @author Takuto Yanagida
- * @version 2023-01-16
+ * @version 2023-10-10
  */
 
 /*
@@ -121,7 +121,7 @@
 				var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px))
 				var(--nc-table-cell-rule-style-inline, var(--nc-table-cell-rule-style, solid));
 		}
-		&:where(:first-child[rowspan]) {
+		&:where(:not(:last-child)) {
 			border-inline-end:
 				var(--nc-table-cell-rule-color-inline, var(--nc-table-cell-rule-color, #ddd))
 				var(--nc-table-cell-rule-width-inline, var(--nc-table-cell-rule-width, 1px))
