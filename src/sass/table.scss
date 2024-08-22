@@ -2,7 +2,7 @@
  * Table
  *
  * @author Takuto Yanagida
- * @version 2023-01-16
+ * @version 2024-08-22
  */
 
 @use '_table';
@@ -48,8 +48,8 @@ div[data-nc-table-sticky-header-container] {
 }
 
 div[data-nc-table-sticky-header-table] {
-	@include table.appearance-header;
 	@include table.sticky-header-table;
+	@include table.appearance-header;
 }
 
 div[data-nc-table-sticky-scroll-bar] {

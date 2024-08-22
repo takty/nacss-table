@@ -2,7 +2,7 @@
  * Main
  *
  * @author Takuto Yanagida
- * @version 2023-10-10
+ * @version 2024-08-22
  */
 
 /*
@@ -40,6 +40,8 @@
 */
 
 @mixin appearance {
+	font-feature-settings: 'pkna' 1;
+
 	:is(tbody, tfoot) {
 		border-block-end:
 			var(--nc-table-rule-color, #ddd)
@@ -74,6 +76,9 @@
 	}
 
 	caption {
+		// Margin
+		padding-block-end: var(--nc-table-caption-margin, 0.75rem);  // Must use 'padding-block-end'
+
 		font-size : var(--nc-table-caption-font-size, 87.25%);
 		text-align: var(--nc-table-caption-text-align, center);
 
@@ -82,13 +87,12 @@
 			max-width : var(--nc-table-caption-max-width, 90%);
 			text-align: start;
 		}
-
-		// Margin
-		padding-block-end: var(--nc-table-caption-margin, 0.75rem);  // Must use 'padding-block-end'
 	}
 }
 
 @mixin appearance-header {
+	font-feature-settings: 'pkna' 1;
+
 	:is(thead) {
 		border-block-start:
 			var(--nc-table-rule-color, #ddd)
@@ -104,8 +108,6 @@
 }
 
 @mixin _appearance-cell-common {
-	font-feature-settings: 'pkna' 1;
-
 	:is(th, td) {
 		padding: var(--nc-table-cell-padding, 0.25rem 0.5rem);
 		border : var(--nc-table-cell-rule, transparent 0 solid);
