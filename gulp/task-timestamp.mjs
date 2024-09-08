@@ -2,7 +2,7 @@
  * Function for gulp (Timestamp)
  *
  * @author Takuto Yanagida
- * @version 2023-11-08
+ * @version 2024-06-19
  */
 
 import gulp from 'gulp';
@@ -13,7 +13,7 @@ import changed, { compareContents } from 'gulp-changed';
 import { DateTime } from 'luxon';
 
 export function makeTimestampTask(src, dest = './dist', base = null) {
-	const timestampTask = () => gulp.src(src, { base: base })
+	const timestampTask = () => gulp.src(src, { base: base, encoding: false })
 		.pipe(plumber())
 		.pipe(ignore.include({ isFile: true }))
 		.pipe(replace(/v\d+t/g, `v${DateTime.now().toFormat('HHmmss')}t`))
