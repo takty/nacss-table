@@ -2,7 +2,7 @@
  * Usable View
  *
  * @author Takuto Yanagida
- * @version 2023-03-01
+ * @version 2025-02-19
  */
 
 function apply(tabs, opts = {}) {
@@ -78,6 +78,10 @@ function _createHeaderClone(tab, cm) {
 		tab.tHead = thead;
 	}
 	const hc = document.createElement('div');
+	const z  = tab.style.zoom ? parseFloat(tab.style.zoom) : 1;
+	if (z !== 1) {
+		hc.style.zoom = z;
+	}
 	setClass(hc, cm.styleHeaderContainer);
 	tab.parentNode.appendChild(hc);
 
@@ -113,6 +117,10 @@ function _createPseudoHeader(tab) {
 
 function _createBarClone(tab, cm) {
 	const bar = document.createElement('div');
+	const z   = tab.style.zoom ? parseFloat(tab.style.zoom) : 1;
+	if (z !== 1) {
+		bar.style.zoom = z;
+	}
 	setClass(bar, cm.styleScrollBar);
 	const spacer = document.createElement('div');
 	bar.appendChild(spacer);
@@ -185,8 +193,11 @@ function onWindowScroll(tab, head, bar, cm) {
 	const hTop = rh.top, hBottom = rh.bottom;
 	const wY0 = cm.offset, wY1 = window.innerHeight;
 
-	const inView = tBottom - hTop < cm.capableWindowHeightRate * (wY1 - wY0);
-	const tLeft = r.left, tScrollLeft = tab.scrollLeft;
+	const inView      = tBottom - hTop < cm.capableWindowHeightRate * (wY1 - wY0);
+	const tScrollLeft = tab.scrollLeft;
+	const z           = getCombinedZoom(tab);
+	const tLeft       = Math.round(r.left / z);
+
 	if (head) {
 		const hCy = tab.tHead.offsetHeight;
 		const f = (!inView && hTop < wY0 && wY0 < tBottom - hCy);
@@ -249,4 +260,22 @@ function getScrollBarWidth(parent) {
 	}
 	parent.removeChild(d);
 	return width;
+}
+
+function getCombinedZoom(e) {
+	let cz = 1;
+
+	while (e) {
+		const s = window.getComputedStyle(e);
+		const z = s.zoom;
+
+		if (z && z !== 'normal') {
+			const f = parseFloat(z);
+			if (!isNaN(f)) {
+				cz *= f;
+			}
+		}
+		e = e.parentElement;
+	}
+	return cz;
 }

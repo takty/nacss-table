@@ -2,7 +2,7 @@
  * Scroll Padding Top
  *
  * @author Takuto Yanagida
- * @version 2023-02-23
+ * @version 2025-02-19
  */
 
 function initializeScrollPaddingTop() {
@@ -12,6 +12,10 @@ function initializeScrollPaddingTop() {
 
 	const mo = new MutationObserver((ms, mo) => update(mo));
 	mo.observe(de, { attributes: true });
+
+	const ro = new ResizeObserver(() => update(mo));
+	ro.observe(de);
+
 	update(mo);
 
 	function update(mo) {
