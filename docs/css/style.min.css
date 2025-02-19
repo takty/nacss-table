@@ -1,1 +1,55 @@
-*,::before,::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:8rem;font-family:sans-serif;line-height:1.8}header,main{margin-inline:auto;width:min(100% - 2vw,48rem)}header{position:sticky;top:0;z-index:1;min-height:6rem;border:1px solid #ddd;background-color:rgba(255,255,255,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}main{margin-block-start:2rem}div.blank{margin-block:2rem;height:20vh;background-image:repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(221, 238, 255, 0.6666666667) 6px, rgba(221, 238, 255, 0.6666666667) 12px)}/*# sourceMappingURL=style.min.css.map */
+/**
+ * Style for Document
+ *
+ * @author Takuto Yanagida
+ * @version 2025-02-19
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.8;
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
+}
+@media screen and (min-width: 56rem) {
+  html {
+    scroll-padding-top: 6.9565217391rem;
+  }
+}
+
+header,
+main {
+  margin-inline: auto;
+  width: min(100% - 2vw, 48rem);
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  min-height: 6rem;
+  border: 1px solid #ddd;
+  background-color: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+}
+
+main {
+  margin-block-start: 2rem;
+}
+@media screen and (min-width: 56rem) {
+  main {
+    zoom: 1.15;
+  }
+}
+
+div.blank {
+  margin-block: 2rem;
+  height: 20vh;
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(221, 238, 255, 0.6666666667) 6px, rgba(221, 238, 255, 0.6666666667) 12px);
+}/*# sourceMappingURL=style.min.css.map */

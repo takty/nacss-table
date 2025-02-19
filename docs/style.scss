@@ -2,7 +2,7 @@
  * Style for Document
  *
  * @author Takuto Yanagida
- * @version 2022-01-07
+ * @version 2025-02-19
  */
 
 *,
@@ -12,17 +12,21 @@
 }
 
 html {
+	font-family: sans-serif;
+	line-height: 1.8;
+
 	scroll-behavior   : smooth;
 	scroll-padding-top: 8rem;
 
-	font-family: sans-serif;
-	line-height: 1.8;
+	@media screen and (min-width: 56rem) {
+		scroll-padding-top: calc(8rem / 1.15);
+	}
 }
 
 header,
 main {
 	margin-inline: auto;
-	width : min(calc(100% - 2vw), 48rem);
+	width        : min(calc(100% - 2vw), 48rem);
 }
 
 header {
@@ -38,6 +42,10 @@ header {
 
 main {
 	margin-block-start: 2rem;
+
+	@media screen and (min-width: 56rem) {
+		zoom: 1.15;
+	}
 }
 
 
