@@ -16,6 +16,7 @@ function apply(tabs, opts = {}) {
 		styleScrollRight: ':ncScrollRight',
 		styleScrollLeft : ':ncScrollLeft',
 		offset          : 0,
+		isSafari        : isSafari(),
 	}, opts);
 
 	const cs = [], ts = [...tabs];
@@ -196,7 +197,7 @@ function onWindowScroll(tab, head, bar, cm) {
 	const inView      = tBottom - hTop < cm.capableWindowHeightRate * (wY1 - wY0);
 	const tScrollLeft = tab.scrollLeft;
 	const z           = getCombinedZoom(tab);
-	const tLeft       = Math.round(r.left / z);
+	const tLeft       = cm.isSafari ? r.left : Math.round(r.left / z);
 
 	if (head) {
 		const hCy = tab.tHead.offsetHeight;
@@ -278,4 +279,15 @@ function getCombinedZoom(e) {
 		e = e.parentElement;
 	}
 	return cz;
+}
+
+function isSafari() {
+	const ua = window.navigator.userAgent.toLowerCase();
+	if (ua.includes('chrome')) {  // UA includes 'safari'.
+		return false;
+	}
+	if (ua.includes('safari')) {
+		return true;
+	}
+	false;
 }
